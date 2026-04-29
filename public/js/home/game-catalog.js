@@ -1,11 +1,4 @@
-function resolveLocalPath(value = '') {
-  try {
-    if (typeof window !== 'undefined' && typeof window.__PM_RESOLVE_PATH__ === 'function') return window.__PM_RESOLVE_PATH__(value);
-  } catch (_) {}
-  return value;
-}
-
-const RAW_HOME_GAME_ROUTES = Object.freeze({
+export const HOME_GAME_ROUTES = Object.freeze({
   crash: "/Online Oyunlar/Crash",
   chess: "/Online Oyunlar/Satranc",
   satranc: "/Online Oyunlar/Satranc",
@@ -17,8 +10,6 @@ const RAW_HOME_GAME_ROUTES = Object.freeze({
   snake: "/Klasik Oyunlar/SnakePro",
   snakepro: "/Klasik Oyunlar/SnakePro"
 });
-
-export const HOME_GAME_ROUTES = Object.freeze(Object.fromEntries(Object.entries(RAW_HOME_GAME_ROUTES).map(([key, value]) => [key, resolveLocalPath(value)])));
 
 export const HOME_GAMES = Object.freeze([
   { key: "crash", name: "Crash", category: "online", access: "auth", url: HOME_GAME_ROUTES.crash, icon: "fa-arrow-trend-up" },

@@ -1,7 +1,6 @@
 'use strict';
 
 const { cleanStr } = require('../utils/helpers');
-const { recordAuditLog } = require('../utils/logger');
 const { normalizeEmail, verifyClientGateKey } = require('../utils/adminMatrix');
 
 function parseCsv(value = '', maxLen = 120) {
@@ -344,26 +343,6 @@ function verifyAdminClientGate(req = {}, context = {}) {
   return { ok: true, payload };
 }
 
-function auditAdminGuard(req = {}, { action = '', status = 'success', context = {}, metadata = {} } = {}) {
-  recordAuditLog({
-    actorUid: cleanStr(context.uid || req.user?.uid || '', 160),
-    actorEmail: normalizeEmail(context.email || req.user?.email || ''),
-    action: cleanStr(action || 'admin.guard', 120),
-    targetType: 'admin_route',
-    targetId: cleanStr(req.originalUrl || req.url || '', 220),
-    status: cleanStr(status || 'success', 24),
-    metadata: {
-      requestId: cleanStr(req.requestId || '', 120),
-      method: cleanStr(req.method || '', 16),
-      route: cleanStr(req.originalUrl || req.url || '', 240),
-      requiredPermissions: Array.isArray(metadata.requiredPermissions) ? metadata.requiredPermissions : [],
-      code: cleanStr(metadata.code || '', 80),
-      ip: cleanStr(req.ip || req.headers?.['x-forwarded-for'] || '', 120),
-      userAgent: cleanStr(req.headers?.['user-agent'] || '', 240)
-    }
-  }).catch(() => null);
-}
-
 
 function isPrimaryAdmin(user = {}) {
   return matchesPrimaryAdmin(user).allowed;
@@ -383,12 +362,10 @@ function createAdminGuard(requiredPermissions = []) {
       req.adminContext = context;
 
       if (!context?.isAdmin) {
-        auditAdminGuard(req, { action: 'admin.guard.denied', status: 'blocked', context, metadata: { code: 'ADMIN_REQUIRED', requiredPermissions: normalizedRequired } });
         return res.status(403).json({ ok: false, error: 'Yönetici yetkisi gerekli.', requestId: req.requestId || null });
       }
 
       if (!hasEveryPermission(context, normalizedRequired)) {
-        auditAdminGuard(req, { action: 'admin.guard.denied', status: 'blocked', context, metadata: { code: 'PERMISSION_DENIED', requiredPermissions: normalizedRequired } });
         return res.status(403).json({
           ok: false,
           error: 'Bu işlem için yeterli yönetici yetkiniz yok.',
@@ -400,7 +377,6 @@ function createAdminGuard(requiredPermissions = []) {
 
       const gate = verifyAdminClientGate(req, context);
       if (!gate.ok) {
-        auditAdminGuard(req, { action: 'admin.guard.denied', status: 'blocked', context, metadata: { code: gate.code || 'ADMIN_CLIENT_KEY_INVALID', requiredPermissions: normalizedRequired } });
         return res.status(403).json({
           ok: false,
           code: gate.code,
@@ -411,9 +387,6 @@ function createAdminGuard(requiredPermissions = []) {
       }
 
       req.adminClientGate = gate.payload;
-      if (!['GET', 'HEAD', 'OPTIONS'].includes(String(req.method || '').toUpperCase())) {
-        auditAdminGuard(req, { action: 'admin.route.access', status: 'success', context, metadata: { requiredPermissions: normalizedRequired } });
-      }
       return next();
     });
   };
@@ -441,7 +414,6 @@ module.exports = {
   hasAdminPermission,
   hasEveryPermission,
   verifyAdminClientGate,
-  auditAdminGuard,
   isPrimaryAdmin,
   isAdminUser,
   createAdminGuard,

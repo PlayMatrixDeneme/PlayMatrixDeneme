@@ -127,17 +127,6 @@ function firstValidOrigin(env = process.env, keys = []) {
   return '';
 }
 
-function normalizePublicBasePath(value = '') {
-  const raw = String(value || '').trim();
-  if (!raw || raw === '/') return '';
-  if (/^https?:\/\//i.test(raw)) return '';
-  const withoutQuery = raw.split(/[?#]/)[0].trim();
-  if (!withoutQuery || withoutQuery === '/') return '';
-  const prefixed = withoutQuery.startsWith('/') ? withoutQuery : '/' + withoutQuery;
-  const collapsed = prefixed.replace(/\/+/g, '/').replace(/\/+$|\s+$/g, '');
-  if (!collapsed || collapsed === '/' || collapsed.includes('..')) return '';
-  return collapsed;
-}
 function firstAllowedOrigin(env = process.env) {
   const origins = parseCsv(env.ALLOWED_ORIGINS || '');
   const normalized = origins.map((origin) => normalizeUrlOrigin(origin)).filter(Boolean);
@@ -149,7 +138,6 @@ function normalizeRuntimeEnv(env = process.env) {
   const publicBase = firstValidOrigin(env, [
     'PUBLIC_BASE_URL',
     'CANONICAL_ORIGIN',
-  'PUBLIC_BASE_PATH',
     'PUBLIC_CANONICAL_ORIGIN',
     'PUBLIC_SITE_ORIGIN',
     'PUBLIC_FRONTEND_ORIGIN',
@@ -174,8 +162,6 @@ function normalizeRuntimeEnv(env = process.env) {
   if (hasValue(env, 'PUBLIC_API_BASE')) {
     env.PUBLIC_API_BASE = normalizeUrlBase(env.PUBLIC_API_BASE);
   }
-
-  env.PUBLIC_BASE_PATH = normalizePublicBasePath(env.PUBLIC_BASE_PATH || '');
 
   if (!hasValue(env, 'PUBLIC_BACKEND_ORIGIN')) {
     env.PUBLIC_BACKEND_ORIGIN = apiOrigin || backendOrigin || publicBase || allowedOrigin || '';
@@ -306,14 +292,6 @@ function validateRuntimeEnv(env = process.env) {
     }
   });
 
-  ['ACTIVITY_TOUCH_THROTTLE_MS', 'SESSION_TOUCH_THROTTLE_MS'].forEach((key) => {
-    if (env[key] === undefined || env[key] === '') return;
-    const numeric = Number(env[key]);
-    if (!Number.isInteger(numeric) || numeric < 5000 || numeric > 300000) {
-      errors.push(`${key} 5000 ile 300000 ms arasında integer olmalı.`);
-    }
-  });
-
   const hasFirebaseKey = hasValue(env, 'FIREBASE_KEY');
   if (production && !hasFirebaseKey) {
     errors.push('Üretimde Firebase Admin credential zorunludur: Render Environment içinde FIREBASE_KEY raw service-account JSON olarak tanımlanmalı.');
@@ -335,12 +313,6 @@ function validateRuntimeEnv(env = process.env) {
   }
   if (production && rawSecondFactorReady) {
     errors.push('Üretimde ADMIN_PANEL_SECOND_FACTOR raw değer olarak tutulamaz; hash+salt kullanılmalı.');
-  }
-  if (production && String(env.LEGACY_SESSION_HEADER_ENABLED || '0').trim() === '1') {
-    errors.push('Üretimde LEGACY_SESSION_HEADER_ENABLED=1 kullanılamaz; session taşıma HttpOnly cookie merkezlidir.');
-  }
-  if (production && String(env.SECURITY_CSP_STRICT || '0').trim() !== '1' && String(env.SECURITY_CSP_REPORT_ONLY || '0').trim() !== '1') {
-    warnings.push('SECURITY_CSP_STRICT kapalıysa Faz 2 geçişinde SECURITY_CSP_REPORT_ONLY=1 önerilir.');
   }
 
   if (production && !hasValue(env, 'PUBLIC_BASE_URL')) {
@@ -370,17 +342,6 @@ function validateRuntimeEnv(env = process.env) {
     const originError = validateOriginForProduction(normalizeUrlOrigin(env.CANONICAL_ORIGIN));
     if (originError) errors.push(`CANONICAL_ORIGIN geçersiz: ${originError}`);
   }
-  if (hasValue(env, 'PUBLIC_BASE_PATH')) {
-    const rawBasePath = String(env.PUBLIC_BASE_PATH || '').trim();
-    const normalizedBasePath = normalizePublicBasePath(rawBasePath);
-    if (/^https?:\/\//i.test(rawBasePath)) {
-      errors.push('PUBLIC_BASE_PATH mutlak URL olamaz; yalnız path olmalı. Örnek: /PlayMatrixDeneme');
-    } else if (!normalizedBasePath && rawBasePath && rawBasePath !== '/') {
-      errors.push('PUBLIC_BASE_PATH geçersiz; /PlayMatrixDeneme biçiminde path olmalı, query/hash/.. içermemeli.');
-    } else {
-      env.PUBLIC_BASE_PATH = normalizedBasePath;
-    }
-  }
   if (production && isTruthyFlag(env.ADMIN_HEALTH_SURFACE_ENABLED)) {
     warnings.push('ADMIN_HEALTH_SURFACE_ENABLED=1 production ortamında yalnız admin guard arkasındaki sağlık yüzeyini açar; public health çıktısı minimal kalmalıdır.');
   }
@@ -398,7 +359,6 @@ module.exports = {
   looksLikeRawFirebaseKey,
   normalizeUrlBase,
   normalizeUrlOrigin,
-  normalizePublicBasePath,
   normalizeRuntimeEnv,
   validateRuntimeEnv,
   PUBLIC_RUNTIME_ENV_KEYS,

@@ -10,13 +10,9 @@
   "scripts": {
     "start": "node server.js",
     "check:server": "node --check server.js",
-    "check:env-contract": "node tools/check-env-contract.js",
     "check:routes": "node tools/check-routes.js",
     "check:html": "node tools/check-html-inline-scripts.js",
     "audit:repo": "node tools/repo-audit.js",
-    "check:phase0": "node tools/check-release-readiness.js --phase=0",
-    "check:release-readiness": "node tools/check-release-readiness.js --strict",
-    "check:quality": "node tools/check-release-readiness.js --strict",
     "check:avatars": "node tools/check-avatar-catalog.js",
     "check:frames": "node tools/check-frame-picker.js",
     "check:progression": "node tools/check-progression.js",
@@ -55,11 +51,7 @@
     "check:phase10-games": "node tools/check-phase10-games.js",
     "check:phase11-classic-games": "node tools/check-phase11-classic-games.js",
     "check:render-modal-game-hotfix": "node tools/check-render-modal-game-hotfix.js",
-    "check:phase10-11-live-hotfix": "node tools/check-phase10-11-live-hotfix.js",
-    "check:deploy-phase1": "node tools/check-deploy-phase1.js",
-    "check:phase1": "node tools/check-release-readiness.js --phase=1",
-    "check:security-phase2": "node tools/check-security-phase2.js",
-    "check:phase2": "node tools/check-release-readiness.js --phase=2"
+    "check:phase10-11-live-hotfix": "node tools/check-phase10-11-live-hotfix.js"
   },
   "dependencies": {
     "express": "^4.18.3",

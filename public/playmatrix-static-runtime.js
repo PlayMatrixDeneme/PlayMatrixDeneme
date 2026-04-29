@@ -10,7 +10,6 @@
    */
   const PUBLIC_API_BASE = 'https://emirhan-siye.onrender.com';
   const PUBLIC_BASE_URL = 'https://playmatrix.com.tr';
-  const PUBLIC_BASE_PATH = '';
 
   const PUBLIC_FIREBASE_CONFIG = Object.freeze({
     apiKey: 'AIzaSyC81Ah46_F2his90zedODoCk07vqsd3vVs',
@@ -27,43 +26,6 @@
     return String(value || '').trim().replace(/\/+$/, '').replace(/\/api$/i, '');
   }
 
-  function normalizeBasePath(value) {
-    const raw = String(value || '').trim();
-    if (!raw || raw === '/') return '';
-    if (/^https?:\/\//i.test(raw)) return '';
-    const clean = (raw.startsWith('/') ? raw : '/' + raw).split(/[?#]/)[0].replace(/\/+/g, '/').replace(/\/+$|\s+$/g, '');
-    return clean && clean !== '/' && !clean.includes('..') ? clean : '';
-  }
-
-  function detectBasePath() {
-    const configured = normalizeBasePath(PUBLIC_BASE_PATH);
-    if (configured) return configured;
-    const pathname = String(window.location.pathname || '');
-    if (/^\/PlayMatrixDeneme(?:\/|$)/i.test(pathname)) return '/PlayMatrixDeneme';
-    return '';
-  }
-
-  function resolvePath(value) {
-    const raw = String(value || '').trim();
-    if (!raw || /^(?:https?:)?\/\//i.test(raw) || /^(?:data|blob|mailto|tel):/i.test(raw) || raw.startsWith('#')) return raw;
-    const basePath = detectBasePath();
-    if (!basePath || !raw.startsWith('/')) return raw;
-    if (raw === basePath || raw.startsWith(basePath + '/')) return raw;
-    if (/^\/(?:api|socket\.io)(?:\/|$)/i.test(raw)) return raw;
-    return basePath + raw;
-  }
-
-  function installBasePathLinkGuard() {
-    if (window.__PM_BASE_PATH_LINK_GUARD__ === '1') return;
-    window.__PM_BASE_PATH_LINK_GUARD__ = '1';
-    document.addEventListener('click', (event) => {
-      const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
-      if (!anchor) return;
-      const attr = anchor.getAttribute('href') || '';
-      const resolved = resolvePath(attr);
-      if (resolved && resolved !== attr) anchor.setAttribute('href', resolved);
-    }, true);
-  }
   function hasUsableFirebaseConfig(config) {
     return !!(config && config.apiKey && config.authDomain && config.projectId && config.appId);
   }
@@ -73,7 +35,6 @@
     version: 4,
     environment: 'production',
     publicBaseUrl: normalizeBase(PUBLIC_BASE_URL),
-    basePath,
     apiBase,
     firebase: hasUsableFirebaseConfig(PUBLIC_FIREBASE_CONFIG) ? PUBLIC_FIREBASE_CONFIG : null,
     firebaseReady: hasUsableFirebaseConfig(PUBLIC_FIREBASE_CONFIG),
@@ -89,9 +50,5 @@
     window.__PM_RUNTIME.firebase = runtime.firebase;
     window.__PM_RUNTIME.firebaseReady = true;
   }
-  window.__PM_BASE_PATH__ = basePath;
-  window.__PM_RESOLVE_PATH__ = resolvePath;
   window.__PLAYMATRIX_API_URL__ = normalizeBase(window.__PM_RUNTIME.apiBase || window.__PLAYMATRIX_API_URL__ || apiBase);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installBasePathLinkGuard, { once: true });
-  else installBasePathLinkGuard();
 })();

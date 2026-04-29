@@ -11,7 +11,7 @@ const path = require('path');
 const compression = require('compression');
 const { Server } = require('socket.io');
 
-const { PORT, HOST, ALLOWED_ORIGINS } = require('./config/constants');
+const { PORT, ALLOWED_ORIGINS } = require('./config/constants');
 const { apiLimiter, authLimiter } = require('./middlewares/rateLimiters');
 const { requestContext, writeLine, serializeError, logCaughtError } = require('./utils/logger');
 const { applyCorsHeaders, buildSocketCors, getAllowedCorsOrigins } = require('./utils/corsPolicy');
@@ -96,19 +96,8 @@ process.on('unhandledRejection', (reason) => {
 const app = express();
 const httpServer = http.createServer(app);
 
-const MAINTENANCE_PUBLIC_PATH = '/maintenance';
-const MAINTENANCE_INDEX_PATH = '/maintenance/index.html';
-const MAINTENANCE_CANONICAL_PATH = '/maintenance';
-const MAINTENANCE_LEGACY_PATHS = Object.freeze([
-  '/Bakım',
-  '/Bak%C4%B1m',
-  '/Bakim',
-  '/bakim',
-  '/Bakım/index.html',
-  '/Bak%C4%B1m/index.html',
-  '/Bakim/index.html',
-  '/bakim/index.html'
-]);
+const MAINTENANCE_PUBLIC_PATH = '/Bakım/index.html';
+const MAINTENANCE_REDIRECT_PATH = '/Bak%C4%B1m/index.html';
 
 async function enforceMaintenanceMode(req, res, next) {
   try {
@@ -125,7 +114,7 @@ async function enforceMaintenanceMode(req, res, next) {
       || (isChess && !!flags.chessMaintenance)
       || (isClassic && !!flags.classicGamesMaintenance);
     if (!blocked) return next();
-    return res.redirect(302, MAINTENANCE_CANONICAL_PATH);
+    return res.redirect(302, MAINTENANCE_REDIRECT_PATH);
   } catch (error) {
     logCaughtError('maintenance.enforce', error, { requestId: req.requestId || null, route: req.originalUrl || req.url || '', uid: req.user?.uid || null });
     return next();
@@ -184,7 +173,6 @@ function buildHelmetCsp() {
       frameSrc: ["'none'"],
       imgSrc: ["'self'", 'data:', 'blob:', 'https://encrypted-tbn0.gstatic.com', 'https://playmatrix.com.tr', 'https://www.playmatrix.com.tr', 'https://lh3.googleusercontent.com', 'https://*.googleusercontent.com', 'https://firebasestorage.googleapis.com', 'https://*.firebasestorage.app', 'https://deckofcardsapi.com', 'https://images.unsplash.com', 'https://images.chesscomfiles.com', 'https://upload.wikimedia.org', 'https://www.shutterstock.com'],
       connectSrc: ["'self'", 'ws:', 'wss:', 'https://identitytoolkit.googleapis.com', 'https://securetoken.googleapis.com', 'https://firestore.googleapis.com', 'https://firebaseinstallations.googleapis.com', 'https://*.firebasedatabase.app', 'https://*.firebaseio.com', ...connectOrigins],
-      'report-uri': ['/api/security/csp-report'],
       workerSrc: ["'self'"],
       upgradeInsecureRequests: []
     }
@@ -230,24 +218,6 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false, limit: '1mb' }));
 
-app.post('/api/security/csp-report', (req, res) => {
-  try {
-    const body = req.body && typeof req.body === 'object' ? req.body : {};
-    const report = body['csp-report'] || body;
-    writeLine('warn', 'csp_report', {
-      requestId: req.requestId || null,
-      documentUri: cleanStr(report['document-uri'] || report.documentURI || '', 240),
-      blockedUri: cleanStr(report['blocked-uri'] || report.blockedURI || '', 240),
-      violatedDirective: cleanStr(report['violated-directive'] || report.violatedDirective || '', 160),
-      effectiveDirective: cleanStr(report['effective-directive'] || report.effectiveDirective || '', 160),
-      disposition: cleanStr(report.disposition || '', 40)
-    });
-  } catch (error) {
-    logCaughtError('security.csp_report', error, { requestId: req.requestId || null });
-  }
-  res.status(204).end();
-});
-
 app.use(compression({
   filter: (req, res) => {
     if (req.headers['x-no-compression'] || req.headers.range) return false;
@@ -288,8 +258,30 @@ function findDirByNormalizedName(baseDir, expectedName) {
   }
 }
 
+function findMaintenanceDir(baseDir) {
+  const direct = firstExistingPath([
+    path.join(baseDir, 'Bakım'),
+    path.join(baseDir, 'Bakim'),
+    path.join(baseDir, 'bakim'),
+    findDirByNormalizedName(baseDir, 'bakim')
+  ], 'maintenance.direct_lookup');
+  if (direct) return direct;
+
+  try {
+    const entries = fs.readdirSync(baseDir, { withFileTypes: true });
+    const match = entries.find((entry) => entry.isDirectory() && normalizedName(entry.name).startsWith('bak'));
+    return match ? path.join(baseDir, match.name) : null;
+  } catch (error) {
+    logCaughtError('maintenance.fuzzy_lookup', error, { baseDir });
+    return null;
+  }
+}
+
 function resolveMaintenanceFile() {
+  const dir = findMaintenanceDir(__dirname);
   return firstExistingPath([
+    path.join(dir || '', 'index.html'),
+    path.join(__dirname, 'Bakım', 'index.html'),
     path.join(__dirname, 'Bakim', 'index.html')
   ], 'maintenance.file_lookup');
 }
@@ -493,13 +485,16 @@ if (frameDir) {
 
 const MAINTENANCE_FILE = resolveMaintenanceFile();
 if (MAINTENANCE_FILE) {
-  mountGameHtmlAliases('Bakim/index.html', MAINTENANCE_FILE, [
+  mountGameHtmlAliases('Bakım/index.html', MAINTENANCE_FILE, [
     MAINTENANCE_PUBLIC_PATH,
-    MAINTENANCE_INDEX_PATH
+    MAINTENANCE_REDIRECT_PATH,
+    '/Bakim/index.html',
+    '/bakim/index.html',
+    '/maintenance/index.html'
   ]);
-  app.get(MAINTENANCE_LEGACY_PATHS, (_req, res) => res.redirect(301, MAINTENANCE_CANONICAL_PATH));
+  app.get(['/Bakım', '/Bak%C4%B1m', '/Bakim', '/bakim', '/maintenance'], (_req, res) => res.redirect(302, MAINTENANCE_REDIRECT_PATH));
 } else {
-  writeLine('warn', 'maintenance_file_missing', { expected: 'Bakim/index.html' });
+  writeLine('warn', 'maintenance_file_missing', { expected: MAINTENANCE_PUBLIC_PATH });
 }
 
 mountGameHtmlAliases(
@@ -631,27 +626,8 @@ function sendHealth(req, res) {
   });
 }
 
-function sendReady(req, res) {
-  const firebaseStatus = getFirebaseStatus({ exposeError: false });
-  const ready = firebaseStatus.ready === true && envValidation.ok === true;
-  res.status(ready ? 200 : 503).json({
-    ok: ready,
-    service: 'PlayMatrix API',
-    requestId: req.requestId || null,
-    uptimeSec: Math.round(process.uptime()),
-    environment: String(process.env.NODE_ENV || 'development').trim().toLowerCase() || 'development',
-    firebase: firebaseStatus,
-    env: {
-      ok: envValidation.ok === true,
-      warnings: envValidation.warnings.length
-    }
-  });
-}
-
 app.get('/healthz', sendHealth);
 app.get('/api/healthz', sendHealth);
-app.get('/readyz', sendReady);
-app.get('/api/readyz', sendReady);
 app.get('/api/public/runtime-config', (req, res, next) => {
   try {
     const runtime = getPublicRuntimeConfig();
@@ -780,8 +756,8 @@ app.use((error, req, res, _next) => {
   });
 });
 
-const serverInstance = httpServer.listen(PORT, HOST, () => {
-  writeLine('debug', 'server_started', { port: PORT, host: HOST });
+const serverInstance = httpServer.listen(PORT, () => {
+  writeLine('debug', 'server_started', { port: PORT });
 });
 
 function shutdown(signal) {

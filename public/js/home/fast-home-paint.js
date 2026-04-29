@@ -10,11 +10,6 @@
     { name: 'Snake Pro', category: 'classic', access: 'free', url: '/Klasik Oyunlar/SnakePro', color: '85,214,140', icon: 'fa-wave-square', desc: 'Retro hisli, akıcı ve ücretsiz snake deneyimi.', tags: ['Retro', 'Arcade', 'Ücretsiz'] }
   ];
 
-  function resolveLocalPath(value) {
-    try { if (typeof window.__PM_RESOLVE_PATH__ === 'function') return window.__PM_RESOLVE_PATH__(value); } catch (_) {}
-    return value;
-  }
-
   const qs = (selector, root) => (root || document).querySelector(selector);
 
   function icon(className) {

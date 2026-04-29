@@ -116,7 +116,7 @@ function applyCorsHeaders(req, res) {
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck, x-firebase-appcheck, X-Request-Id, X-Admin-Client-Key, x-admin-client-key');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck, x-firebase-appcheck, X-Request-Id, X-Session-Token, x-session-token, X-Admin-Client-Key, x-admin-client-key');
   if (scope !== 'public') res.setHeader('Access-Control-Allow-Credentials', 'true');
   if (req.method === 'OPTIONS') {
     res.status(204).end();

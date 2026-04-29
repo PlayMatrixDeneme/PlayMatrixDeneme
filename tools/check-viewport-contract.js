@@ -17,7 +17,7 @@ const targets = [
   'public/admin/index.html',
   'public/admin/admin.html',
   'public/admin/health.html',
-  'Bakim/index.html'
+  'Bakım/index.html'
 ];
 
 const failures = [];

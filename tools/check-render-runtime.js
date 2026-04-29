@@ -56,6 +56,5 @@ if (failures.length) {
   process.exit(1);
 }
 console.log('check:render-runtime OK');
-process.exit(0);
 
 // phase10-11-runtime-fix-20260426g cache-bust check

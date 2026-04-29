@@ -22,13 +22,10 @@ function extractBearerToken(req) {
 }
 
 function extractSessionToken(req) {
+  const headerToken = cleanStr(req.headers['x-session-token'] || '', 400);
+  if (headerToken) return headerToken;
   const cookies = parseCookieHeader(req.headers.cookie || '');
-  const cookieToken = cleanStr(cookies.pm_session || '', 400);
-  if (cookieToken) return cookieToken;
-  if (String(process.env.LEGACY_SESSION_HEADER_ENABLED || '').trim() === '1') {
-    return cleanStr(req.headers['x-session-token'] || '', 400);
-  }
-  return '';
+  return cleanStr(cookies.pm_session || '', 400);
 }
 
 function clearSessionCookieIfPossible(res) {
@@ -95,7 +92,7 @@ async function verifyAuth(req, res, next) {
           clearSessionCookieIfPossible(res);
           return res.status(401).json({ ok: false, redirect: true, code: activeState.reason, error: 'Oturum süresi doldu.', requestId: req.requestId || null });
         }
-        await hydrateRequestUser(req, user, { authType: 'session', sessionId: session.id, sessionRef: session.ref, sessionSource: session.data.source || '', touchActivity: true, touchSession: true });
+        await hydrateRequestUser(req, user, { authType: 'session', sessionId: session.id, sessionRef: session.ref, sessionSource: session.data.source || '' });
         return next();
       }
       clearSessionCookieIfPossible(res);
@@ -114,7 +111,7 @@ async function verifyAuth(req, res, next) {
       return res.status(401).json({ ok: false, redirect: true, code: activeState.reason, error: 'Oturum zaman aşımına uğradı.', requestId: req.requestId || null });
     }
 
-    await hydrateRequestUser(req, decoded, { authType: 'bearer', touchActivity: true });
+    await hydrateRequestUser(req, decoded, { authType: 'bearer' });
     return next();
   } catch (error) {
     clearSessionCookieIfPossible(res);

@@ -1,7 +1,7 @@
 'use strict';
 
 const { cleanStr } = require('./helpers');
-const { normalizeUrlBase, normalizePublicBasePath, PUBLIC_RUNTIME_ENV_KEYS, SECRET_ENV_KEY_PATTERN } = require('./env');
+const { normalizeUrlBase, PUBLIC_RUNTIME_ENV_KEYS, SECRET_ENV_KEY_PATTERN } = require('./env');
 
 function normalizeBase(value = '') {
   return normalizeUrlBase(value);
@@ -55,7 +55,6 @@ function getPublicRuntimeConfig() {
   const firebase = readPublicFirebaseConfig();
   const apiBase = normalizeBase(process.env.PUBLIC_API_BASE || '');
   const publicBaseUrl = normalizeBase(process.env.PUBLIC_BASE_URL || process.env.CANONICAL_ORIGIN || '');
-  const basePath = normalizePublicBasePath(process.env.PUBLIC_BASE_PATH || '');
   const nodeEnv = cleanStr(process.env.NODE_ENV || 'development', 64).toLowerCase() || 'development';
   const healthSurfaceEnabled = nodeEnv !== 'production' || truthy(process.env.ADMIN_HEALTH_SURFACE_ENABLED);
   const runtime = {
@@ -64,7 +63,6 @@ function getPublicRuntimeConfig() {
     apiBase,
     apiBaseSource: 'PUBLIC_API_BASE',
     publicBaseUrl,
-    basePath,
     firebase: hasUsablePublicFirebaseConfig(firebase) ? firebase : null,
     firebaseReady: hasUsablePublicFirebaseConfig(firebase),
     admin: {

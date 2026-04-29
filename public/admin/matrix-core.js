@@ -1,5 +1,28 @@
 const PM_MATRIX_SECURITY_KEY = 'pm_admin_matrix_key';
+const PM_SESSION_TOKEN_KEY = 'pm_session_token';
 const PM_ADMIN_BACKEND_FALLBACK = ['https://emirhan', '-siye.onrender.com'].join('');
+
+
+function readSessionToken() {
+  try { return sessionStorage.getItem(PM_SESSION_TOKEN_KEY) || localStorage.getItem(PM_SESSION_TOKEN_KEY) || ''; } catch (_) { return ''; }
+}
+
+function writeSessionToken(value = '') {
+  const token = String(value || '').trim();
+  if (!token) return;
+  try { sessionStorage.setItem(PM_SESSION_TOKEN_KEY, token); } catch (_) {}
+  try { localStorage.setItem(PM_SESSION_TOKEN_KEY, token); } catch (_) {}
+}
+
+function clearSessionToken() {
+  try { sessionStorage.removeItem(PM_SESSION_TOKEN_KEY); } catch (_) {}
+  try { localStorage.removeItem(PM_SESSION_TOKEN_KEY); } catch (_) {}
+}
+
+function persistSessionTokenFromPayload(payload = {}) {
+  const token = String(payload?.sessionToken || payload?.session?.token || '').trim();
+  if (token) writeSessionToken(token);
+}
 
 export function preventUserInterference() {
   const passiveBlock = (event) => event.preventDefault();
@@ -116,6 +139,8 @@ export async function adminFetch(path, options = {}) {
     try { await window.__PM_API__.ensureApiBase(); } catch (_) {}
   }
   if (key) headers.set('x-admin-client-key', key);
+  const sessionToken = readSessionToken();
+  if (sessionToken && !headers.has('x-session-token')) headers.set('x-session-token', sessionToken);
   if (!headers.has('Content-Type') && options.body && !(options.body instanceof FormData)) headers.set('Content-Type', 'application/json');
   const retryableStatuses = new Set([404, 405, 408, 429, 502, 503, 504]);
   const rawCandidates = Array.isArray(window.__PM_API__?.getCandidates?.())
@@ -152,7 +177,8 @@ export async function adminFetch(path, options = {}) {
       try { payload = await response.json(); } catch (_) {}
       if (response.ok && payload?.ok !== false) {
         if (base && window.__PM_API__?.setApiBase) window.__PM_API__.setApiBase(base);
-        if (/\/auth\/admin\/matrix\/logout$|\/auth\/session\/logout$/i.test(String(path || ''))) clearSecurityKey();
+        persistSessionTokenFromPayload(payload || {});
+        if (/\/auth\/admin\/matrix\/logout$|\/auth\/session\/logout$/i.test(String(path || ''))) clearSessionToken();
         return payload;
       }
       const error = new Error(payload?.error || `HTTP ${response.status}`);

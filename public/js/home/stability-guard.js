@@ -6,11 +6,6 @@
   const ONLINE_NAMES = /^(crash|satranç|satranc|pişti|pisti)$/i;
   const FALLBACK_AVATAR = '/assets/avatars/system/fallback.svg';
 
-  function resolveLocalPath(value) {
-    try { if (typeof window.__PM_RESOLVE_PATH__ === 'function') return window.__PM_RESOLVE_PATH__(value); } catch (_) {}
-    return value;
-  }
-
   function $(id) { return document.getElementById(id); }
   function qsa(selector, root) { return Array.from((root || document).querySelectorAll(selector)); }
   function txt(value, fallback) { const v = value == null ? '' : String(value).trim(); return v || (fallback || ''); }
@@ -210,7 +205,7 @@
       foot.className = 'game-foot game-footer';
       const link = document.createElement('a');
       link.className = 'play-btn game-cta';
-      link.href = resolveLocalPath(game.url);
+      link.href = game.url;
       link.dataset.gameName = game.name;
       if (game.access === 'auth') link.dataset.requiresAuth = 'true';
       link.append(createText('span', '', game.access === 'auth' ? 'Giriş Yap' : 'Hemen Oyna'), createIcon('fa-arrow-right'));

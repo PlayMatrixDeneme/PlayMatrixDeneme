@@ -10,8 +10,6 @@ const colSessions = () => db.collection('sessions');
 const IDLE_TIMEOUT_MS = Math.max(5 * 60 * 1000, safeNum(process.env.IDLE_TIMEOUT_MS, 60 * 60 * 1000));
 const SESSION_TTL_MS = Math.max(IDLE_TIMEOUT_MS, safeNum(process.env.SESSION_TTL_MS, 30 * 24 * 60 * 60 * 1000));
 const ACTIVITY_TOUCH_THROTTLE_MS = Math.max(15 * 1000, safeNum(process.env.ACTIVITY_TOUCH_THROTTLE_MS, 60 * 1000));
-const SESSION_TOUCH_THROTTLE_MS = Math.max(15 * 1000, safeNum(process.env.SESSION_TOUCH_THROTTLE_MS, ACTIVITY_TOUCH_THROTTLE_MS));
-const SESSION_COOKIE_NAME = 'pm_session';
 const inMemoryTouchCache = new Map();
 
 function getIstanbulDateKey(date = new Date()) {
@@ -51,7 +49,7 @@ function buildSessionCookie(token, options = {}) {
   const secure = options.secure !== false;
   const sameSite = secure ? 'None' : 'Lax';
   const parts = [
-    `${SESSION_COOKIE_NAME}=${encodeURIComponent(String(token || ''))}`, 
+    `pm_session=${encodeURIComponent(String(token || ''))}`,
     'Path=/',
     'HttpOnly',
     `SameSite=${sameSite}`,
@@ -64,7 +62,7 @@ function buildSessionCookie(token, options = {}) {
 function buildExpiredSessionCookie(options = {}) {
   const secure = options.secure !== false;
   const sameSite = secure ? 'None' : 'Lax';
-  const parts = [`${SESSION_COOKIE_NAME}=; Path=/`, 'HttpOnly', `SameSite=${sameSite}`, 'Max-Age=0'];
+  const parts = ['pm_session=; Path=/', 'HttpOnly', `SameSite=${sameSite}`, 'Max-Age=0'];
   if (secure) parts.push('Secure');
   return parts.join('; ');
 }
@@ -135,32 +133,14 @@ async function resolveServerSession(rawToken = '') {
   return { valid: true, id: doc.id, ref: doc.ref, data };
 }
 
-function shouldTouch(cacheKey = '', throttleMs = ACTIVITY_TOUCH_THROTTLE_MS, force = false) {
-  const safeKey = cleanStr(cacheKey || '', 220);
-  if (!safeKey) return false;
-  if (force) {
-    inMemoryTouchCache.set(safeKey, nowMs());
-    return true;
-  }
-  const now = nowMs();
-  const lastTouch = safeNum(inMemoryTouchCache.get(safeKey), 0);
-  if (lastTouch > 0 && (now - lastTouch) < throttleMs) return false;
-  inMemoryTouchCache.set(safeKey, now);
-  return true;
-}
-
 async function touchServerSession(sessionRefOrId, extras = {}) {
   if (!sessionRefOrId) return false;
   const ref = typeof sessionRefOrId === 'string' ? colSessions().doc(sessionRefOrId) : sessionRefOrId;
-  const sessionId = cleanStr(typeof sessionRefOrId === 'string' ? sessionRefOrId : ref?.id || '', 160);
-  if (sessionId && !shouldTouch(`session:${sessionId}`, SESSION_TOUCH_THROTTLE_MS, extras.force === true)) return false;
-  const touchedAt = nowMs();
   await ref.set({
-    lastSeenAt: touchedAt,
-    expiresAt: touchedAt + SESSION_TTL_MS,
+    lastSeenAt: nowMs(),
+    expiresAt: nowMs() + SESSION_TTL_MS,
     ip: cleanStr(extras.ip || '', 120),
-    userAgent: cleanStr(extras.userAgent || '', 400),
-    lastTouchedAt: touchedAt
+    userAgent: cleanStr(extras.userAgent || '', 400)
   }, { merge: true });
   return true;
 }
@@ -212,8 +192,6 @@ module.exports = {
   IDLE_TIMEOUT_MS,
   SESSION_TTL_MS,
   ACTIVITY_TOUCH_THROTTLE_MS,
-  SESSION_TOUCH_THROTTLE_MS,
-  SESSION_COOKIE_NAME,
   getIstanbulDateKey,
   parseCookieHeader,
   buildSessionCookie,
@@ -222,7 +200,6 @@ module.exports = {
   revokeServerSessionByToken,
   revokeAllUserSessions,
   resolveServerSession,
-  shouldTouch,
   touchServerSession,
   touchUserActivity,
   touchUserPresence,

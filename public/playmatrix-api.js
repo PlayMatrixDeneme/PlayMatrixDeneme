@@ -22,31 +22,6 @@
     return withoutEndpoint.replace(/\/+$/, '').replace(/\/api$/i, '');
   }
 
-  function normalizeBasePath(value) {
-    const raw = String(value || '').trim();
-    if (!raw || raw === '/') return '';
-    if (/^https?:\/\//i.test(raw)) return '';
-    const clean = (raw.startsWith('/') ? raw : '/' + raw).split(/[?#]/)[0].replace(/\/+/g, '/').replace(/\/+$|\s+$/g, '');
-    return clean && clean !== '/' && !clean.includes('..') ? clean : '';
-  }
-
-  function getBasePath() {
-    const runtimeBasePath = normalizeBasePath(window.__PM_RUNTIME?.basePath || window.__PM_STATIC_RUNTIME_CONFIG__?.basePath || window.__PM_BASE_PATH__ || '');
-    if (runtimeBasePath) return runtimeBasePath;
-    const pathname = String(window.location.pathname || '');
-    if (/^\/PlayMatrixDeneme(?:\/|$)/i.test(pathname)) return '/PlayMatrixDeneme';
-    return '';
-  }
-
-  function resolvePath(value) {
-    const raw = String(value || '').trim();
-    if (!raw || /^(?:https?:)?\/\//i.test(raw) || /^(?:data|blob|mailto|tel):/i.test(raw) || raw.startsWith('#')) return raw;
-    const basePath = getBasePath();
-    if (!basePath || !raw.startsWith('/')) return raw;
-    if (raw === basePath || raw.startsWith(basePath + '/')) return raw;
-    if (/^\/(?:api|socket\.io)(?:\/|$)/i.test(raw)) return raw;
-    return basePath + raw;
-  }
   function isProductionHost() {
     return /(^|\.)playmatrix\.com\.tr$/i.test(String(window.location.hostname || '').trim());
   }
@@ -114,8 +89,6 @@
     window.__PM_RUNTIME = window.__PM_RUNTIME || {};
     window.__PM_RUNTIME.apiBase = normalized;
     window.__PLAYMATRIX_API_URL__ = normalized;
-    window.__PM_BASE_PATH__ = getBasePath();
-    window.__PM_RESOLVE_PATH__ = window.__PM_RESOLVE_PATH__ || resolvePath;
     persistBase(normalized);
     return normalized;
   }
@@ -238,8 +211,6 @@
   window.__PM_API__ = {
     normalizeBase,
     getCandidates,
-    getBasePath,
-    resolvePath,
     getApiBaseSync,
     setApiBase,
     ensureApiBase,

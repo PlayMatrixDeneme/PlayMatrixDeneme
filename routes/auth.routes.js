@@ -8,7 +8,7 @@ const { verifyAuth, extractSessionToken, resolveOptionalAuthUser } = require('..
 const { profileLimiter } = require('../middlewares/rateLimiters');
 const { cleanStr, safeNum } = require('../utils/helpers');
 const { bootstrapAccountByAuth } = require('../utils/accountBootstrap');
-const { logCaughtError, recordAuditLog } = require('../utils/logger');
+const { logCaughtError } = require('../utils/logger');
 const { resolveAdminContext } = require('../middlewares/admin.middleware');
 const { normalizeEmail, getPrimaryAdminIdentity, issueStepTicket, verifyStepTicket, verifySecondFactor, verifyThirdFactor, issueClientGateKey, verifyClientGateKey } = require('../utils/adminMatrix');
 const {
@@ -22,7 +22,6 @@ const {
   IDLE_TIMEOUT_MS,
   SESSION_TTL_MS
 } = require('../utils/activity');
-const { buildCookieOnlySessionPayload } = require('../utils/session');
 
 const colUsers = () => db.collection('users');
 
@@ -62,24 +61,6 @@ function serializeAdminContext(context = {}) {
     source: cleanStr(context.source || 'resolved', 64),
     resolutionChain: Array.isArray(context?.metadata?.resolutionChain) ? context.metadata.resolutionChain : []
   };
-}
-
-function auditAdminGate(req, { action = '', status = 'success', uid = '', email = '', metadata = {} } = {}) {
-  recordAuditLog({
-    actorUid: cleanStr(uid || req.user?.uid || '', 160),
-    actorEmail: normalizeEmail(email || req.user?.email || ''),
-    action: cleanStr(action || 'admin.gate', 120),
-    targetType: 'admin_gate',
-    targetId: cleanStr(email || uid || 'matrix', 220),
-    status: cleanStr(status || 'success', 24),
-    metadata: {
-      requestId: cleanStr(req.requestId || '', 120),
-      ip: cleanStr(req.ip || req.headers['x-forwarded-for'] || '', 120),
-      route: cleanStr(req.originalUrl || req.url || '', 240),
-      userAgent: cleanStr(req.headers['user-agent'] || '', 240),
-      ...((metadata && typeof metadata === 'object') ? metadata : {})
-    }
-  }).catch(() => null);
 }
 
 
@@ -233,7 +214,16 @@ router.post('/auth/session/create', async (req, res) => {
 
     return res.json({
       ok: true,
-      ...buildCookieOnlySessionPayload(session),
+      sessionToken: session.token,
+      session: {
+        token: session.token,
+        id: session.sessionId,
+        createdAt: session.createdAt,
+        lastSeenAt: session.lastSeenAt,
+        expiresAt: session.expiresAt,
+        idleTimeoutMs: IDLE_TIMEOUT_MS,
+        ttlMs: SESSION_TTL_MS
+      },
       rewardBootstrap: {
         signupGranted: !!bootstrap.grantedSignupReward,
         emailGranted: !!bootstrap.grantedEmailReward,
@@ -304,7 +294,6 @@ router.post('/auth/admin/matrix/step-email', async (req, res) => {
   try {
     const email = normalizeEmail(req.body?.email || '');
     if (!email || !email.includes('@')) {
-      auditAdminGate(req, { action: 'admin.gate.step_email', status: 'blocked', metadata: { code: 'INVALID_EMAIL' } });
       return res.status(400).json({ ok: false, error: 'Geçerli yönetici e-postası gerekli.' });
     }
 
@@ -313,12 +302,10 @@ router.post('/auth/admin/matrix/step-email', async (req, res) => {
     if (identity.ok && identity.authenticated && identity.user?.uid) {
       const authenticatedEmail = normalizeEmail(identity.user?.email || '');
       if (!authenticatedEmail || authenticatedEmail !== email) {
-        auditAdminGate(req, { action: 'admin.gate.step_email', status: 'blocked', uid: identity.user?.uid, email, metadata: { code: 'SESSION_EMAIL_MISMATCH' } });
         return res.status(403).json({ ok: false, error: 'Algılanan e-posta aktif oturumla eşleşmiyor.' });
       }
 
       if (!identity.admin) {
-        auditAdminGate(req, { action: 'admin.gate.step_email', status: 'blocked', uid: identity.user?.uid, email, metadata: { code: 'NOT_ADMIN' } });
         return res.status(403).json({ ok: false, error: 'Bu aktif oturum için yönetici yetkisi doğrulanamadı.' });
       }
 
@@ -329,11 +316,9 @@ router.post('/auth/admin/matrix/step-email', async (req, res) => {
       });
 
       if (!context?.isAdmin) {
-        auditAdminGate(req, { action: 'admin.gate.step_email', status: 'blocked', uid: identity.user?.uid, email, metadata: { code: 'ADMIN_CONTEXT_MISSING' } });
         return res.status(403).json({ ok: false, error: 'Bu hesap için aktif yönetici bağlamı çözümlenemedi.' });
       }
 
-      auditAdminGate(req, { action: 'admin.gate.step_email', status: 'success', uid: context.uid, email: context.email, metadata: { boundToSession: true } });
       return res.json({
         ok: true,
         boundToSession: true,
@@ -345,11 +330,9 @@ router.post('/auth/admin/matrix/step-email', async (req, res) => {
 
     const configured = await resolveConfiguredAdminCandidateByEmail(email);
     if (!configured?.context?.isAdmin) {
-      auditAdminGate(req, { action: 'admin.gate.step_email', status: 'blocked', email, metadata: { code: 'CONFIGURED_ADMIN_NOT_FOUND' } });
       return res.status(401).json({ ok: false, error: 'Aktif yönetici oturumu bulunamadı veya e-posta yetkili yönetici listesinde değil.' });
     }
 
-    auditAdminGate(req, { action: 'admin.gate.step_email', status: 'success', uid: configured.uid, email: configured.email, metadata: { boundToSession: false } });
     return res.json({
       ok: true,
       boundToSession: false,
@@ -365,16 +348,11 @@ router.post('/auth/admin/matrix/step-email', async (req, res) => {
 router.post('/auth/admin/matrix/step-password', async (req, res) => {
   try {
     const verified = verifyStepTicket(req.body?.ticket || '', 2);
-    if (!verified.ok) {
-      auditAdminGate(req, { action: 'admin.gate.step_password', status: 'blocked', metadata: { code: verified.code || 'INVALID_STEP_TOKEN' } });
-      return res.status(401).json({ ok: false, error: 'Güvenlik oturumu geçersiz.' });
-    }
+    if (!verified.ok) return res.status(401).json({ ok: false, error: 'Güvenlik oturumu geçersiz.' });
     const password = String(req.body?.password || '');
     if (!verifySecondFactor(password)) {
-      auditAdminGate(req, { action: 'admin.gate.step_password', status: 'blocked', uid: verified.payload?.uid, email: verified.payload?.email, metadata: { code: 'SECOND_FACTOR_INVALID' } });
       return res.status(403).json({ ok: false, error: 'Güvenlik şifresi doğrulanamadı.' });
     }
-    auditAdminGate(req, { action: 'admin.gate.step_password', status: 'success', uid: verified.payload?.uid, email: verified.payload?.email });
     return res.json({ ok: true, ticket: issueStepTicket({ ...verified.payload, stage: 3, prev: 'identity+password' }) });
   } catch (_error) {
     return res.status(400).json({ ok: false, error: 'Şifre doğrulanamadı.' });
@@ -384,13 +362,9 @@ router.post('/auth/admin/matrix/step-password', async (req, res) => {
 router.post('/auth/admin/matrix/step-name', async (req, res) => {
   try {
     const verified = verifyStepTicket(req.body?.ticket || '', 3);
-    if (!verified.ok) {
-      auditAdminGate(req, { action: 'admin.gate.step_name', status: 'blocked', metadata: { code: verified.code || 'INVALID_STEP_TOKEN' } });
-      return res.status(401).json({ ok: false, error: 'Güvenlik oturumu geçersiz.' });
-    }
+    if (!verified.ok) return res.status(401).json({ ok: false, error: 'Güvenlik oturumu geçersiz.' });
     const adminName = String(req.body?.adminName || req.body?.name || '');
     if (!verifyThirdFactor(adminName)) {
-      auditAdminGate(req, { action: 'admin.gate.step_name', status: 'blocked', uid: verified.payload?.uid, email: verified.payload?.email, metadata: { code: 'THIRD_FACTOR_INVALID' } });
       return res.status(403).json({ ok: false, error: 'Son güvenlik doğrulaması başarısız oldu.' });
     }
 
@@ -427,11 +401,10 @@ router.post('/auth/admin/matrix/step-name', async (req, res) => {
     }));
 
     const clientKey = issueClientGateKey({ uid, email, sessionId: session.sessionId });
-    auditAdminGate(req, { action: 'admin.gate.complete', status: 'success', uid, email, metadata: { sessionId: session.sessionId } });
     return res.json({
       ok: true,
       redirectTo: '/admin/admin.html',
-      ...buildCookieOnlySessionPayload(session),
+      sessionToken: session.token,
       clientKey,
       admin: serializeAdminContext(context)
     });
@@ -581,15 +554,23 @@ router.post('/auth/admin/bootstrap', async (req, res) => {
       secure: req.secure || String(req.headers['x-forwarded-proto'] || '').toLowerCase() === 'https'
     }));
 
-    auditAdminGate(req, { action: 'admin.session.bootstrap', status: 'success', uid: user.uid, email: user.email, metadata: { sessionId: session.sessionId } });
     return res.json({
       ok: true,
+      sessionToken: session.token,
       admin: {
         uid: user.uid,
         email: user.email,
         ...serializeAdminContext(adminContext)
       },
-      ...buildCookieOnlySessionPayload(session)
+      session: {
+        token: session.token,
+        id: session.sessionId,
+        createdAt: session.createdAt,
+        lastSeenAt: session.lastSeenAt,
+        expiresAt: session.expiresAt,
+        idleTimeoutMs: IDLE_TIMEOUT_MS,
+        ttlMs: SESSION_TTL_MS
+      }
     });
   } catch (_error) {
     return res.status(401).json({ ok: false, error: 'Admin oturumu oluşturulamadı.' });

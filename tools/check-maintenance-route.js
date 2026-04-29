@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 'use strict';
 
 const fs = require('fs');
@@ -7,58 +6,56 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const serverPath = path.join(root, 'server.js');
 const pkgPath = path.join(root, 'package.json');
-const maintenanceDir = path.join(root, 'Bakim');
-const maintenancePath = path.join(maintenanceDir, 'index.html');
-const legacyMaintenanceDirs = ['Bakım', 'Bak─▒m', 'Bak▒m', 'BakÄ±m', 'maintenance'].map((name) => path.join(root, name));
+const bakımDir = path.join(root, 'Bakım');
+const bakımPath = path.join(bakımDir, 'index.html');
+const brokenMaintenanceDirs = ['Bak─▒m', 'Bak▒m', 'BakÄ±m'].map((name) => path.join(root, name));
 const shellJs = path.join(root, 'public', 'shell-enhancements.js');
 const shellCss = path.join(root, 'public', 'shell-enhancements.css');
 const staleStem = ['pre', 'mium', '-phase5'].join('');
 const staleJs = `${staleStem}.js`;
 const staleCss = `${staleStem}.css`;
-const staleAssetRe = new RegExp(`${staleStem}\.(?:js|css)`);
+const staleAssetRe = new RegExp(`${staleStem}\\.(?:js|css)`);
 
 function fail(message) {
   console.error(`❌ ${message}`);
   process.exit(1);
 }
 
-function readFile(filePath) {
+function read(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
 
 if (!fs.existsSync(serverPath)) fail('server.js bulunamadı.');
-if (!fs.existsSync(maintenanceDir) || !fs.statSync(maintenanceDir).isDirectory()) fail('Bakim/ ASCII maintenance klasörü bulunamadı.');
-if (!fs.existsSync(maintenancePath)) fail('Bakim/index.html bulunamadı.');
-for (const badDir of legacyMaintenanceDirs) {
-  if (fs.existsSync(badDir)) fail(`${path.basename(badDir)} legacy/bozuk maintenance klasörü hâlâ duruyor.`);
+if (!fs.existsSync(bakımDir) || !fs.statSync(bakımDir).isDirectory()) fail('Bakım/ klasörü bulunamadı.');
+if (!fs.existsSync(bakımPath)) fail('Bakım/index.html bulunamadı veya klasör adı bozuk.');
+for (const badDir of brokenMaintenanceDirs) {
+  if (fs.existsSync(badDir)) fail(`${path.basename(badDir)} bozuk encoding klasörü hâlâ duruyor.`);
 }
 if (!fs.existsSync(shellJs)) fail('public/shell-enhancements.js bulunamadı.');
 if (!fs.existsSync(shellCss)) fail('public/shell-enhancements.css bulunamadı.');
 if (fs.existsSync(path.join(root, 'public', staleJs))) fail(`public/${staleJs} hâlâ duruyor.`);
 if (fs.existsSync(path.join(root, 'public', staleCss))) fail(`public/${staleCss} hâlâ duruyor.`);
+if (fs.existsSync(path.join(root, 'maintenance'))) fail('maintenance/ klasörü oluşturulmamalı; Bakım/ korunmalı.');
 
-const server = readFile(serverPath);
-if (!server.includes("MAINTENANCE_CANONICAL_PATH = '/maintenance'")) fail('/maintenance canonical path sabiti eksik.');
-if (!server.includes("MAINTENANCE_INDEX_PATH = '/maintenance/index.html'")) fail('/maintenance/index.html alias sabiti eksik.');
-if (!server.includes('MAINTENANCE_LEGACY_PATHS')) fail('Legacy maintenance redirect listesi eksik.');
-if (!server.includes('resolveMaintenanceFile')) fail('Maintenance dosya çözümleyici eksik.');
-if (!server.includes("path.join(__dirname, 'Bakim', 'index.html')")) fail('Maintenance fiziksel path ASCII Bakim/index.html olmalı.');
-if (!server.includes("mountGameHtmlAliases('Bakim/index.html'")) fail('ASCII maintenance route alias mount eksik.');
-if (server.includes('maintenance.fuzzy_lookup') || server.includes('findMaintenanceDir')) fail('Maintenance fuzzy fallback kaldırılmalı.');
+const server = read(serverPath);
+if (!server.includes("MAINTENANCE_PUBLIC_PATH = '/Bakım/index.html'")) fail('Bakım public path sabiti eksik.');
+if (!server.includes("MAINTENANCE_REDIRECT_PATH = '/Bak%C4%B1m/index.html'")) fail('Encoded Bakım redirect path eksik.');
+if (!server.includes('resolveMaintenanceFile')) fail('Bakım dosya çözümleyici eksik.');
+if (!server.includes("mountGameHtmlAliases('Bakım/index.html'")) fail('Bakım route alias mount eksik.');
 const requiredMaintenanceAliases = [
-  "'/maintenance'",
-  "'/maintenance/index.html'",
-  "'/Bakım/index.html'",
-  "'/Bak%C4%B1m/index.html'",
+  "MAINTENANCE_PUBLIC_PATH",
+  "MAINTENANCE_REDIRECT_PATH",
   "'/Bakim/index.html'",
   "'/bakim/index.html'",
+  "'/maintenance/index.html'",
   "'/Bakım'",
   "'/Bak%C4%B1m'",
   "'/Bakim'",
-  "'/bakim'"
+  "'/bakim'",
+  "'/maintenance'"
 ];
 for (const alias of requiredMaintenanceAliases) {
-  if (!server.includes(alias)) fail(`Maintenance route alias/redirect eksik: ${alias}`);
+  if (!server.includes(alias)) fail(`Bakım route alias eksik: ${alias}`);
 }
 if (!server.includes('scriptSrcAttr')) fail('CSP script-src-attr sıkılaştırması eksik.');
 if (!server.includes('manifestSrc')) fail('CSP manifest-src eksik.');
@@ -75,13 +72,14 @@ function walk(dir) {
   }
 }
 walk(root);
-const staleRefs = htmlFiles.filter((file) => staleAssetRe.test(readFile(file)));
+const staleRefs = htmlFiles.filter((file) => staleAssetRe.test(read(file)));
 if (staleRefs.length) fail(`HTML içinde eski shell referansı kaldı: ${staleRefs.map((f) => path.relative(root, f)).join(', ')}`);
 
-const pkg = JSON.parse(readFile(pkgPath));
+const pkg = JSON.parse(read(pkgPath));
 if (pkg.scripts?.['check:maintenance'] !== 'node tools/check-maintenance-route.js') {
   fail('package.json check:maintenance scripti eksik.');
 }
 
-console.log('✅ Maintenance canonical route ve ASCII path kontrolü başarılı.');
-process.exit(0);
+console.log('✅ Bakım route, server ve shell enhancement kontrolü başarılı.');
+
+if (!process.exitCode) process.exit(0);

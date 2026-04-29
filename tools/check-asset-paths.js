@@ -15,7 +15,7 @@ const htmlFiles = [
   'public/admin/index.html',
   'public/admin/admin.html',
   'public/admin/health.html',
-  'Bakim/index.html'
+  'Bakım/index.html'
 ];
 const failures = [];
 function isExternal(value) { return /^(?:https?:)?\/\//i.test(value) || /^(?:data|blob|mailto):/i.test(value); }

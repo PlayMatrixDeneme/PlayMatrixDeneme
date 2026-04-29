@@ -1,12 +1,10 @@
 'use strict';
 
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
 
 const DEFAULT_ALLOWED_ORIGINS = [
   'https://playmatrix.com.tr',
   'https://www.playmatrix.com.tr',
-  'https://playmatrixdeneme.github.io',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'http://localhost:5173',
@@ -131,7 +129,6 @@ const AUTO_CASHOUT_RETRY_DELAY_MS = 250;
 
 module.exports = {
   PORT,
-  HOST,
   DEFAULT_ALLOWED_ORIGINS,
   ALLOWED_ORIGINS,
   ALLOWED_AVATAR_DOMAIN,

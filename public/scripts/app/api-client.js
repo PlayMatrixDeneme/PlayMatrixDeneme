@@ -1,24 +1,11 @@
-import { appConfig } from './config.js';
+import { userProfile } from '../data/home-data.js';
 
-export async function apiGet(path, fallback) {
-  if (!appConfig.apiBase) return fallback;
-
-  const url = `${appConfig.apiBase}${path}`;
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 6500);
-
+export async function loadBootstrap() {
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { Accept: 'application/json' },
-      signal: controller.signal
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return await response.json();
-  } catch {
-    return fallback;
-  } finally {
-    clearTimeout(timer);
-  }
+    const response = await fetch('/api/home/bootstrap', { headers: { Accept: 'application/json' }, cache: 'no-store' });
+    if (!response.ok) throw new Error('bootstrap_failed');
+    const payload = await response.json();
+    if (payload?.ok && payload.user) return { ...userProfile, ...payload.user };
+  } catch {}
+  return userProfile;
 }

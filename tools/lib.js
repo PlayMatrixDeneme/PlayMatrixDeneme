@@ -10,13 +10,13 @@ export async function walk(dir = rootDir) {
     if (entry.name === 'node_modules' || entry.name === '.git') continue;
     const path = join(dir, entry.name);
     if (entry.isDirectory()) files.push(...await walk(path));
-    else if (entry.isFile()) files.push(path);
+    if (entry.isFile()) files.push(path);
   }
   return files;
 }
 
 export function rel(path) {
-  return relative(rootDir, path).replaceAll('\\\\', '/');
+  return relative(rootDir, path).replaceAll('\\', '/');
 }
 
 export async function exists(path) {
@@ -28,7 +28,7 @@ export async function read(path) {
 }
 
 export function fail(title, details = []) {
-  console.error(`\n[FAIL] ${title}`);
+  console.error(`[FAIL] ${title}`);
   details.forEach((detail) => console.error(`- ${detail}`));
   process.exit(1);
 }

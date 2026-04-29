@@ -1,10 +1,9 @@
-import { qs } from '../app/dom.js';
+import { el } from '../core/dom.js';
 
 export function showToast(message) {
-  const root = qs('#toastRoot');
-  const toast = document.createElement('div');
-  toast.className = 'pm-toast';
-  toast.textContent = message;
+  const root = document.querySelector('[data-toast-root]');
+  if (!root) return;
+  const toast = el('div', 'pm-toast', message);
   root.append(toast);
-  setTimeout(() => toast.remove(), 3800);
+  window.setTimeout(() => toast.remove(), 3200);
 }

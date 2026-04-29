@@ -1,9 +1,9 @@
 {
-  "name": "playmatrix-homepage-rebuild",
-  "version": "2.0.0-homepage-alpha",
+  "name": "playmatrix-homepage-only-rebuild",
+  "version": "2.1.0-homepage-rebuild",
   "private": true,
   "type": "module",
-  "description": "PlayMatrix AnaSayfa-only yeni tasarım ve test iskeleti.",
+  "description": "PlayMatrix AnaSayfa-only yeni tasarım dili ve modüler frontend paketi.",
   "scripts": {
     "start": "node server.js",
     "test": "npm run verify:homepage",
@@ -14,7 +14,9 @@
     "check:assets": "node tools/check-home-assets.js",
     "check:routes": "node tools/check-home-routes.js",
     "check:secrets": "node tools/check-secrets.js",
-    "check:modules": "node tools/check-module-syntax.js"
+    "check:modules": "node tools/check-module-syntax.js",
+    "check:scope": "node tools/check-homepage-scope.js",
+    "check:quality": "node tools/check-code-quality.js"
   },
   "engines": {
     "node": ">=18.18.0"

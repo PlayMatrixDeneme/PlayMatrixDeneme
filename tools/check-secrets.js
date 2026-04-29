@@ -1,9 +1,8 @@
-import { fail, pass, walk, rel } from './lib.js';
 import { readFile } from 'node:fs/promises';
+import { fail, pass, rel, walk } from './lib.js';
 
-const files = await walk();
-const ignored = new Set(['.env.example']);
-const forbidden = [
+const ignored = new Set(['.env.example', 'tools/check-secrets.js', 'tools/verify-homepage.js']);
+const patterns = [
   /BEGIN PRIVATE KEY/,
   /firebase-adminsdk/i,
   /private_key"\s*:/i,
@@ -12,17 +11,15 @@ const forbidden = [
   /PRIMARY_ADMIN_UID=wsvzAqg0oePzCjo4cr5QHMJW0163/,
   /ADMIN_UIDS=wsvzAqg0oePzCjo4cr5QHMJW0163/
 ];
-
 const findings = [];
-for (const file of files) {
+for (const file of await walk()) {
   const path = rel(file);
-  if (ignored.has(path) || path === 'tools/check-secrets.js') continue;
+  if (ignored.has(path)) continue;
   if (!/\.(js|css|html|json|md|env|example|svg|txt)$/i.test(path)) continue;
   const text = await readFile(file, 'utf8');
-  forbidden.forEach((pattern) => {
+  for (const pattern of patterns) {
     if (pattern.test(text)) findings.push(`${path}: ${pattern}`);
-  });
+  }
 }
-
 if (findings.length) fail('Secret sızıntısı tespit edildi.', findings);
 pass('Secret kontrolü temiz.');

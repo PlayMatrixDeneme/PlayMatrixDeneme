@@ -1,7 +1,11 @@
-@import url("./styles/00-tokens.css");
-@import url("./styles/01-reset.css");
-@import url("./styles/02-layout.css");
-@import url("./styles/03-components.css");
-@import url("./styles/04-home.css");
-@import url("./styles/05-modals.css");
-@import url("./styles/06-responsive.css");
+/* PlayMatrix FAZ 2: ana stil giriş dosyası. Büyük style.css modüler CSS dosyalarına ayrıldı. */
+@import url("./public/css/tokens.css");
+@import url("./public/css/base.css");
+@import url("./public/css/layout.css");
+@import url("./public/css/components.css");
+@import url("./public/css/home.css");
+@import url("./public/css/social.css");
+@import url("./public/css/profile.css");
+@import url("./public/css/games.css");
+@import url("./public/css/admin.css");
+@import url("./public/css/responsive.css");

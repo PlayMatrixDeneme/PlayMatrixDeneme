@@ -1,32 +1,61 @@
-/* PlayMatrix FAZ 2: design tokens only. */
+/* PlayMatrix AnaSayfa Redesign Faz 1: premium mobile-first token system. */
 
 :root{
-      --bg:#0b0e11;
-      --bg-soft:#11141b;
-      --bg-elev:rgba(255,255,255,.03);
-      --bg-elev-2:rgba(255,255,255,.05);
-      --line:rgba(255,255,255,.08);
-      --line-soft:rgba(255,255,255,.05);
-      --text:#f7f9fc;
-      --muted:rgba(247,249,252,.68);
-      --muted-2:rgba(247,249,252,.48);
-      --primary:#3f8cff;
-      --primary-2:#5d5ffe;
-      --accent:#19c37d;
-      --success:#29d17f;
-      --danger:#ff6b73;
-      --warning:#ffd166;
-      --gold:#ffe082;
-      --radius-xl:26px;
-      --radius-lg:20px;
-      --radius-md:16px;
-      --radius-sm:12px;
-      --shadow-xl:0 28px 64px rgba(0,0,0,.34);
-      --shadow-lg:0 14px 34px rgba(0,0,0,.26);
-      --shadow-md:0 8px 22px rgba(0,0,0,.18);
-      --topbar-h:74px;
-      --bottom-nav-h:74px;
-      --container:min(1240px, calc(100vw - 32px));
-      --transition:220ms cubic-bezier(.2,.8,.2,1);
-      --app-height:100vh;
-    }
+  color-scheme: dark;
+
+  /* Premium mobile visual language derived from the reference video. */
+  --pm-premium-bg-0:#090b10;
+  --pm-premium-bg-1:#10141d;
+  --pm-premium-bg-2:#171c27;
+  --pm-premium-card:rgba(255,255,255,.055);
+  --pm-premium-card-2:rgba(255,255,255,.082);
+  --pm-premium-card-solid:#151a24;
+  --pm-premium-yellow:#ffd229;
+  --pm-premium-yellow-2:#ffb31a;
+  --pm-premium-green:#23d18b;
+  --pm-premium-green-2:#05b977;
+  --pm-premium-danger:#ff4d61;
+  --pm-premium-text:#f7f8fb;
+  --pm-premium-muted:rgba(247,248,251,.68);
+  --pm-premium-muted-2:rgba(247,248,251,.48);
+  --pm-premium-line:rgba(255,255,255,.105);
+  --pm-premium-line-soft:rgba(255,255,255,.065);
+  --pm-premium-radius-sm:12px;
+  --pm-premium-radius-md:18px;
+  --pm-premium-radius-lg:24px;
+  --pm-premium-radius-xl:30px;
+  --pm-premium-shadow:0 22px 54px rgba(0,0,0,.42);
+  --pm-premium-shadow-soft:0 12px 28px rgba(0,0,0,.30);
+  --pm-premium-ease:cubic-bezier(.2,.8,.2,1);
+  --pm-premium-transition:220ms var(--pm-premium-ease);
+
+  /* Backward-compatible aliases used by existing modules. */
+  --bg:var(--pm-premium-bg-0);
+  --bg-soft:var(--pm-premium-bg-1);
+  --bg-elev:var(--pm-premium-card);
+  --bg-elev-2:var(--pm-premium-card-2);
+  --line:var(--pm-premium-line);
+  --line-soft:var(--pm-premium-line-soft);
+  --text:var(--pm-premium-text);
+  --muted:var(--pm-premium-muted);
+  --muted-2:var(--pm-premium-muted-2);
+  --primary:var(--pm-premium-yellow);
+  --primary-2:var(--pm-premium-yellow-2);
+  --accent:var(--pm-premium-green);
+  --success:var(--pm-premium-green);
+  --danger:var(--pm-premium-danger);
+  --warning:var(--pm-premium-yellow);
+  --gold:var(--pm-premium-yellow);
+  --radius-sm:var(--pm-premium-radius-sm);
+  --radius-md:var(--pm-premium-radius-md);
+  --radius-lg:var(--pm-premium-radius-lg);
+  --radius-xl:var(--pm-premium-radius-xl);
+  --shadow-md:var(--pm-premium-shadow-soft);
+  --shadow-lg:var(--pm-premium-shadow);
+  --shadow-xl:0 32px 86px rgba(0,0,0,.52);
+  --topbar-h:70px;
+  --bottom-nav-h:76px;
+  --container:min(1180px, calc(100vw - 24px));
+  --transition:var(--pm-premium-transition);
+  --app-height:100dvh;
+}

@@ -51,7 +51,9 @@
     "check:phase10-games": "node tools/check-phase10-games.js",
     "check:phase11-classic-games": "node tools/check-phase11-classic-games.js",
     "check:render-modal-game-hotfix": "node tools/check-render-modal-game-hotfix.js",
-    "check:phase10-11-live-hotfix": "node tools/check-phase10-11-live-hotfix.js"
+    "check:phase10-11-live-hotfix": "node tools/check-phase10-11-live-hotfix.js",
+    "check:home-redesign-phase1": "node tools/check-home-redesign-phase1.js",
+    "check:home-redesign-phase2": "node tools/check-home-redesign-phase2.js"
   },
   "dependencies": {
     "express": "^4.18.3",

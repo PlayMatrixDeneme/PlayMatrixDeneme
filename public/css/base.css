@@ -85,3 +85,28 @@ html, body {
 body {
   text-rendering: optimizeLegibility;
 }
+
+
+/* === PlayMatrix Redesign Phase 1 Base === */
+html{background:var(--pm-premium-bg-0);}
+body[data-pm-redesign="premium-mobile-phase1"]{
+  background:
+    radial-gradient(31rem 26rem at 7% -5%, rgba(255,210,41,.12), transparent 60%),
+    radial-gradient(30rem 28rem at 96% 0%, rgba(35,209,139,.10), transparent 58%),
+    linear-gradient(180deg, var(--pm-premium-bg-0) 0%, #0b0e14 42%, #0f131b 100%);
+  padding-top:calc(var(--topbar-h) + 10px + env(safe-area-inset-top));
+  padding-bottom:max(96px, calc(var(--bottom-nav-h) + 18px + env(safe-area-inset-bottom)));
+}
+body[data-pm-redesign="premium-mobile-phase1"]::before{
+  background:var(--pm-premium-yellow);opacity:.10;filter:blur(120px);
+}
+body[data-pm-redesign="premium-mobile-phase1"]::after{
+  background:var(--pm-premium-green);opacity:.11;filter:blur(120px);
+}
+body[data-pm-redesign="premium-mobile-phase1"] .ambient-grid{
+  background-size:28px 28px;opacity:.12;
+}
+body[data-pm-redesign="premium-mobile-phase1"] :focus-visible{
+  outline:2px solid color-mix(in srgb, var(--pm-premium-yellow) 70%, white 30%);
+  outline-offset:3px;
+}

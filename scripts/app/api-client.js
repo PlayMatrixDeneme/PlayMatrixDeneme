@@ -1,6 +1,7 @@
 import { userProfile } from '../data/home-data.js';
 
 export async function loadBootstrap() {
+  if (window.location.hostname.endsWith('github.io')) return userProfile;
   try {
     const response = await fetch('/api/home/bootstrap', { headers: { Accept: 'application/json' }, cache: 'no-store' });
     if (!response.ok) throw new Error('bootstrap_failed');

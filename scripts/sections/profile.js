@@ -17,7 +17,7 @@ export function renderProfilePanel(user) {
   const card = el('div', 'pm-profile-card');
   const avatar = el('span', 'pm-avatar-frame');
   avatar.dataset.avatarFrame = String(user.frame || 1);
-  avatar.innerHTML = '<img src="/assets/avatars/default-avatar.svg" alt="Oyuncu avatarı" />';
+  avatar.innerHTML = '<img src="./assets/avatars/default-avatar.svg" alt="Oyuncu avatarı" />';
   const copy = el('div');
   copy.append(el('p', 'pm-eyebrow', 'Hesap Alanı'), el('h2', '', user.name), el('p', '', `${user.status} · Seviye ${user.level} · ${clampPercent(user.progress)}% ilerleme`));
   card.append(avatar, copy);

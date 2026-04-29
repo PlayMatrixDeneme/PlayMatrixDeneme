@@ -6,35 +6,48 @@ const checks = [];
 function ok(name) { checks.push(`[OK] ${name}`); }
 
 const required = [
-  'package.json', 'server.js', '.env.example', 'public/index.html', 'public/style.css', 'public/script.js',
-  'public/styles/00-tokens.css', 'public/styles/01-reset.css', 'public/styles/02-layout.css', 'public/styles/03-components.css', 'public/styles/04-home.css', 'public/styles/05-modals.css', 'public/styles/06-responsive.css',
-  'public/scripts/app/boot-home.js', 'public/scripts/app/render-home.js', 'public/scripts/app/events.js', 'public/scripts/app/state.js', 'public/scripts/app/api-client.js', 'public/scripts/data/home-data.js',
-  'public/scripts/components/modal.js', 'public/scripts/components/toast.js', 'public/scripts/core/dom.js', 'public/scripts/core/format.js', 'public/scripts/core/guards.js',
-  'public/scripts/sections/hero.js', 'public/scripts/sections/metrics.js', 'public/scripts/sections/profile.js', 'public/scripts/sections/games.js', 'public/scripts/sections/leaderboard.js', 'public/scripts/sections/rewards.js', 'public/scripts/sections/support.js', 'public/scripts/sections/social.js',
-  'public/assets/brand/playmatrix-mark.svg', 'public/assets/brand/favicon.svg', 'public/assets/avatars/default-avatar.svg', 'public/assets/ui/noise.svg'
+  'package.json', 'server.js', '.env.example', '.nojekyll', 'index.html', '404.html', 'style.css', 'script.js',
+  'styles/00-tokens.css', 'styles/01-reset.css', 'styles/02-layout.css', 'styles/03-components.css', 'styles/04-home.css', 'styles/05-modals.css', 'styles/06-responsive.css',
+  'scripts/app/boot-home.js', 'scripts/app/render-home.js', 'scripts/app/events.js', 'scripts/app/state.js', 'scripts/app/api-client.js', 'scripts/data/home-data.js',
+  'scripts/components/modal.js', 'scripts/components/toast.js', 'scripts/core/dom.js', 'scripts/core/format.js', 'scripts/core/guards.js',
+  'scripts/sections/hero.js', 'scripts/sections/metrics.js', 'scripts/sections/profile.js', 'scripts/sections/games.js', 'scripts/sections/leaderboard.js', 'scripts/sections/rewards.js', 'scripts/sections/support.js', 'scripts/sections/social.js',
+  'assets/brand/playmatrix-mark.svg', 'assets/brand/favicon.svg', 'assets/avatars/default-avatar.svg', 'assets/ui/noise.svg'
 ];
 const missing = [];
 for (const file of required) if (!(await exists(file))) missing.push(file);
-if (missing.length) fail('AnaSayfa dosya yapısı eksik.', missing);
-ok('AnaSayfa dosya yapısı doğru.');
+if (missing.length) fail('GitHub Pages AnaSayfa dosya yapısı eksik.', missing);
+ok('GitHub Pages AnaSayfa dosya yapısı doğru.');
 
-const html = await read('public/index.html');
+const htmlFiles = ['index.html', '404.html'];
 const missingRefs = [];
-for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-  const value = match[1];
-  if (value === '/' || value.startsWith('#') || value.startsWith('http')) continue;
-  if (value.startsWith('/') && !(await exists(`public/${value.slice(1)}`))) missingRefs.push(`public/${value.slice(1)}`);
+const absoluteRefs = [];
+for (const htmlFile of htmlFiles) {
+  const html = await read(htmlFile);
+  for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    const value = match[1];
+    if (value.startsWith('#') || value.startsWith('http') || value.startsWith('mailto:') || value.startsWith('tel:')) continue;
+    if (value.startsWith('/')) {
+      absoluteRefs.push(`${htmlFile}: ${value}`);
+      continue;
+    }
+    const clean = value.split('#')[0].split('?')[0];
+    if (!clean || clean === '.') continue;
+    const target = normalize(join(dirname(htmlFile), clean)).replaceAll('\\', '/');
+    if (!(await exists(target))) missingRefs.push(`${htmlFile}: ${value} -> ${target}`);
+  }
 }
+if (absoluteRefs.length) fail('GitHub Pages subpath uyumsuz absolute referans var.', absoluteRefs);
 if (missingRefs.length) fail('HTML referanslarında eksik dosya var.', missingRefs);
-ok('HTML CSS/JS/asset referansları geçerli.');
+ok('HTML CSS/JS/asset referansları GitHub Pages uyumlu.');
 
 const files = (await walk()).map(rel).sort();
-const assets = files.filter((file) => file.startsWith('public/assets/'));
+const assets = files.filter((file) => file.startsWith('assets/'));
 const invalidAssets = assets.filter((file) => !/\.(svg|png|jpg|jpeg|webp|ico)$/i.test(file));
 if (invalidAssets.length) fail('Desteklenmeyen asset bulundu.', invalidAssets);
 ok(`Asset kontrolü başarılı. Toplam asset: ${assets.length}`);
 
 const server = await read('server.js');
+const html = await read('index.html');
 const forbiddenRoute = ['Online Oyunlar', 'Klasik Oyunlar', '/admin', '/market', '/Crash.html', '/Satranc.html', '/Pisti.html', 'admin.routes', 'crash.routes', 'classic.routes'];
 const routeFindings = [];
 for (const item of forbiddenRoute) {
@@ -45,7 +58,7 @@ if (!server.includes('/healthz')) routeFindings.push('server.js healthz route i�
 if (routeFindings.length) fail('Homepage-only route kontrolü başarısız.', routeFindings);
 ok('Homepage-only route standardı doğru.');
 
-const forbiddenScope = [/^Online Oyunlar\//, /^Klasik Oyunlar\//, /^routes\//, /^sockets\//, /^engines\//, /^crons\//, /^middlewares\//, /^utils\//, /^config\//, /^public\/admin\//, /^public\/js\/games\//, /^public\/css\/games\//, /^docs\/.*\.md$/, /phase4/i, /legacy/i];
+const forbiddenScope = [/^Online Oyunlar\//, /^Klasik Oyunlar\//, /^routes\//, /^sockets\//, /^engines\//, /^crons\//, /^middlewares\//, /^utils\//, /^config\//, /^public\//, /^docs\/.*\.md$/, /phase4/i, /legacy/i];
 const scopeFindings = files.filter((file) => forbiddenScope.some((pattern) => pattern.test(file)));
 if (scopeFindings.length) fail('AnaSayfa-only kapsam dışında dosya bulundu.', scopeFindings);
 ok('AnaSayfa-only kapsam temiz.');
@@ -63,7 +76,7 @@ ok('Secret kontrolü temiz.');
 const moduleFindings = [];
 for (const file of files.filter((item) => item.endsWith('.js'))) {
   const text = await readFile(join(rootDir, file), 'utf8');
-  for (const match of text.matchAll(/import\s+(?:[^'\"]+\s+from\s+)?['\"](\.\.?\/[^'\"]+)['\"]/g)) {
+  for (const match of text.matchAll(/import\s+(?:[^'\"]+\s+from\s+)?['\"](\.?\.?\/[^'\"]+)['\"]/g)) {
     const target = normalize(join(rootDir, dirname(file), match[1]));
     const withJs = target.endsWith('.js') ? target : `${target}.js`;
     try { await stat(withJs); } catch { moduleFindings.push(`${file}: import çözümlenemedi ${match[1]}`); }
@@ -73,7 +86,7 @@ if (moduleFindings.length) fail('JS module kontrolü başarısız.', moduleFindi
 ok(`JS module kontrolü başarılı. Dosya: ${files.filter((file) => file.endsWith('.js')).length}`);
 
 const qualityFindings = [];
-for (const file of files.filter((item) => /^(public\/|server\.js$)/.test(item) && /\.(js|css|html)$/i.test(item))) {
+for (const file of files.filter((item) => /^(scripts\/|styles\/|index\.html$|404\.html$|script\.js$|style\.css$|server\.js$)/.test(item) && /\.(js|css|html)$/i.test(item))) {
   const text = await readFile(join(rootDir, file), 'utf8');
   if (/TODO|FIXME|console\.log\(|debugger;/i.test(text) && file !== 'server.js') qualityFindings.push(`${file}: debug/todo kalıbı`);
   if (/onclick=|onchange=|oninput=/i.test(text)) qualityFindings.push(`${file}: inline event`);
@@ -84,7 +97,8 @@ ok('Kod kalite kontrolü temiz.');
 
 const report = {
   generatedAt: new Date().toISOString(),
-  scope: 'homepage-only-rebuild',
+  scope: 'homepage-only-github-pages',
+  deployTarget: 'https://playmatrixdeneme.github.io/PlayMatrixDeneme/',
   totals: {
     files: files.filter((file) => !file.startsWith('docs/reports/')).length,
     html: files.filter((file) => extname(file) === '.html').length,
@@ -96,6 +110,7 @@ const report = {
   },
   homepageAreas: ['topbar', 'account', 'leaderboard', 'stats', 'games-showcase-disabled', 'wheel', 'promo', 'support', 'invite', 'social-center'],
   removedScopes: ['online-games-runtime', 'classic-games-runtime', 'admin-panel', 'market', 'old-md-docs', 'legacy-phase-scripts'],
+  githubPagesRules: ['root-index-html', 'relative-css-js-assets', 'no-public-folder-dependency', 'no-absolute-root-assets', 'nojekyll-enabled'],
   files: files.filter((file) => !file.startsWith('docs/reports/'))
 };
 await mkdir(`${rootDir}/docs/reports`, { recursive: true });
@@ -103,4 +118,5 @@ await writeFile(`${rootDir}/docs/reports/homepage-audit.json`, JSON.stringify(re
 ok('Homepage audit raporu üretildi.');
 
 for (const line of checks) console.log(line);
-pass('verify:homepage tamamlandı.');
+console.log("[OK] verify:homepage tamamlandı.");
+setImmediate(() => process.exit(0));

@@ -11,9 +11,9 @@ const forbidden = [
   /^middlewares\//,
   /^utils\//,
   /^config\//,
-  /^public\/admin\//,
-  /^public\/js\/games\//,
-  /^public\/css\/games\//,
+  /^public\//,
+  /^admin\//,
+  /^market\//,
   /^docs\/.*\.md$/,
   /phase4/i,
   /legacy/i

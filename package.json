@@ -1,9 +1,9 @@
 {
-  "name": "playmatrix-homepage-only-rebuild",
-  "version": "2.1.0-homepage-rebuild",
+  "name": "playmatrix-homepage-github-pages",
+  "version": "2.2.0-github-pages",
   "private": true,
   "type": "module",
-  "description": "PlayMatrix AnaSayfa-only yeni tasarım dili ve modüler frontend paketi.",
+  "description": "PlayMatrix AnaSayfa-only GitHub Pages uyumlu modüler frontend paketi.",
   "scripts": {
     "start": "node server.js",
     "test": "npm run verify:homepage",
@@ -16,7 +16,8 @@
     "check:secrets": "node tools/check-secrets.js",
     "check:modules": "node tools/check-module-syntax.js",
     "check:scope": "node tools/check-homepage-scope.js",
-    "check:quality": "node tools/check-code-quality.js"
+    "check:quality": "node tools/check-code-quality.js",
+    "verify:github": "npm run verify:homepage"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -1,7 +1,7 @@
 import { fail, pass, read } from './lib.js';
 
 const server = await read('server.js');
-const html = await read('public/index.html');
+const html = await read('index.html');
 const forbidden = ['Online Oyunlar', 'Klasik Oyunlar', '/admin', '/market', '/Crash.html', '/Satranc.html', '/Pisti.html', 'admin.routes', 'crash.routes', 'classic.routes'];
 const findings = [];
 for (const item of forbidden) {

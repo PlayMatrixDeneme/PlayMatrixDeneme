@@ -30,10 +30,10 @@ export async function read(path) {
 export function fail(title, details = []) {
   console.error(`[FAIL] ${title}`);
   details.forEach((detail) => console.error(`- ${detail}`));
-  process.exit(1);
+  setImmediate(() => process.exit(1));
 }
 
 export function pass(title) {
   console.log(`[OK] ${title}`);
-  process.exit(0);
+  setImmediate(() => process.exit(0));
 }

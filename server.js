@@ -4,7 +4,7 @@ import { stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = fileURLToPath(new URL('./public', import.meta.url));
+const root = fileURLToPath(new URL('./', import.meta.url));
 const port = Number(process.env.PORT || 4173);
 const allowedOrigins = String(process.env.ALLOWED_ORIGINS || 'https://playmatrix.com.tr,https://www.playmatrix.com.tr,https://playmatrixdeneme.github.io')
   .split(',')
@@ -44,10 +44,11 @@ function setSecurityHeaders(req, res) {
   res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
 }
 
-function resolvePublicPath(urlPath) {
+function resolveStaticPath(urlPath) {
   const clean = decodeURIComponent(urlPath.split('?')[0] || '/');
   const target = clean === '/' ? '/index.html' : clean;
   const safe = normalize(target).replace(/^([/\\])+/, '');
+  if (/^(tools|docs|node_modules|\.git)(\/|$)/.test(safe)) return null;
   const absolute = join(root, safe);
   if (!absolute.startsWith(root)) return null;
   return absolute;
@@ -64,7 +65,7 @@ const server = createServer(async (req, res) => {
     return;
   }
   if (req.url === '/healthz') {
-    sendJson(res, 200, { ok: true, scope: 'homepage-only', version: '2.1.0-homepage-rebuild' });
+    sendJson(res, 200, { ok: true, scope: 'homepage-only-github-pages', version: '2.2.0-github-pages' });
     return;
   }
   if (req.url === '/api/home/bootstrap') {
@@ -80,9 +81,9 @@ const server = createServer(async (req, res) => {
     return;
   }
 
-  const absolute = resolvePublicPath(req.url || '/');
+  const absolute = resolveStaticPath(req.url || '/');
   if (!absolute) {
-    sendJson(res, 400, { ok: false, error: 'invalid_path' });
+    sendJson(res, 404, { ok: false, error: 'not_found' });
     return;
   }
 
@@ -108,5 +109,5 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, () => {
-  console.log(`PlayMatrix AnaSayfa preview: http://localhost:${port}`);
+  console.log(`PlayMatrix AnaSayfa GitHub preview: http://localhost:${port}`);
 });

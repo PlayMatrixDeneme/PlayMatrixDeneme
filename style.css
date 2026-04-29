@@ -1,4 +1,4 @@
-/* PlayMatrix AnaSayfa Redesign Faz 1: modüler premium mobile-first stil giriş dosyası. */
+/* PlayMatrix FAZ 2: ana stil giriş dosyası. Büyük style.css modüler CSS dosyalarına ayrıldı. */
 @import url("./public/css/tokens.css");
 @import url("./public/css/base.css");
 @import url("./public/css/layout.css");
@@ -8,7 +8,6 @@
 @import url("./public/css/profile.css");
 @import url("./public/css/games.css");
 @import url("./public/css/admin.css");
-@import url("./public/css/avatar.css");
 @import url("./public/css/responsive.css");
 
 @import url("./public/css/market.css?v=market-phase1-20260429");

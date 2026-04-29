@@ -1,0 +1,24 @@
+@media (max-width: 1040px) {
+  .pm-topbar { grid-template-columns: 1fr auto; }
+  .pm-nav { order: 3; grid-column: 1 / -1; justify-content: flex-start; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .pm-nav::-webkit-scrollbar { display: none; }
+  .pm-hero, .pm-section-grid, .pm-section-grid.lower { grid-template-columns: 1fr; }
+  .pm-command-card { min-height: 280px; }
+  .pm-game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  :root { --pm-width: min(100vw - 20px, 1180px); }
+  .pm-app-shell { padding-top: 10px; }
+  .pm-topbar { top: 8px; border-radius: 24px; padding: 10px; }
+  .pm-brand small { display: none; }
+  .pm-account-chip { min-width: 0; grid-template-columns: auto auto; padding-right: 10px; }
+  .pm-account-chip > div { display: none; }
+  .pm-hero-copy { padding: 28px 22px; }
+  .pm-metric-grid, .pm-game-grid { grid-template-columns: 1fr; }
+  .pm-section-heading { align-items: stretch; flex-direction: column; }
+  .pm-footer { flex-direction: column; }
+  .pm-modal-panel { left: 10px; right: 10px; top: auto; bottom: 10px; transform: none; width: auto; border-radius: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; scroll-behavior: auto !important; transition-duration: 0.001ms !important; }
+}

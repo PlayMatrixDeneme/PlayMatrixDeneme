@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#080B17" />
+    <meta name="description" content="PlayMatrix yeni AnaSayfa tasarım sistemi." />
+    <title>PlayMatrix — Yeni AnaSayfa</title>
+    <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/base.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/home.css" />
+    <link rel="stylesheet" href="/styles/responsive.css" />
+  </head>
+  <body>
+    <div class="pm-noise" aria-hidden="true"></div>
+    <div class="pm-aurora" aria-hidden="true"></div>
+
+    <div id="app" class="pm-app-shell" data-loading="true">
+      <header class="pm-topbar" aria-label="Ana gezinme">
+        <a class="pm-brand" href="/" aria-label="PlayMatrix AnaSayfa">
+          <img src="/assets/brand/playmatrix-mark.svg" alt="" width="40" height="40" />
+          <span>
+            <strong>PlayMatrix</strong>
+            <small>Yeni AnaSayfa Sistemi</small>
+          </span>
+        </a>
+
+        <nav class="pm-nav" aria-label="Bölümler">
+          <a href="#games">Oyunlar</a>
+          <a href="#leaderboard">Liderlik</a>
+          <a href="#rewards">Ödüller</a>
+          <a href="#social">Sosyal</a>
+        </nav>
+
+        <section class="pm-account-chip" aria-label="Hesap özeti">
+          <div class="pm-avatar-frame" data-frame="8">
+            <img src="/assets/avatars/default-avatar.svg" alt="Oyuncu avatarı" />
+          </div>
+          <div>
+            <strong id="accountName">Matrix Oyuncusu</strong>
+            <small id="accountLevel">Seviye 24 · 72%</small>
+          </div>
+          <button class="pm-icon-button" type="button" data-modal-target="account" aria-label="Hesabım">
+            <span aria-hidden="true">⌁</span>
+          </button>
+        </section>
+      </header>
+
+      <main>
+        <section class="pm-hero" aria-labelledby="heroTitle">
+          <div class="pm-hero-copy">
+            <p class="pm-eyebrow">Yeni Nesil Oyun Merkezi</p>
+            <h1 id="heroTitle">AnaSayfa artık bütün sistemin tasarım merkezi.</h1>
+            <p class="pm-hero-text">Oyun kartları, liderlik, ödüller, hesap ve sosyal girişler tek premium dilde birleşir. Bu paket, sonraki oyun fazlarının temel UI standardıdır.</p>
+            <div class="pm-hero-actions">
+              <a class="pm-button pm-button-primary" href="#games">Oyunlara Bak</a>
+              <button class="pm-button pm-button-ghost" type="button" data-modal-target="quickMatch">Hızlı Eşleş</button>
+            </div>
+          </div>
+
+          <aside class="pm-command-card" aria-label="Canlı durum">
+            <div class="pm-live-orb" aria-hidden="true"></div>
+            <p>Platform Durumu</p>
+            <strong>Hazır</strong>
+            <span>Homepage-only demo · API adapter aktif</span>
+          </aside>
+        </section>
+
+        <section class="pm-metric-grid" aria-label="Platform istatistikleri" id="stats"></section>
+
+        <section class="pm-section-grid">
+          <section class="pm-panel pm-games-panel" id="games" aria-labelledby="gamesTitle">
+            <div class="pm-section-heading">
+              <div>
+                <p class="pm-eyebrow">Oyun Merkezi</p>
+                <h2 id="gamesTitle">Yeni oyun kartı dili</h2>
+              </div>
+              <button class="pm-filter-pill" type="button" data-modal-target="gamesRoadmap">Yol Haritası</button>
+            </div>
+            <div class="pm-game-grid" id="gameGrid"></div>
+          </section>
+
+          <aside class="pm-panel pm-leaderboard" id="leaderboard" aria-labelledby="leaderboardTitle">
+            <div class="pm-section-heading compact">
+              <div>
+                <p class="pm-eyebrow">Liderlik</p>
+                <h2 id="leaderboardTitle">Haftanın yükselenleri</h2>
+              </div>
+            </div>
+            <div id="leaderboardList" class="pm-leaderboard-list"></div>
+          </aside>
+        </section>
+
+        <section class="pm-section-grid lower">
+          <section class="pm-panel" id="rewards" aria-labelledby="rewardTitle">
+            <div class="pm-section-heading">
+              <div>
+                <p class="pm-eyebrow">Ödül Alanı</p>
+                <h2 id="rewardTitle">Çark, promosyon ve davet girişleri</h2>
+              </div>
+            </div>
+            <div class="pm-reward-rail" id="rewardRail"></div>
+          </section>
+
+          <section class="pm-panel" id="social" aria-labelledby="socialTitle">
+            <div class="pm-section-heading">
+              <div>
+                <p class="pm-eyebrow">Sosyal Merkez</p>
+                <h2 id="socialTitle">Sohbet ve arkadaşlık girişleri</h2>
+              </div>
+            </div>
+            <div class="pm-social-stack" id="socialStack"></div>
+          </section>
+        </section>
+      </main>
+
+      <footer class="pm-footer">
+        <span>PlayMatrix AnaSayfa-only Rebuild</span>
+        <span>Phase 2 tasarım temeli</span>
+      </footer>
+    </div>
+
+    <div class="pm-modal-root" id="modalRoot" aria-live="polite"></div>
+    <div class="pm-toast-root" id="toastRoot" aria-live="polite" aria-atomic="true"></div>
+
+    <script type="module" src="/scripts/app/main.js"></script>
+  </body>
+</html>

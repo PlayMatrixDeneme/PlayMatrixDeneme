@@ -1,0 +1,7 @@
+.pm-filter-pill { min-height: 38px; padding: 0 14px; border-radius: 999px; color: var(--pm-muted); }
+.pm-game-card[data-status="soon"] { opacity: .72; }
+.pm-game-card .pm-game-action { margin-top: 20px; align-self: flex-start; color: white; font-weight: 900; }
+.pm-reward-card, .pm-social-card { min-height: 82px; }
+.pm-reward-icon, .pm-social-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 16px; background: linear-gradient(135deg, rgba(124,92,255,.28), rgba(0,212,255,.18)); font-weight: 900; }
+.pm-social-card[data-state="live"] .pm-social-icon { background: linear-gradient(135deg, rgba(79,240,166,.24), rgba(0,212,255,.18)); }
+.pm-status-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--pm-success); box-shadow: 0 0 18px rgba(79,240,166,.44); }

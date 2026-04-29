@@ -2,13 +2,13 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.90, maximum-scale=0.90, minimum-scale=0.90, user-scalable=no, viewport-fit=cover" />
 
   <title>PlayMatrix | Ücretsiz Online Zeka Oyunları</title>
   <meta name="description" content="PlayMatrix; online beceri, strateji ve zeka oyunlarını tek merkezde buluşturan modern oyun platformu." />
   <meta name="keywords" content="online oyunlar, ücretsiz oyun oyna, multiplayer oyunlar, zeka oyunları, tarayıcı oyunları, crash, satranç, PlayMatrix" />
   <meta name="author" content="PlayMatrix Global" />
-  <meta name="theme-color" content="#090B10" />
+  <meta name="theme-color" content="#050505" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="application-name" content="PlayMatrix" />
@@ -44,15 +44,11 @@
   <meta name="twitter:image" content="https://playmatrix.com.tr/logo.png" />
   <meta name="twitter:image:alt" content="PlayMatrix ücretsiz online oyun vitrini" />
 
-  <!-- CSP is enforced by server headers in production; static CDN fallback must not block the Render API origin. -->
-
-
   <link rel="alternate" type="application/ld+json" href="public/jsonld/index-1.json" />
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@800;900&family=Orbitron:wght@700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  
   <link rel="stylesheet" href="./public/css/tokens.css" />
   <link rel="stylesheet" href="./public/css/base.css" />
   <link rel="stylesheet" href="./public/css/layout.css" />
@@ -76,812 +72,327 @@
   <script src="./public/js/home/fast-home-paint.js" defer></script>
 
   <link rel="stylesheet" href="public/css/phase4-inline.css" />
+  <link rel="stylesheet" href="./public/css/home-redesign.css?v=faz2-video-reset-20260429" />
 </head>
-<body data-pm-page="home" data-pm-redesign="premium-mobile-phase2">
+<body data-pm-page="home" data-design-phase="faz3-home-shell">
   <div class="ambient-grid" aria-hidden="true"></div>
   <div class="mesh" id="mesh" aria-hidden="true"></div>
 
-  <header class="topbar pm-premium-topbar" data-phase="home-redesign-phase2">
-    <div class="topbar-inner pm-premium-topbar-inner">
-      <button class="pm-topbar-menu" id="drawerOpenBtn" type="button" aria-label="PlayMatrix menüsünü aç" aria-controls="pmDrawerShell" aria-expanded="false">
-        <i class="fa-solid fa-bars" aria-hidden="true"></i>
-      </button>
-
-      <button class="brand" id="brandHome" aria-label="Ana sayfaya dön">
-        <div class="brand-mark" aria-hidden="true">
-          <img src="logo.png" alt="PlayMatrix" class="pm-csp-inline-31511c60d5">
-        </div>
-        <div class="brand-copy">
-          <h1 class="brand-title">PlayMatrix</h1>
-          <div class="brand-subtitle">Premium mobil oyun merkezi</div>
-        </div>
-      </button>
-
-      <nav class="desktop-nav pm-premium-top-nav" aria-label="Ana bölümler">
-        <a class="nav-link is-active" href="#hero">AnaSayfa</a>
-        <a class="nav-link" href="#games">Oyunlar</a>
-        <button class="nav-link nav-link-button" type="button" data-premium-action="market">Market</button>
-        <a class="nav-link" href="#leaderboard">Liderlik</a>
-        <button class="nav-link nav-link-button" type="button" data-premium-action="social">Sosyal</button>
-        <button class="nav-link nav-link-button" type="button" data-premium-action="rewards">Ödüller</button>
-      </nav>
-
-      <div class="topbar-actions pm-premium-actions">
-        <button class="icon-btn desktop-only" id="soundToggle" aria-label="Arayüz seslerini aç veya kapat">
-          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+  <div class="pm-home-shell" data-home-shell="faz3">
+    <header class="topbar pm-home-topbar">
+      <div class="topbar-inner">
+        <button class="brand" id="brandHome" type="button" aria-label="PlayMatrix ana sayfasına dön">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="logo.png" alt="" width="44" height="44" decoding="async" />
+          </span>
+          <span class="brand-copy">
+            <span class="brand-title">PlayMatrix</span>
+            <span class="brand-subtitle">Oyun · Ödül · Sosyal Merkez</span>
+          </span>
         </button>
 
-        <button class="pm-topbar-market" id="marketQuickBtn" type="button" data-premium-action="market" aria-label="Market vitrinini aç">
-          <i class="fa-solid fa-plus" aria-hidden="true"></i>
-          <span>Market</span>
-        </button>
+        <nav class="desktop-nav pm-category-nav" aria-label="PlayMatrix kategori menüsü">
+          <a class="nav-link" href="#hero">Ana Sayfa</a>
+          <a class="nav-link" href="#games">Oyunlar</a>
+          <a class="nav-link" href="#market-showcase">Market</a>
+          <a class="nav-link" href="#rewards">Ödüller</a>
+          <a class="nav-link" href="#social-support">Sosyal</a>
+        </nav>
 
-        <button class="pm-notification-btn" id="notificationQuickBtn" type="button" data-premium-action="social" aria-label="Bildirimler ve sosyal merkezi aç">
-          <i class="fa-solid fa-bell" aria-hidden="true"></i>
-          <span class="pm-notification-badge" id="notificationBadge" aria-label="Bildirim sayısı">0</span>
-        </button>
-
-        <button class="btn" id="loginBtn">Giriş</button>
-        <button class="btn btn-primary" id="registerBtn">Kayıt Ol</button>
-
-        <div class="top-user" id="topUser">
-          <div class="chip-balance pm-balance-chip">
-            <div class="chip-balance-copy">
-              <span class="chip-balance-label">MC Bakiye</span>
-              <span class="chip-balance-value" id="headerBalance">0</span>
-            </div>
-            <div class="chip-mc">MC</div>
-          </div>
-
-          <button class="user-trigger" id="profileTrigger" aria-label="Hesabım menüsünü aç" aria-haspopup="menu" aria-expanded="false">
-            <div class="user-meta">
-              <strong id="headerUsername">Oyuncu</strong>
-              <span id="headerRankText">Hesap Seviyesi 1</span>
-            </div>
-            <div class="avatar pm-avatar-host" id="topbarAvatarShell"></div>
+        <div class="topbar-actions">
+          <button class="icon-btn desktop-only" id="soundToggle" type="button" aria-label="Arayüz seslerini aç veya kapat">
+            <i class="fa-solid fa-volume-high" id="soundIcon" aria-hidden="true"></i>
           </button>
+          <button class="btn" id="loginBtn" type="button">Giriş</button>
+          <button class="btn btn-primary" id="registerBtn" type="button">Kayıt Ol</button>
+          <div class="top-user" id="topUser">
+            <div class="chip-balance" aria-label="Matrix Coin bakiyesi">
+              <span class="chip-balance-copy">
+                <span class="chip-balance-label">Bakiye</span>
+                <span class="chip-balance-value" id="headerBalance">0</span>
+              </span>
+              <span class="chip-mc">MC</span>
+            </div>
+            <button class="user-trigger" id="profileTrigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Hesap panelini aç">
+              <span class="avatar pm-avatar-host" id="headerAvatarShell" aria-hidden="true"></span>
+              <span class="user-meta">
+                <strong id="headerUsername">Misafir</strong>
+                <span id="headerRankText">Seviye 1</span>
+              </span>
+            </button>
+            <div class="dropdown" id="userDropdown" role="menu" aria-label="Hesap kısayolları">
+              <div class="dd-head">
+                <div class="dd-user">
+                  <strong id="ddUsername">Misafir</strong>
+                  <span>PlayMatrix hesabı</span>
+                </div>
+                <div class="dd-row"><span>Seviye</span><span class="dd-v" id="ddLevel">1</span></div>
+                <div class="dd-row"><span>İlerleme</span><span class="dd-v" id="ddPct">0%</span></div>
+                <div class="dd-bar" aria-hidden="true"><div class="dd-bar-fill" id="ddBar"></div></div>
+                <div class="dd-row"><span>Sıradaki</span><span class="dd-v" id="ddNext">—</span></div>
+              </div>
+              <div class="dd-items">
+                <button class="drop-item" id="navProfileItem" type="button" role="menuitem"><i class="fa-solid fa-user" aria-hidden="true"></i>Hesabım</button>
+                <button class="drop-item" id="navWheelItem" type="button" role="menuitem"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i>Günlük Çark</button>
+                <button class="drop-item" id="navBonusItem" type="button" role="menuitem"><i class="fa-solid fa-ticket" aria-hidden="true"></i>Promo</button>
+                <button class="drop-item" id="navSocialItem" type="button" role="menuitem"><i class="fa-solid fa-users" aria-hidden="true"></i>Sosyal Merkez</button>
+                <button class="drop-item" id="navInviteItem" type="button" role="menuitem"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i>Davetler</button>
+                <button class="drop-item" id="navSupportItem" type="button" role="menuitem"><i class="fa-solid fa-headset" aria-hidden="true"></i>Canlı Destek</button>
+                <button class="drop-item danger" id="logoutDropdownBtn" type="button" role="menuitem"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>Çıkış</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-          <div class="dropdown pm-account-dropdown" id="userDropdown" role="menu" aria-label="Kullanıcı seçenekleri">
-            <div class="dd-head pm-account-dropdown-head">
-              <div class="pm-account-minirow">
+    <main class="container pm-home-main" id="homeAppShell">
+      <section class="hero pm-video-hero" id="hero" aria-labelledby="homeHeroTitle">
+        <article class="hero-main fade-up pm-shell-intro">
+          <div class="intro-grid">
+            <div>
+              <span class="pill"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Yeni PlayMatrix vitrini</span>
+              <h1 class="intro-title" id="homeHeroTitle">Oyna, kazan, stilini göster.</h1>
+              <p class="intro-text">Günlük çark, promo kodları, sosyal merkez, market çerçeveleri ve hızlı oyunlar tek koyu/sarı premium ana sayfa akışında toplandı.</p>
+              <div class="intro-actions">
+                <button class="btn btn-primary" id="heroStartBtn" type="button">Hemen Başla</button>
+                <a class="btn" href="#games">Oyunları Gör</a>
+                <a class="btn" href="#market-showcase">Markete Git</a>
+              </div>
+            </div>
+            <aside class="intro-right sheet-card" aria-label="Hesap özeti">
+              <div class="hero-profile-top">
+                <div class="hero-profile-avatar pm-avatar-host" id="heroProfileAvatarShell" aria-hidden="true"></div>
                 <div>
-                  <div class="dd-user" id="ddUsername">Kullanıcı</div>
-                  <div class="pm-account-caption">Güvenli hesap paneli</div>
-                </div>
-                <div class="pm-account-wallet">
-                  <span>MC</span>
-                  <strong id="ddBalanceMirror">0</strong>
+                  <div class="hero-profile-name" id="heroProfileName">Misafir Modu</div>
+                  <div class="hero-profile-sub" id="heroProfileMeta">Kayıt ol, bakiyeni ve hesap seviyeni canlı takip et.</div>
                 </div>
               </div>
-              <div class="dd-row">
-                <span class="dd-k">Hesap Seviyesi:</span>
-                <span class="dd-v" id="ddLevel">—</span>
+              <div class="progress">
+                <div class="progress-head"><span>Hesap ilerlemesi</span><strong id="heroProgressText">0%</strong></div>
+                <div class="progress-track"><div class="progress-fill" id="heroProgressFill"></div></div>
               </div>
-              <div class="dd-row">
-                <span class="dd-k">Sonraki Hedef:</span>
-                <span class="dd-v" id="ddNext">—</span>
+              <div class="feature-list" aria-label="Kısa durumlar">
+                <span class="feature-pill"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Güvenli Oturum</span>
+                <span class="feature-pill"><i class="fa-solid fa-coins" aria-hidden="true"></i>MC Ekonomi</span>
+                <span class="feature-pill"><i class="fa-solid fa-users" aria-hidden="true"></i>Sosyal Merkez</span>
               </div>
-              <div class="dd-row pm-csp-inline-d2c171b18b">
-                <span class="dd-k">XP İlerlemen</span>
-                <span class="dd-v" id="ddPct">0.0%</span>
-              </div>
-              <div class="dd-bar" aria-hidden="true">
-                <div class="dd-bar-fill" id="ddBar"></div>
+            </aside>
+          </div>
+        </article>
+
+        <section class="hero-slider-shell fade-up" aria-label="PlayMatrix banner vitrini">
+          <div class="hero-slider-topline">
+            <span class="hero-slider-kicker">Öne çıkanlar</span>
+            <span class="hero-slider-timer">PlayMatrix</span>
+          </div>
+          <div class="hero-slider" id="heroPromoCarousel">
+            <div class="hero-slider-viewport" id="heroPromoViewport">
+              <div class="hero-slider-track" id="heroPromoTrack">
+                <article class="hero-slide" data-theme="gold">
+                  <div class="hero-slide-glow"></div>
+                  <div class="hero-slide-content">
+                    <div class="hero-slide-top"><div class="hero-slide-icon"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i></div><span class="hero-slide-chip">Her gün</span></div>
+                    <div class="hero-slide-copy"><div class="hero-slide-eyebrow">Günlük Çark</div><h2 class="hero-slide-title">Spin at, MC ödülünü al.</h2><div class="hero-slide-meta">E-posta doğrulamasından sonra günlük ödül akışına katıl.</div></div>
+                  </div>
+                </article>
+                <article class="hero-slide" data-theme="gold">
+                  <div class="hero-slide-glow"></div>
+                  <div class="hero-slide-content">
+                    <div class="hero-slide-top"><div class="hero-slide-icon"><i class="fa-solid fa-store" aria-hidden="true"></i></div><span class="hero-slide-chip">Yeni</span></div>
+                    <div class="hero-slide-copy"><div class="hero-slide-eyebrow">Market Çerçeveleri</div><h2 class="hero-slide-title">Profilini premium çerçevelerle yükselt.</h2><div class="hero-slide-meta">Market vitrinindeki çerçeveler PlayMatrix hesabına bağlı çalışır.</div></div>
+                  </div>
+                </article>
+                <article class="hero-slide" data-theme="gold">
+                  <div class="hero-slide-glow"></div>
+                  <div class="hero-slide-content">
+                    <div class="hero-slide-top"><div class="hero-slide-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></div><span class="hero-slide-chip">Canlı</span></div>
+                    <div class="hero-slide-copy"><div class="hero-slide-eyebrow">Sosyal Merkez</div><h2 class="hero-slide-title">Arkadaş, DM ve oyun davetleri tek panelde.</h2><div class="hero-slide-meta">Global sohbet, özel mesaj ve davet sistemi yeni ana sayfa akışına bağlandı.</div></div>
+                  </div>
+                </article>
               </div>
             </div>
-
-            <div class="pm-account-quickgrid" aria-label="Hızlı hesap işlemleri">
-              <button type="button" class="pm-account-quick" id="ddMarketQuick" data-premium-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-              <button type="button" class="pm-account-quick" id="ddWheelQuick" data-premium-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Çark</span></button>
-              <button type="button" class="pm-account-quick" id="ddPromoQuick" data-premium-action="promo"><i class="fa-solid fa-gift"></i><span>Promo</span></button>
-              <button type="button" class="pm-account-quick" id="ddHistoryQuick" data-premium-action="profile"><i class="fa-solid fa-clock-rotate-left"></i><span>Geçmiş</span></button>
-            </div>
-
-            <div class="dd-items">
-              <div class="drop-item" id="navProfileItem"><i class="fa-solid fa-user-astronaut"></i> Hesabım</div>
-              <div class="drop-item" id="navWheelItem"><i class="fa-solid fa-dharmachakra"></i> Günlük Çark</div>
-              <div class="drop-item" id="navBonusItem"><i class="fa-solid fa-gift"></i> Promosyon Kodu</div>
-              <div class="drop-item" id="navSupportItem"><i class="fa-solid fa-headset"></i> Canlı Destek</div>
-              <div class="drop-item" id="navInviteItem"><i class="fa-solid fa-user-group"></i> Davet Et ve Kazan</div>
-              <div class="drop-item" id="navSocialItem"><i class="fa-solid fa-people-group"></i> Sosyal Merkez</div>
-              <div class="drop-item danger" id="logoutDropdownBtn"><i class="fa-solid fa-power-off"></i> Güvenli Çıkış</div>
+            <div class="hero-slider-dots" id="heroPromoDots" aria-label="Banner sayfalama">
+              <button class="hero-slider-dot is-active" type="button" aria-label="Günlük Çark bannerına git" aria-current="true" data-slide-index="0"></button>
+              <button class="hero-slider-dot" type="button" aria-label="Market Çerçeveleri bannerına git" aria-current="false" data-slide-index="1"></button>
+              <button class="hero-slider-dot" type="button" aria-label="Sosyal Merkez bannerına git" aria-current="false" data-slide-index="2"></button>
             </div>
           </div>
+        </section>
+      </section>
+
+      <section class="section pm-cta-section fade-up" id="quick-actions" aria-labelledby="quickActionsTitle">
+        <div class="section-head">
+          <div><h2 class="section-title" id="quickActionsTitle">Hızlı erişim</h2><p class="section-copy">Video referansındaki iki kolonlu vitrin mantığı PlayMatrix alanlarına uyarlandı.</p></div>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="pm-drawer-shell" id="pmDrawerShell" aria-hidden="true">
-    <div class="pm-drawer-backdrop" id="pmDrawerBackdrop" data-drawer-close="1"></div>
-    <aside class="pm-drawer" id="pmDrawerPanel" role="dialog" aria-modal="true" aria-labelledby="pmDrawerTitle">
-      <div class="pm-drawer-head">
-        <div class="pm-drawer-brand">
-          <span class="pm-drawer-logo"><img src="logo.png" alt="" aria-hidden="true"></span>
-          <div>
-            <h2 id="pmDrawerTitle">PlayMatrix</h2>
-            <p>Mobil premium oyun merkezi</p>
-          </div>
+        <div class="pm-cta-grid" aria-label="PlayMatrix hızlı aksiyonları">
+          <a class="game-card pm-cta-card" href="#games"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-gamepad" aria-hidden="true"></i></span><span class="mini-tag">Oyunlar</span></div><div class="game-body"><h3 class="game-title">Oyunlar</h3><p class="game-desc">Crash, Satranç, Pişti ve klasik oyunlara hızlı geçiş.</p></div></a>
+          <a class="game-card pm-cta-card" href="#market-showcase"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-store" aria-hidden="true"></i></span><span class="mini-tag">Market</span></div><div class="game-body"><h3 class="game-title">Market</h3><p class="game-desc">Çerçeve, profil vitrini ve kozmetik alanlarına giriş.</p></div></a>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navWheelItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i></span><span class="mini-tag">Günlük</span></div><div class="game-body"><h3 class="game-title">Günlük Çark</h3><p class="game-desc">Günlük spin hakkını kontrol et ve ödülünü al.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navBonusItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-ticket" aria-hidden="true"></i></span><span class="mini-tag">Promo</span></div><div class="game-body"><h3 class="game-title">Promosyon</h3><p class="game-desc">Promo kodunu güvenli şekilde aktif et.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navSocialItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span><span class="mini-tag">Sosyal</span></div><div class="game-body"><h3 class="game-title">Sosyal Merkez</h3><p class="game-desc">Arkadaşlar, DM, davetler ve bildirimlere ulaş.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navSupportItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></span><span class="mini-tag">Destek</span></div><div class="game-body"><h3 class="game-title">Canlı Destek</h3><p class="game-desc">Destek talebini hesabınla bağlantılı oluştur.</p></div></button>
         </div>
-        <button class="pm-drawer-close" id="drawerCloseBtn" type="button" aria-label="Menüyü kapat"><i class="fa-solid fa-xmark"></i></button>
+      </section>
+
+      <section class="section pm-market-showcase fade-up" id="market-showcase" aria-labelledby="marketShowcaseTitle">
+        <div class="section-head">
+          <div><h2 class="section-title" id="marketShowcaseTitle">Market çerçeve vitrini</h2><p class="section-copy">Mevcut PlayMatrix market görselleri kullanılır; ekstra kopya veya metadata üretime alınmaz.</p></div>
+          <button class="btn btn-primary" type="button" id="openMarketShowcaseBtn" data-pm-click-id="pm-market-launcher">Market</button>
+        </div>
+        <div class="pm-rail" aria-label="Yeni market çerçeveleri">
+          <article class="game-card pm-frame-card"><img src="Cerceve/Market/market-1.png" alt="Market çerçevesi 1" loading="lazy" decoding="async" /><h3 class="game-title">Altın Vitrin</h3><p class="game-desc">Premium profil çerçevesi.</p></article>
+          <article class="game-card pm-frame-card"><img src="Cerceve/Market/market-2.png" alt="Market çerçevesi 2" loading="lazy" decoding="async" /><h3 class="game-title">Sarı Aura</h3><p class="game-desc">Koyu tema uyumlu market stili.</p></article>
+          <article class="game-card pm-frame-card"><img src="Cerceve/Market/market-3.png" alt="Market çerçevesi 3" loading="lazy" decoding="async" /><h3 class="game-title">Neon Kesit</h3><p class="game-desc">Profil vitrini için çerçeve.</p></article>
+          <article class="game-card pm-frame-card"><img src="Cerceve/Market/market-4.png" alt="Market çerçevesi 4" loading="lazy" decoding="async" /><h3 class="game-title">Prestij Kartı</h3><p class="game-desc">Market koleksiyonundan seçki.</p></article>
+        </div>
+      </section>
+
+      <section class="section pm-games-section fade-up" id="games" aria-labelledby="gamesTitle">
+        <div class="section-head">
+          <div><h2 class="section-title" id="gamesTitle">Oyun carousel’leri</h2><p class="section-copy">Eski grid kaldırıldı; oyunlar yatay vitrin mantığında gruplanıyor.</p></div>
+        </div>
+        <div class="pm-game-rails">
+          <section class="pm-game-rail" aria-labelledby="newGamesTitle">
+            <h3 class="section-title" id="newGamesTitle">Yeni Eklenen Oyunlar</h3>
+            <div class="pm-rail">
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="game-status">Online</span></div><div class="game-body"><h4 class="game-title">Crash</h4><p class="game-desc">Hızlı refleks ve risk yönetimi.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Online Oyunlar/Crash.html">Oyunu Aç</a></div></article>
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-chess-knight" aria-hidden="true"></i></span><span class="game-status">Strateji</span></div><div class="game-body"><h4 class="game-title">Satranç</h4><p class="game-desc">Sıralamalı strateji oyunu.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Online Oyunlar/Satranc.html">Oyunu Aç</a></div></article>
+            </div>
+          </section>
+          <section class="pm-game-rail" aria-labelledby="fastGamesTitle">
+            <h3 class="section-title" id="fastGamesTitle">Hızlı Oyunlar</h3>
+            <div class="pm-rail">
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></span><span class="game-status">Kart</span></div><div class="game-body"><h4 class="game-title">Pişti</h4><p class="game-desc">Hızlı kart eşleşmeleri.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Online Oyunlar/Pisti.html">Oyunu Aç</a></div></article>
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-brain" aria-hidden="true"></i></span><span class="game-status">Zeka</span></div><div class="game-body"><h4 class="game-title">Pattern Master</h4><p class="game-desc">Hafıza ve desen takibi.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Klasik Oyunlar/PatternMaster.html">Oyunu Aç</a></div></article>
+            </div>
+          </section>
+          <section class="pm-game-rail" aria-labelledby="classicGamesTitle">
+            <h3 class="section-title" id="classicGamesTitle">Klasik Oyunlar</h3>
+            <div class="pm-rail">
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-rocket" aria-hidden="true"></i></span><span class="game-status">Arcade</span></div><div class="game-body"><h4 class="game-title">Space Pro</h4><p class="game-desc">Uzay temalı refleks oyunu.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Klasik Oyunlar/SpacePro.html">Oyunu Aç</a></div></article>
+              <article class="game-card"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-staff-snake" aria-hidden="true"></i></span><span class="game-status">Klasik</span></div><div class="game-body"><h4 class="game-title">Snake Pro</h4><p class="game-desc">Modern klasik yılan oyunu.</p></div><div class="game-footer"><a class="game-cta is-primary" href="Klasik Oyunlar/SnakePro.html">Oyunu Aç</a></div></article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section pm-reward-support fade-up" id="social-support" aria-labelledby="socialSupportTitle">
+        <div class="section-head">
+          <div><h2 class="section-title" id="socialSupportTitle">Sosyal, ödül ve destek</h2><p class="section-copy">Çark, promo, sosyal merkez ve destek panelleri yeni ana akışta kısa giriş kartlarıyla tutulur.</p></div>
+        </div>
+        <div class="pm-cta-grid" id="rewards">
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navWheelItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i></span><span class="mini-tag">Ödül</span></div><div class="game-body"><h3 class="game-title">Günlük Çark</h3><p class="game-desc">Spin durumunu kontrol et.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navBonusItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-ticket" aria-hidden="true"></i></span><span class="mini-tag">Kod</span></div><div class="game-body"><h3 class="game-title">Promo Alanı</h3><p class="game-desc">Aktif kodunu gir.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navSocialItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><span class="mini-tag">Sosyal</span></div><div class="game-body"><h3 class="game-title">Sosyal Merkez</h3><p class="game-desc">Arkadaş ve mesaj merkezi.</p></div></button>
+          <button class="game-card pm-cta-card" type="button" data-pm-click-id="navSupportItem"><div class="game-top"><span class="game-icon"><i class="fa-solid fa-life-ring" aria-hidden="true"></i></span><span class="mini-tag">Destek</span></div><div class="game-body"><h3 class="game-title">Canlı Destek</h3><p class="game-desc">Talep panelini aç.</p></div></button>
+        </div>
+      </section>
+
+      <footer class="section pm-footer-accordion" aria-label="PlayMatrix bilgi alanı">
+        <details open><summary>PlayMatrix</summary><p class="section-copy">Tarayıcı tabanlı oyun, sosyal merkez, çark, promo ve market sistemleri tek ana sayfada birleştirildi.</p></details>
+        <details><summary>Güvenli Akış</summary><p class="section-copy">Hesap, profil ve ödül panelleri mevcut backend sözleşmeleri korunarak çalışır.</p></details>
+        <details><summary>Mobil Kullanım</summary><p class="section-copy">Ana sayfa mobil-first vitrin sırası ve alt navigasyonla yapılandırıldı.</p></details>
+      </footer>
+
+      <div class="pm-runtime-compat" hidden aria-hidden="true">
+        <div id="gamesGrid" data-static-painted="1"></div>
+        <div id="gamesEmpty"></div>
+        <input id="gameSearch" type="search" value="" />
+        <span id="metricGamesCount">6</span>
+        <div id="leaderboardTabs"><button class="lb-tab-btn active" type="button" data-lb-tab="level" id="tab-level">Seviye</button><button class="lb-tab-btn" type="button" data-lb-tab="activity" id="tab-activity">Aktiflik</button></div>
+        <div id="leaderboardListArea"></div>
+        <button id="refreshLeaderboardBtn" type="button">Yenile</button>
       </div>
+    </main>
 
-      <div class="pm-drawer-cta-row">
-        <button class="pm-drawer-cta is-yellow" type="button" data-drawer-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-        <button class="pm-drawer-cta is-green" type="button" data-drawer-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Günlük Çark</span></button>
-      </div>
-
-      <nav class="pm-drawer-nav" aria-label="PlayMatrix menüsü">
-        <a class="pm-drawer-link" href="#games" data-drawer-close="1"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></a>
-        <button class="pm-drawer-link" type="button" data-drawer-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-        <button class="pm-drawer-link" type="button" data-drawer-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Günlük Çark</span></button>
-        <button class="pm-drawer-link" type="button" data-drawer-action="promo"><i class="fa-solid fa-gift"></i><span>Promo</span></button>
-        <button class="pm-drawer-link" type="button" data-drawer-action="social"><i class="fa-solid fa-people-group"></i><span>Sosyal Merkez</span></button>
-        <button class="pm-drawer-link" type="button" data-drawer-action="support"><i class="fa-solid fa-headset"></i><span>Canlı Destek</span></button>
-        <button class="pm-drawer-link" type="button" data-drawer-action="invite"><i class="fa-solid fa-user-group"></i><span>Davet Et</span></button>
-        <a class="pm-drawer-link" href="#leaderboard" data-drawer-close="1"><i class="fa-solid fa-ranking-star"></i><span>Liderlik</span></a>
-        <button class="pm-drawer-link" type="button" data-drawer-action="profile"><i class="fa-solid fa-user-astronaut"></i><span>Hesabım</span></button>
-      </nav>
-
-      <div class="pm-drawer-accordion">
-        <details>
-          <summary><span>Ödül Merkezi</span><i class="fa-solid fa-chevron-down"></i></summary>
-          <button type="button" data-drawer-action="wheel">Günlük Çark</button>
-          <button type="button" data-drawer-action="promo">Promosyon Kodu</button>
-          <button type="button" data-drawer-action="invite">Davet Et ve Kazan</button>
-        </details>
-        <details>
-          <summary><span>Topluluk</span><i class="fa-solid fa-chevron-down"></i></summary>
-          <button type="button" data-drawer-action="social">Sosyal Merkez</button>
-          <button type="button" data-drawer-action="support">Canlı Destek</button>
-        </details>
-      </div>
-
-      <div class="pm-drawer-foot">
-        <span>TR</span>
-        <span>Güvenli oturum</span>
-        <button type="button" class="pm-drawer-logout" data-drawer-action="logout"><i class="fa-solid fa-power-off"></i> Çıkış</button>
-      </div>
-    </aside>
-  </div>
-
-  <main class="container pm-premium-shell">
-    <nav class="pm-premium-category-strip" aria-label="PlayMatrix hızlı bölümler">
-      <a class="pm-premium-category is-active" href="#hero"><i class="fa-solid fa-house"></i><span>AnaSayfa</span></a>
-      <a class="pm-premium-category" href="#games"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></a>
-      <button class="pm-premium-category" type="button" data-mobile-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-      <a class="pm-premium-category" href="#leaderboard"><i class="fa-solid fa-ranking-star"></i><span>Liderlik</span></a>
-      <button class="pm-premium-category" type="button" data-mobile-action="social"><i class="fa-solid fa-users"></i><span>Sosyal</span></button>
-      <button class="pm-premium-category" type="button" data-mobile-action="rewards"><i class="fa-solid fa-gift"></i><span>Ödüller</span></button>
+    <nav class="mobile-nav" aria-label="Mobil alt gezinme">
+      <button class="mobile-tab is-active" type="button" data-mobile-link="#hero"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Ana Sayfa</span></button>
+      <button class="mobile-tab" type="button" data-mobile-link="#games"><i class="fa-solid fa-gamepad" aria-hidden="true"></i><span>Oyunlar</span></button>
+      <button class="mobile-tab" type="button" data-mobile-link="#market-showcase"><i class="fa-solid fa-store" aria-hidden="true"></i><span>Market</span></button>
+      <button class="mobile-tab" type="button" data-mobile-action="wheel"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i><span>Çark</span></button>
+      <button class="mobile-tab" type="button" data-mobile-action="profile"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profil</span></button>
     </nav>
 
-    <section class="hero pm-premium-hero" id="hero">
-      <div class="hero-grid">
-        <article class="panel hero-main fade-up pm-csp-inline-87e24b1b05">
-          <div class="intro-grid">
-            <div class="intro-left">
-              <div class="intro-title">Tarayıcıdan Anında Oyna</div>
-              <div class="intro-text">
-                PlayMatrix, kullanıcılarına <b>TAMAMEN ÜCRETSİZ</b> oyun deneyimi sunan bir platformdur.
-                <b>GERÇEK PARA İŞLEMİ</b> içermez; amaç eğlence, rekabet ve beceri odaklı oyun deneyimidir.
-              </div>
-
-              <div class="intro-actions">
-                <span class="pill">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 5-3.5 7.8-7 9-3.5-1.2-7-4-7-9V7l7-4z"></path><path d="m9.5 12 1.8 1.8 3.4-3.6"></path></svg>
-                  <span id="heroSessionBadge">Güvenli Oturum</span>
-                </span>
-                <span class="pill">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7z"></path></svg>
-                  <span id="heroRewardBadge">Kayıt + Doğrulama</span>
-                </span>
-                <span class="pill">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
-                  <span id="heroRetentionBadge">Global 7 Gün · DM 7 Gün</span>
-                </span>
-              </div>
-
-              <div class="hero-actions">
-                <button class="btn btn-primary" id="heroStartBtn">Hemen Başla</button>
-                <a class="ghost-btn" href="#games">Oyunları İncele</a>
-              </div>
-
-            </div>
-
-            <div class="intro-right">
-              <section class="hero-slider-shell" aria-label="Öne çıkan promosyonlar">
-                <div class="hero-slider-topline">
-                  <span class="hero-slider-kicker">Canlı promosyon vitrini</span>
-                </div>
-                <div class="hero-slider" id="heroPromoCarousel">
-                  <div class="hero-slider-viewport" id="heroPromoViewport">
-                    <div class="hero-slider-track" id="heroPromoTrack">
-                      <article class="hero-slide" data-theme="violet">
-                        <div class="hero-slide-glow"></div>
-                        <div class="hero-slide-content">
-                          <div class="hero-slide-top">
-                            <div class="hero-slide-icon"><i class="fa-solid fa-plus"></i></div>
-                            <span class="hero-slide-chip">Hemen Tanımlanır</span>
-                          </div>
-                          <div class="hero-slide-copy">
-                            <div class="hero-slide-eyebrow">Yeni Üyelik Bonusu</div>
-                            <h3 class="hero-slide-title"><b>50.000 MC</b> Anında</h3>
-                            <div class="hero-slide-meta">Hesabın Açılır Açılmaz Tanımlanır.</div>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="hero-slide" data-theme="cyan">
-                        <div class="hero-slide-glow"></div>
-                        <div class="hero-slide-content">
-                          <div class="hero-slide-top">
-                            <div class="hero-slide-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
-                            <span class="hero-slide-chip">Doğrulama Sonrası</span>
-                          </div>
-                          <div class="hero-slide-copy">
-                            <div class="hero-slide-eyebrow">E-Posta Onay Ödülü</div>
-                            <h3 class="hero-slide-title"><b>100.000 MC</b> Anında</h3>
-                            <div class="hero-slide-meta">Onay Sonrası Çark ve Promo Aktif Olur.</div>
-                          </div>
-                        </div>
-                      </article>
-                      <article class="hero-slide" data-theme="gold">
-                        <div class="hero-slide-glow"></div>
-                        <div class="hero-slide-content">
-                          <div class="hero-slide-top">
-                            <div class="hero-slide-icon"><i class="fa-solid fa-trophy"></i></div>
-                            <span class="hero-slide-chip">Her Ay Otomatik</span>
-                          </div>
-                          <div class="hero-slide-copy">
-                            <div class="hero-slide-eyebrow">Aylık Aktiflik Ödülleri</div>
-                            <h3 class="hero-slide-title"><b>İlk 5 Oyuncuya</b> MC Dağılımı</h3>
-                            <div class="hero-slide-meta">Her ay sıfırlanır ve otomatik hesaplara yatar.</div>
-                            <div class="hero-slide-ladder">
-                              <div class="hero-slide-row"><span class="hero-slide-rank">1. Oyuncu</span><span class="hero-slide-value">50.000 MC</span></div>
-                              <div class="hero-slide-row"><span class="hero-slide-rank">2. Oyuncu</span><span class="hero-slide-value">20.000 MC</span></div>
-                              <div class="hero-slide-row"><span class="hero-slide-rank">3. Oyuncu</span><span class="hero-slide-value">10.000 MC</span></div>
-                              <div class="hero-slide-row"><span class="hero-slide-rank">4. Oyuncu</span><span class="hero-slide-value">5.000 MC</span></div>
-                              <div class="hero-slide-row"><span class="hero-slide-rank">5. Oyuncu</span><span class="hero-slide-value">2.500 MC</span></div>
-                            </div>
-                          </div>
-                        </div>
-                      </article>
-                    </div>
-                  </div>
-                  <div class="hero-slider-dots" id="heroPromoDots" aria-label="Promosyon sayfalama">
-                    <button class="hero-slider-dot is-active" type="button" aria-label="Yeni Üyelik Bonusu slaytına git" aria-current="true" data-slide-index="0"></button>
-                    <button class="hero-slider-dot" type="button" aria-label="E-Posta Onay Ödülü slaytına git" aria-current="false" data-slide-index="1"></button>
-                    <button class="hero-slider-dot" type="button" aria-label="Aylık Aktiflik Ödülleri slaytına git" aria-current="false" data-slide-index="2"></button>
-                  </div>
-                </div>
-              </section>
-
-              <div class="sheet-card">
-                <div class="hero-profile-top">
-                  <div class="hero-profile-avatar pm-avatar-host" id="heroProfileAvatarShell"></div>
-                  <div>
-                    <div class="hero-profile-name" id="heroProfileName">Misafir Modu</div>
-                    <div class="hero-profile-sub" id="heroProfileMeta">Kayıt ol, bakiyeni ve hesap seviyeni canlı takip et.</div>
-                  </div>
-                </div>
-
-                <div class="progress">
-                  <div class="progress-head">
-                    <span>Seviye ilerleme</span>
-                    <strong id="heroProgressText">0%</strong>
-                  </div>
-                  <div class="progress-track"><div class="progress-fill" id="heroProgressFill"></div></div>
-                </div>
-                <div class="feature-list pm-csp-inline-56f4356299" aria-label="Hesap özetleri">
-                  <span class="feature-pill">Hesap Seviyesi: <strong id="ui-account-level">1</strong></span>
-                  <span class="feature-pill">Aylık Aktiflik: <strong id="ui-monthly-activity">0</strong></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-
-
-
-    <section class="section pm-premium-section" id="games">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">PlayMatrix Oyun Vitrini</h2>
-          <p class="section-copy">Online ve klasik oyunları tek elle kullanılan premium mobil vitrin içinde keşfet.</p>
+    <div class="sheet-shell" id="sheetShell" aria-hidden="true">
+      <div class="sheet-backdrop" id="sheetBackdrop"></div>
+      <aside class="sheet-panel" id="sheetPanel" aria-label="PlayMatrix işlem paneli">
+        <div class="sheet-handle" id="sheetHandle"></div>
+        <div class="sheet-head">
+          <div><h2 class="sheet-title" id="sheetTitle">Panel</h2><p class="sheet-subtitle" id="sheetSubtitle">İçerik yükleniyor…</p></div>
+          <button class="sheet-close" id="sheetClose" type="button" aria-label="Paneli kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
         </div>
-        <div class="rank-badge rank-silver">Toplam Oyun: <strong id="metricGamesCount" class="pm-csp-inline-391ef1246f">6</strong></div>
-      </div>
-
-      <div class="filters fade-up pm-csp-inline-87e24b1b05">
-        <label class="searchbar" for="gameSearch">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-          <input id="gameSearch" type="search" placeholder="Oyun ara: Crash, Satranç..." autocomplete="off" />
-        </label>
-
-        <div class="filter-row" id="filterRow">
-          <button class="filter-chip is-active" data-filter="all">Tümü</button>
-          <button class="filter-chip" data-filter="online">Online</button>
-                    <button class="filter-chip" data-filter="classic">Klasik</button>
-          <button class="filter-chip" data-filter="free">Ücretsiz</button>
-          <button class="filter-chip" data-filter="auth">Giriş Gerekir</button>
-        </div>
-      </div>
-
-      <div class="games-grid" id="gamesGrid" data-static-painted="1">
-        <article class="game-card static-game-card game-card--crash" data-static-card="crash">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag"><span class="live-dot"></span>Online</span><span class="mini-tag">Giriş Gerekir</span></div></div>
-          <div class="game-body"><h3 class="game-title">Crash</h3><div class="game-desc">Gerçek para içermeyen, refleks ve zamanlama odaklı hızlı tempo multiplier oyunu.</div><div class="feature-list"><span class="feature-pill">Canlı Oyun</span><span class="feature-pill">Rekabet</span><span class="feature-pill">Hızlı Tur</span></div></div>
-          <div class="game-footer"><span class="game-status">Önce oturum aç</span><a class="game-cta" href="/Online Oyunlar/Crash">Giriş Yap</a></div>
-        </article>
-        <article class="game-card static-game-card game-card--chess" data-static-card="chess">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-chess" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag"><span class="live-dot"></span>Online</span><span class="mini-tag">Giriş Gerekir</span></div></div>
-          <div class="game-body"><h3 class="game-title">Satranç</h3><div class="game-desc">Klasik satranç deneyimini modern arayüz ve giriş tabanlı rekabet akışıyla oyna.</div><div class="feature-list"><span class="feature-pill">PvP</span><span class="feature-pill">Strateji</span><span class="feature-pill">Arena</span></div></div>
-          <div class="game-footer"><span class="game-status">Önce oturum aç</span><a class="game-cta" href="/Online Oyunlar/Satranc">Giriş Yap</a></div>
-        </article>
-        <article class="game-card static-game-card game-card--pisti" data-static-card="pisti">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag"><span class="live-dot"></span>Online</span><span class="mini-tag">Giriş Gerekir</span></div></div>
-          <div class="game-body"><h3 class="game-title">Pişti</h3><div class="game-desc">Kart takibi ve tempo yönetimi isteyen online pişti deneyimi.</div><div class="feature-list"><span class="feature-pill">Kart</span><span class="feature-pill">Online</span><span class="feature-pill">Klasik</span></div></div>
-          <div class="game-footer"><span class="game-status">Önce oturum aç</span><a class="game-cta" href="/Online Oyunlar/Pisti">Giriş Yap</a></div>
-        </article>
-        <article class="game-card static-game-card game-card--pattern" data-static-card="pattern">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-shapes" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag">Klasik</span><span class="mini-tag">Ücretsiz</span></div></div>
-          <div class="game-body"><h3 class="game-title">Pattern Master</h3><div class="game-desc">Dikkat ve görsel hafıza odaklı ücretsiz pattern oyunu.</div><div class="feature-list"><span class="feature-pill">Ücretsiz</span><span class="feature-pill">Zeka</span><span class="feature-pill">Refleks</span></div></div>
-          <div class="game-footer"><span class="game-status">Anında başla</span><a class="game-cta is-primary" href="/Klasik Oyunlar/PatternMaster">Ücretsiz Oyna</a></div>
-        </article>
-        <article class="game-card static-game-card game-card--space" data-static-card="space">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-user-astronaut" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag">Klasik</span><span class="mini-tag">Ücretsiz</span></div></div>
-          <div class="game-body"><h3 class="game-title">Space Pro</h3><div class="game-desc">Tarayıcıda anında açılan hafif ve hızlı klasik arcade uzay oyunu.</div><div class="feature-list"><span class="feature-pill">Arcade</span><span class="feature-pill">Retro</span><span class="feature-pill">Ücretsiz</span></div></div>
-          <div class="game-footer"><span class="game-status">Anında başla</span><a class="game-cta is-primary" href="/Klasik Oyunlar/SpacePro">Ücretsiz Oyna</a></div>
-        </article>
-        <article class="game-card static-game-card game-card--snake" data-static-card="snake">
-          <div class="game-top"><div class="game-icon"><i class="fa-solid fa-wave-square" aria-hidden="true"></i></div><div class="tag-stack"><span class="mini-tag">Klasik</span><span class="mini-tag">Ücretsiz</span></div></div>
-          <div class="game-body"><h3 class="game-title">Snake Pro</h3><div class="game-desc">Retro hisli, akıcı ve ücretsiz snake deneyimi.</div><div class="feature-list"><span class="feature-pill">Retro</span><span class="feature-pill">Arcade</span><span class="feature-pill">Ücretsiz</span></div></div>
-          <div class="game-footer"><span class="game-status">Anında başla</span><a class="game-cta is-primary" href="/Klasik Oyunlar/SnakePro">Ücretsiz Oyna</a></div>
-        </article>
-      </div>
-      <div class="empty-state" id="gamesEmpty">Aramanla eşleşen oyun bulunamadı.</div>
-    </section>
-
-        <section class="section pm-premium-section" id="leaderboard">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">Liderlik Tablosu</h2>
-          <p class="section-copy">Hesap seviyesi ve aylık aktiflik sıralamalarını gerçek zamanlı takip et.</p>
-        </div>
-        <button class="ghost-btn" id="refreshLeaderboardBtn" type="button">Yenile</button>
-      </div>
-
-      <article class="panel board-panel lb-panel pm-csp-inline-87e24b1b05">
-        <div class="lb-tabs" id="leaderboardTabs" role="tablist" aria-label="Liderlik sekmeleri">
-          <button class="lb-tab-btn active" id="tab-level" data-lb-tab="level" type="button" role="tab" aria-selected="true">En Yüksek Hesap Seviyesi</button>
-          <button class="lb-tab-btn" id="tab-activity" data-lb-tab="activity" type="button" role="tab" aria-selected="false">En Çok Aktif Oyuncular</button>
-        </div>
-
-        <div class="lb-list-area" id="leaderboardListArea" role="tabpanel" aria-live="polite" data-static-painted="1">
-          <div class="lb-item fast-lb-item static-lb-item">
-            <span class="lb-rank">#1</span>
-            <div class="lb-main"><strong>Hesap seviyesi verileri yükleniyor</strong><small>Sunucu verisi gelince otomatik güncellenir.</small></div>
-          </div>
-          <div class="lb-item fast-lb-item static-lb-item">
-            <span class="lb-rank">#2</span>
-            <div class="lb-main"><strong>Aylık aktiflik verileri yükleniyor</strong><small>Sunucu verisi gelince otomatik güncellenir.</small></div>
-          </div>
-          <div class="lb-item fast-lb-item static-lb-item">
-            <span class="lb-rank">#3</span>
-            <div class="lb-main"><strong>Oyuncu sıralaması hazırlanıyor</strong><small>Sunucu verisi gelince otomatik güncellenir.</small></div>
-          </div>
-        </div>
-      </article>
-    </section>
-
-  </main>
-
-  <footer class="bonus-footer">
-    <div class="container">
-<img src="logo.png" alt="Logo" class="pm-csp-inline-ad837fe578">
-
-      <div class="footer-trust-area">
-        <div class="footer-trust-title">Güven, Performans, Stabilite</div>
-        <div class="footer-trust-desc">
-          PlayMatrix; güven, performans ve stabilite odağında tasarlanmıştır. Bu platform <b>TAMAMEN ÜCRETSİZ OYUN</b> deneyimi sunar ve yalnızca oyun içi sanal değerlerle çalışır.
-        </div>
-
-        <div class="sfs-badges" aria-label="SFS Onayları">
-          <div class="sfs" title="Security Verified">
-            <svg class="vmark" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g1" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#00D4FF"/><stop offset="1" stop-color="#2F7CFF"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="rgba(0,212,255,0.12)" stroke="url(#g1)" stroke-width="2"/><path d="M7.4 12.3l3 3.1 6.3-6.6" fill="none" stroke="#7CFFB4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="stack"><span>SFS Onaylı</span><small>Security</small></div>
-          </div>
-          <div class="sfs" title="Fast Verified">
-            <svg class="vmark" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g2" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#FF2D7D"/><stop offset="1" stop-color="#00D4FF"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="rgba(255,45,125,0.10)" stroke="url(#g2)" stroke-width="2"/><path d="M7.4 12.3l3 3.1 6.3-6.6" fill="none" stroke="#7CFFB4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="stack"><span>SFS Onaylı</span><small>Fast</small></div>
-          </div>
-          <div class="sfs" title="Stable Verified">
-            <svg class="vmark" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g3" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#2F7CFF"/><stop offset="1" stop-color="#7CFFB4"/></linearGradient></defs><circle cx="12" cy="12" r="10" fill="rgba(47,124,255,0.10)" stroke="url(#g3)" stroke-width="2"/><path d="M7.4 12.3l3 3.1 6.3-6.6" fill="none" stroke="#7CFFB4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div class="stack"><span>SFS Onaylı</span><small>Stable</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bonus-email">
-        <a href="mailto:playmatrixdestek@gmail.com">PLAYMATRIXDESTEK@GMAIL.COM</a>
-      </div>
-
-      <div class="bonus-socials">
-        <a href="https://t.me/playmatrixresmi" class="bonus-social-btn" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://www.instagram.com/playmatrix_games" class="bonus-social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.tiktok.com/@playmatrixresmi" class="bonus-social-btn" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-      </div>
-
-      <div class="bonus-copyright">© 2026 PlayMatrix Tüm Hakları Saklıdır.</div>
-    </div>
-  </footer>
-
-  <nav class="mobile-nav pm-premium-bottom-nav" aria-label="Mobil alt gezinme">
-    <button class="mobile-tab is-active" data-mobile-link="#hero"><i class="fa-solid fa-house"></i><span>AnaSayfa</span></button>
-    <button class="mobile-tab" data-mobile-link="#games"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></button>
-    <button class="mobile-tab" data-mobile-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-    <button class="mobile-tab" data-mobile-action="social"><i class="fa-solid fa-users"></i><span>Sosyal</span></button>
-    <button class="mobile-tab" data-mobile-action="profile"><i class="fa-solid fa-user"></i><span>Hesabım</span></button>
-  </nav>
-
-  <div class="sheet-shell" id="sheetShell" aria-hidden="true">
-    <div class="sheet-backdrop" id="sheetBackdrop"></div>
-    <aside class="sheet-panel" id="sheetPanel" aria-label="Yan panel">
-      <div class="sheet-handle" id="sheetHandle"></div>
-      <div class="sheet-head">
-        <div>
-          <h3 class="sheet-title" id="sheetTitle">Panel</h3>
-          <div class="sheet-subtitle" id="sheetSubtitle">İçerik yükleniyor…</div>
-        </div>
-        <button class="sheet-close" id="sheetClose" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="sheet-content">
-        <section class="sheet-section" data-sheet="auth">
-          <div class="segmented" id="authSegment">
-            <button class="is-active" data-auth-mode="login">Giriş</button>
-            <button data-auth-mode="register">Kayıt Ol</button>
-          </div>
-
-          <div class="field-grid pm-csp-inline-1b0f4999d2">
-            <div class="field-group hidden" id="authFullNameGroup">
-              <label class="field-label" for="authFullName">İsim Soyisim</label>
-              <input class="field-input" id="authFullName" type="text" placeholder="Ad Soyad" />
-            </div>
-
-            <div class="field-group hidden" id="authUsernameGroup">
-              <label class="field-label" for="authUsername">Kullanıcı Adı</label>
-              <input class="field-input" id="authUsername" type="text" placeholder="Kullanıcı adı" maxlength="20" />
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="authEmail">E-posta veya Kullanıcı Adı</label>
-              <input class="field-input" id="authEmail" type="text" placeholder="E-posta veya kullanıcı adı" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" />
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="authPassword">Şifre</label>
-              <input class="field-input" id="authPassword" type="password" placeholder="Şifreniz" autocomplete="current-password" />
-            </div>
-
-            <div class="field-help" id="authHelp"></div>
-          </div>
-
-          <div class="sheet-actions">
-            <button class="btn btn-primary" id="authSubmitBtn">Giriş Yap</button>
-            <button class="ghost-btn" id="forgotPasswordBtn">Şifremi Unuttum</button>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="forgot">
-          <div class="sheet-card">
-            <h4 class="pm-csp-inline-df671843ff">Şifre sıfırlama</h4>
-            <p class="pm-csp-inline-f5688e2417">E-posta adresini gir. Sıfırlama linki kısa sürede gönderilir.</p>
-          </div>
-          <div class="field-grid">
-            <div class="field-group">
-              <label class="field-label" for="forgotEmail">E-posta</label>
-              <input class="field-input" id="forgotEmail" type="email" placeholder="ornek@eposta.com" />
-              <div class="field-help" id="forgotHelp"></div>
-            </div>
-          </div>
-          <div class="sheet-actions">
-            <button class="btn btn-primary" id="forgotSubmitBtn">Link Gönder</button>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="profile">
-          <div class="sheet-card profile-summary-card">
-            <div class="hero-profile-top profile-summary-head">
-              <div class="hero-profile-avatar pm-avatar-host" id="profileSheetAvatarShell"></div>
-              <div>
-                <div class="hero-profile-name" id="profileSheetName">Kullanıcı</div>
-                <div class="hero-profile-sub" id="profileSheetMeta">Bakiyen ve hesap ilerlemen burada.</div>
+        <div class="sheet-content">
+          <section class="sheet-section" data-sheet="auth">
+            <div class="sheet-card stack">
+              <div class="segmented" id="authSegment" role="tablist" aria-label="Kimlik işlemi"><button class="filter-chip is-active" type="button" data-auth-mode="login">Giriş</button><button class="filter-chip" type="button" data-auth-mode="register">Kayıt</button></div>
+              <div class="field-grid">
+                <label class="field-group" id="authFullNameGroup"><span class="field-label">Ad Soyad</span><input id="authFullName" autocomplete="name" /></label>
+                <label class="field-group" id="authUsernameGroup"><span class="field-label">Kullanıcı Adı</span><input id="authUsername" autocomplete="username" /></label>
+                <label class="field-group"><span class="field-label">E-posta</span><input id="authEmail" type="email" autocomplete="email" /></label>
+                <label class="field-group"><span class="field-label">Şifre</span><input id="authPassword" type="password" autocomplete="current-password" /></label>
               </div>
+              <div class="field-help" id="authHelp"></div>
+              <div class="sheet-actions"><button class="btn btn-primary" id="authSubmitBtn" type="button">Giriş Yap</button><button class="btn" id="forgotPasswordBtn" type="button">Şifremi Unuttum</button></div>
             </div>
+          </section>
 
-            <div class="progress">
-              <div class="progress-head"><span>Seviye ilerleme</span><strong id="profileProgressText">0%</strong></div>
-              <div class="progress-track"><div class="progress-fill" id="profileProgressFill"></div></div>
+          <section class="sheet-section" data-sheet="forgot">
+            <div class="sheet-card stack"><label class="field-group"><span class="field-label">E-posta</span><input id="forgotEmail" type="email" autocomplete="email" /></label><div class="field-help" id="forgotHelp"></div><div class="sheet-actions"><button class="btn btn-primary" id="forgotSubmitBtn" type="button">Bağlantı Gönder</button></div></div>
+          </section>
+
+          <section class="sheet-section" data-sheet="profile">
+            <div class="sheet-card profile-summary-card stack">
+              <div class="hero-profile-top profile-summary-head"><div class="hero-profile-avatar pm-avatar-host" id="profileSheetAvatarShell"></div><div><div class="hero-profile-name" id="profileSheetName">Kullanıcı</div><div class="hero-profile-sub" id="profileSheetMeta">Bakiyen ve hesap ilerlemen burada.</div></div></div>
+              <div class="profile-stats-grid" id="profileStatsGrid"><div class="sheet-card"><span>Seviye</span><strong id="ui-account-level">1</strong></div><div class="sheet-card"><span>Aylık Aktiflik</span><strong id="ui-monthly-activity">0</strong></div></div>
+              <div class="progress"><div class="progress-head"><span>Profil ilerlemesi</span><strong id="profileProgressText">0%</strong></div><div class="progress-track"><div class="progress-fill" id="profileProgressFill"></div></div></div>
+              <div class="field-grid"><label class="field-group"><span class="field-label">Kullanıcı adı</span><input id="profileUsername" autocomplete="username" /></label><label class="field-group"><span class="field-label">Ad Soyad</span><input id="profileFullName" autocomplete="name" /></label><label class="field-group"><span class="field-label">E-posta</span><input id="profileEmail" type="email" disabled /></label></div>
+              <div class="field-help" id="usernameHelp"></div><div class="field-help" id="usernameLimitHelp"></div><div class="field-help" id="profileFullNameHelp"></div><div class="field-help" id="profileStatsUpdated"></div>
+              <div class="sheet-actions"><button class="btn" id="openAvatarSelectionBtn" type="button">Avatar Seç</button><button class="btn" id="openFrameSelectionBtn" type="button">Çerçeve Seç</button><button class="btn" id="verifyEmailBtn" type="button">E-postayı Doğrula</button><button class="btn btn-primary" id="profileSaveBtn" type="button">Kaydet</button><button class="btn" id="logoutBtn" type="button">Çıkış</button></div>
+              <div class="appearance-summary"><strong id="appearanceSummaryTitle">Görünüm</strong><p class="appearance-copy" id="appearanceSummaryText">Koyu/sarı ana sayfa görünümü aktif.</p></div>
             </div>
-            <div class="profile-stats-grid" id="profileStatsGrid" aria-label="Hesap istatistikleri"></div>
-            <div class="profile-stats-updated" id="profileStatsUpdated">Backend verisi bekleniyor.</div>
-          </div>
+          </section>
 
-          <div class="field-grid">
-            <div class="field-group">
-              <label class="field-label" for="profileFullName">İsim Soyisim</label>
-              <input class="field-input" id="profileFullName" type="text" placeholder="Ad Soyad" />
-              <div class="field-help" id="profileFullNameHelp">İlk kayıt tamamlandıktan sonra bu alan güvenlik nedeniyle kilitlenir.</div>
+          <section class="sheet-section" data-sheet="wheel">
+            <div class="sheet-card stack"><canvas id="wheelCanvas" width="320" height="320" aria-label="Günlük çark"></canvas><div class="field-help" id="wheelCooldownText">Durum kontrol ediliyor.</div><div class="field-help" id="wheelResult"></div><div class="sheet-actions"><button class="btn btn-primary" id="wheelSpinBtn" type="button">Çevir</button><button class="btn" id="wheelRefreshBtn" type="button">Yenile</button></div></div>
+          </section>
+
+          <section class="sheet-section" data-sheet="promo">
+            <div class="sheet-card stack"><label class="field-group"><span class="field-label">Promo kod</span><input id="promoCode" autocomplete="off" inputmode="text" /></label><div class="field-help" id="promoHelp"></div><div class="sheet-actions"><button class="btn btn-primary" id="promoSubmitBtn" type="button">Kodu Aktif Et</button></div></div>
+          </section>
+
+          <section class="sheet-section" data-sheet="support">
+            <div class="sheet-card stack"><div class="support-grid"><label class="field-group"><span class="field-label">Konu</span><input id="supportSubject" /></label><label class="field-group"><span class="field-label">Kategori</span><select id="supportCategory"><option value="account">Hesap</option><option value="game">Oyun</option><option value="market">Market</option></select></label><label class="field-group"><span class="field-label">Öncelik</span><select id="supportPriority"><option value="normal">Normal</option><option value="high">Yüksek</option></select></label><label class="field-group"><span class="field-label">Referans</span><input id="supportReference" /></label></div><label class="field-group"><span class="field-label">Mesaj</span><textarea id="supportMessage" rows="5"></textarea></label><div class="field-help" id="supportHelp"></div><div class="sheet-actions"><button class="btn btn-primary" id="supportSubmitBtn" type="button">Destek Talebi Oluştur</button></div></div>
+          </section>
+
+          <section class="sheet-section" data-sheet="invite">
+            <div class="sheet-card stack"><div class="field-help" id="inviteHelp"></div><label class="field-group"><span class="field-label">Davet kodu</span><input id="inviteCode" readonly /></label><label class="field-group"><span class="field-label">Davet bağlantısı</span><input id="inviteLink" readonly /></label><div class="sheet-actions"><button class="btn btn-primary" id="generateInviteBtn" type="button">Davet Oluştur</button><button class="btn" id="copyInviteCodeBtn" type="button">Kodu Kopyala</button><button class="btn" id="copyInviteLinkBtn" type="button">Linki Kopyala</button></div></div>
+          </section>
+
+          <section class="sheet-section" data-sheet="social">
+            <div class="pm-social-layout">
+              <aside class="sheet-card" id="psListContainer"><div class="section-head"><h3 class="section-title" id="psMidTitle">Sosyal Merkez</h3><span class="mini-tag" id="psConnectionBadge">Bağlantı</span></div><div class="segmented"><button class="ps-tab active" type="button" data-social-tab="global">Global</button><button class="ps-tab" type="button" data-social-tab="friends">Arkadaşlar</button><button class="ps-tab" type="button" data-social-tab="add">Ekle</button></div><div id="socialSearchPanelCard"><input id="friendTargetInput" placeholder="Kullanıcı ara" /><button id="dmSearchBtn" type="button">Ara</button><input id="dmSearchInput" /><select id="dmSearchTargetSelect"></select><div id="friendActionHelp" class="field-help"></div><div id="socialSearchResults"></div></div><div id="socialInvitePanelCard"><select id="socialInviteGame"><option value="crash">Crash</option></select><select id="socialInviteMode"><option value="duel">Davet</option></select><label id="socialInviteBetField"><input id="socialInviteBet" type="number" min="0" /></label><button id="socialInviteSubmitBtn" type="button">Davet Gönder</button><div id="socialInviteProfileAvatar"></div><div id="socialInviteProfileName"></div><div id="socialInviteProfileSubtitle"></div></div><div id="socialAddPanelCard"></div></aside>
+              <section class="sheet-card" id="psMainPanel"><button class="ps-back-button" id="psMobileBackBtn" type="button" aria-label="Sosyal listeye dön"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button><div class="hero-profile-top"><div class="friend-avatar" id="psChatAvatar"></div><div><h3 class="section-title" id="psChatTitle">Global Sohbet</h3><p class="section-copy" id="psChatSubtitle">PlayMatrix sosyal merkezi</p></div></div><div class="field-help" id="psChatHelp"></div><div id="psChatStream" class="ps-conversation-stack"></div><div id="typingIndicator"><span id="typingIndicatorLabel"></span></div><div id="psInputArea" class="ps-input-area"><input id="psChatInput" autocomplete="off" /><div id="psChatActions"><button class="ps-send-btn" id="psSendBtn" type="button">Gönder</button></div></div></section>
             </div>
-
-            <div class="field-group">
-              <label class="field-label" for="profileUsername">Kullanıcı Adı</label>
-              <input class="field-input" id="profileUsername" type="text" placeholder="Kullanıcı adı" maxlength="20" />
-              <div class="field-help" id="usernameLimitHelp">Kullanıcı adı toplam 3 kez değiştirilebilir.</div>
-              <div class="field-help" id="usernameHelp"></div>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="profileEmail">E-posta</label>
-              <input class="field-input" id="profileEmail" type="email" disabled />
-            </div>
-          </div>
-
-          <div class="sheet-card pm-csp-inline-1b0f4999d2">
-            <h4 class="pm-csp-inline-df671843ff">Profil görünümü</h4>
-            <p class="pm-csp-inline-f5688e2417">Profil fotoğrafını videodaki kategori ekranından, çerçeveni ise ayrı seviye kilidi ekranından yönet.</p>
-            <div class="appearance-summary">
-              <div class="pm-avatar-host" id="appearancePreviewShell"></div>
-              <div class="appearance-copy">
-                <strong id="appearanceSummaryTitle">Profil Avatarı</strong>
-                <span id="appearanceSummaryText">Seçili profil fotoğrafın ve çerçeven burada önizlenir.</span>
-              </div>
-            </div>
-            <div class="sheet-actions appearance-actions pm-csp-inline-d6f2af6e0a">
-              <button class="btn btn-primary" id="openAvatarSelectionBtn" type="button">Avatar Seç</button>
-              <button class="ghost-btn" id="openFrameSelectionBtn" type="button">Çerçeve Seç</button>
-            </div>
-          </div>
-
-          <div class="sheet-actions">
-            <button class="btn btn-primary" id="profileSaveBtn">Profili Kaydet</button>
-            <button class="ghost-btn" id="verifyEmailBtn">Doğrulama Maili Gönder</button>
-            <button class="ghost-btn" id="logoutBtn">Çıkış Yap</button>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="wheel">
-          <div class="wheel-shell">
-            <div class="wheel-wrap">
-              <div class="wheel-pointer"></div>
-              <div class="wheel-center"></div>
-              <canvas id="wheelCanvas" width="640" height="640"></canvas>
-            </div>
-
-            <div class="wheel-result" id="wheelResult">Hazır olduğunda çarkı çevir.</div>
-
-            <div class="inline-actions">
-              <button class="btn btn-primary" id="wheelSpinBtn">Ücretsiz Çevir</button>
-              <button class="ghost-btn" id="wheelRefreshBtn">Durumu Yenile</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="promo">
-          <div class="sheet-hero-card">
-            <div class="sheet-hero-icon" aria-hidden="true">
-              <i class="fa-solid fa-gift"></i>
-            </div>
-            <div class="sheet-hero-copy">
-              <h4>Ödül Merkezi</h4>
-              <p>Promosyon kodu için yalnızca e-posta onayı gereklidir.</p>
-            </div>
-          </div>
-
-          <div class="promo-stack promo-stack--enhanced">
-            <input class="field-input promo-input" id="promoCode" type="text" placeholder="Promo kodu girin" autocomplete="off" />
-            <div class="field-help" id="promoHelp"></div>
-            <button class="btn btn-primary promo-cta" id="promoSubmitBtn">KODU AKTİF ET</button>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="support">
-          <div class="support-grid">
-            <div class="field-group">
-              <label class="field-label" for="supportSubject">Konu</label>
-              <input class="field-input" id="supportSubject" type="text" placeholder="Kısa konu başlığı" maxlength="80" />
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="supportReference">İlgili Oyun / Sayfa</label>
-              <input class="field-input" id="supportReference" type="text" placeholder="Örn: Satranç, Profil, Ödül" maxlength="80" />
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="supportCategory">Kategori</label>
-              <select class="field-select" id="supportCategory">
-                <option value="Genel">Genel</option>
-                <option value="Hesap">Hesap</option>
-                <option value="Doğrulama">Doğrulama</option>
-                <option value="Promo / Ödül">Promo / Ödül</option>
-                <option value="Oyun">Oyun</option>
-                <option value="Teknik Hata">Teknik Hata</option>
-              </select>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="supportPriority">Öncelik</label>
-              <select class="field-select" id="supportPriority">
-                <option value="Normal">Normal</option>
-                <option value="Yüksek">Yüksek</option>
-                <option value="Acil">Acil</option>
-              </select>
-            </div>
-
-            <div class="field-group span-2">
-              <label class="field-label" for="supportMessage">Sorun Detayı</label>
-              <textarea class="field-textarea" id="supportMessage" placeholder="Sorunun ne zaman oluştuğunu, hangi adımlarda tekrarlandığını ve gördüğün hatayı detaylı biçimde yaz." maxlength="2500"></textarea>
-              <div class="field-help" id="supportHelp"></div>
-            </div>
-          </div>
-
-          <div class="sheet-actions sheet-actions-single">
-            <button class="btn btn-primary" id="supportSubmitBtn">Gönder</button>
-          </div>
-        </section>
-
-        <section class="sheet-section" data-sheet="invite">
-          <div class="field-grid">
-            <div class="field-group">
-              <label class="field-label" for="inviteCode">Davet kodun</label>
-              <div class="code-line">
-                <input id="inviteCode" type="text" readonly placeholder="Henüz üretilmedi" />
-                <button class="ghost-btn" id="copyInviteCodeBtn">Kopyala</button>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="inviteLink">Davet bağlantın</label>
-              <div class="code-line">
-                <input id="inviteLink" type="text" readonly placeholder="Henüz üretilmedi" />
-                <button class="ghost-btn" id="copyInviteLinkBtn">Kopyala</button>
-              </div>
-              <div class="field-help" id="inviteHelp"></div>
-            </div>
-          </div>
-
-          <div class="sheet-actions">
-            <button class="btn btn-primary" id="generateInviteBtn">Linki Üret</button>
-          </div>
-        </section>
-
-        
-<section class="sheet-section pubg-theme pm-csp-inline-058ae746f5" data-sheet="social">
-  <div class="pm-social-layout">
-    
-    <div class="ps-sidebar">
-      
-      <button class="ps-back-button" type="button" aria-label="Lobiye Dön" data-pm-click-id="sheetClose">
-        <i class="fa-solid fa-angle-left"></i> <span>AnaSayfa</span>
-      </button>
-      <button class="ps-tab is-active" type="button" data-social-tab="global">
-        <span>Yerel Sohbet (TR)</span>
-      </button>
-      <button class="ps-tab" type="button" data-social-tab="friends">
-        <span>DM Kutusu</span>
-      </button>
-      <button class="ps-tab" type="button" data-social-tab="search">
-        <span>Mesaj Ara</span>
-      </button>
-      <button class="ps-tab" type="button" data-social-tab="requests">
-        <span>İstek Listesi</span>
-      </button>
-      <button class="ps-tab" type="button" data-social-tab="add">
-        <span>Arkadaş Ekleme</span>
-      </button>
-      <button class="ps-tab" type="button" data-social-tab="invites">
-        <span>Oyun Daveti</span>
-      </button>
+          </section>
+        </div>
+      </aside>
     </div>
 
-    <div class="ps-mid-panel">
-      <div class="ps-mid-header">
-        <span id="psMidTitle">Katıldın: #Yerel Sohbet.</span>
-        <span class="online-pill is-offline pm-csp-inline-6b99de8b69" id="psConnectionBadge"></span>
-      </div>
-      <div class="ps-list-container" id="psListContainer"></div>
+    <div class="ps-modal" id="matrixInfoModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="matrixInfoTitle">
+      <div class="ps-modal-content"><div class="ps-modal-header"><div><span id="matrixInfoIcon" aria-hidden="true"></span><h2 class="ps-modal-title" id="matrixInfoTitle">Bilgi</h2><p class="ps-modal-note" id="matrixInfoHeading"></p></div><button class="ps-modal-close" type="button" aria-label="Kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div><p class="section-copy" id="matrixInfoMessage"></p></div>
     </div>
 
-    <div class="ps-main-panel" id="psMainPanel">
-            <div class="ps-chat-header">
-        <button class="icon-btn" id="psMobileBackBtn" type="button" aria-label="Geri Dön">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <div class="friend-avatar pm-avatar-host pm-csp-inline-6b99de8b69" id="psChatAvatar"></div>
-        <div class="ps-chat-title-wrap">
-          <span id="psChatTitle" class="pm-csp-inline-6b99de8b69">Katıldın: #Yerel Sohbet.</span>
-          <span id="psChatSubtitle" class="pm-csp-inline-6b99de8b69"></span>
-        </div>
-        <div class="ps-chat-actions" id="psChatActions"></div>
-      </div>
+    <div class="ps-modal" id="playerStatsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Oyuncu istatistikleri"><div class="ps-modal-content" id="playerStatsContent"></div></div>
 
-      <div class="ps-chat-stream" id="psChatStream"></div>
-      <div class="ps-typing-indicator" id="typingIndicator" aria-live="polite">
-        <span id="typingIndicatorLabel"></span>
-        <span class="ps-typing-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-      </div>
+    <div class="avatar-picker-modal ps-modal" id="avatarPickerModal" aria-hidden="true"><div class="avatar-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="avatarPickerTitle"><div class="avatar-picker-header"><h2 class="avatar-picker-title" id="avatarPickerTitle">Avatar Seç</h2><button class="avatar-picker-close" type="button" aria-label="Avatar panelini kapat">×</button></div><div id="avatarPickerRoot"></div></div></div>
+    <div class="frame-picker-modal ps-modal" id="framePickerModal" aria-hidden="true"><div class="frame-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="framePickerTitle"><div class="frame-picker-header"><h2 class="frame-picker-title" id="framePickerTitle">Çerçeve Seç</h2><button class="frame-picker-close" type="button" aria-label="Çerçeve panelini kapat">×</button></div><div id="framePickerRoot"></div></div></div>
 
-      <div class="ps-chat-input-area" id="psInputArea">
-        <div class="pubg-icons">
-          <button type="button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-          <button type="button"><i class="fa-solid fa-gift"></i></button>
-          <button type="button"><i class="fa-solid fa-user-group"></i></button>
-          <button type="button"><i class="fa-solid fa-address-card"></i></button>
-          <button type="button"><i class="fa-solid fa-face-smile"></i></button>
-          <button type="button"><i class="fa-solid fa-microphone"></i></button>
-        </div>
-        <input type="text" id="psChatInput" placeholder="Lobiye kısa ve saygılı bir mesaj yaz..." maxlength="280" autocomplete="off" enterkeyhint="send" />
-        <button class="ps-send-btn pubg-send" id="psSendBtn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
-      </div>
-      <div class="ps-chat-help" id="psChatHelp"></div>
-    </div>
-  </div>
-</section>
-      </div>
-    </aside>
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
   </div>
 
-  <div id="avatarPickerModal" class="ps-modal avatar-picker-modal" aria-hidden="true">
-    <div class="avatar-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="avatarPickerTitle">
-      <div class="avatar-picker-header">
-        <h2 class="avatar-picker-title" id="avatarPickerTitle">Avatarınızı Seçin</h2>
-        <button class="avatar-picker-close" type="button" data-pm-action="closeAvatarPicker" data-pm-args="[]" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="avatar-picker-scroll" id="avatarCategoryContainer" tabindex="-1"></div>
-    </div>
-  </div>
-
-  <div id="framePickerModal" class="ps-modal frame-picker-modal" aria-hidden="true">
-    <div class="frame-picker-sheet" role="dialog" aria-modal="true" aria-labelledby="framePickerTitle">
-      <div class="frame-picker-header">
-        <h2 class="frame-picker-title" id="framePickerTitle">Çerçevenizi Seçin</h2>
-        <button class="frame-picker-close" type="button" data-pm-action="closeFramePicker" data-pm-args="[]" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="frame-picker-scroll" id="framePickerContainer" tabindex="-1"></div>
-    </div>
-  </div>
-
-  <div id="playerStatsModal" class="ps-modal" aria-hidden="true">
-    <div class="ps-modal-content" id="playerStatsContent" role="dialog" aria-modal="true" aria-labelledby="playerStatsTitle"></div>
-  </div>
-
-  <div id="matrixInfoModal" class="ps-modal ps-info-modal" data-tone="info" aria-hidden="true">
-    <div class="ps-modal-content" role="dialog" aria-modal="true" aria-labelledby="matrixInfoTitle">
-      <div class="ps-modal-header">
-        <div class="ps-modal-title" id="matrixInfoTitle">Bilgi</div>
-        <button class="ps-modal-close" type="button" data-pm-action="closeMatrixModal" data-pm-args="[&quot;matrixInfoModal&quot;]" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="ps-modal-body ps-info-body">
-        <div class="ps-info-title-row">
-          <div class="ps-info-icon" id="matrixInfoIcon"><i class="fa-solid fa-circle-info"></i></div>
-          <div>
-            <div id="matrixInfoHeading" class="pm-csp-inline-7fa9a2e34c">Bilgi</div>
-            <div class="ps-modal-note" id="matrixInfoMessage">İşlem tamamlandı.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
-
-  
   <script src="./public/js/home/stability-guard.js?v=phase10-11-runtime-fix-20260426h" defer></script>
   <script type="module" src="./script.js?v=phase10-11-runtime-fix-20260426h"></script>
-
   <script src="./public/playmatrix-runtime.js" defer></script>
   <script src="public/js/phase4/static-actions.js" defer></script>
 </body>

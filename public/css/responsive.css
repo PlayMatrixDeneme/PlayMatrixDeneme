@@ -336,3 +336,22 @@
 @media (min-width: 721px){
   body[data-pm-redesign="premium-mobile-phase1"] .hero-grid{grid-template-columns:minmax(0,1fr);}
 }
+
+
+/* Phase 2 nav responsive contract */
+@media (max-width:900px){
+  body[data-pm-redesign="premium-mobile-phase2"] .desktop-nav{display:none!important;}
+  body[data-pm-redesign="premium-mobile-phase2"] .topbar-inner{grid-template-columns:auto minmax(0,1fr) auto;}
+  body[data-pm-redesign="premium-mobile-phase2"] .pm-topbar-market span{display:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .pm-topbar-market{padding-inline:0;width:42px;}
+}
+@media (max-width:640px){
+  body[data-pm-redesign="premium-mobile-phase2"] .topbar-actions > .btn{display:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .brand{max-width:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .chip-balance{display:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .user-trigger{max-width:46px;padding:5px;}
+  body[data-pm-redesign="premium-mobile-phase2"] .user-trigger .user-meta{display:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .pm-notification-btn{display:none;}
+  body[data-pm-redesign="premium-mobile-phase2"] .pm-drawer{width:min(360px,calc(100vw - 18px));}
+  body[data-pm-redesign="premium-mobile-phase2"] .pm-account-quickgrid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}

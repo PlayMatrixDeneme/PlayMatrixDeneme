@@ -674,3 +674,9 @@ body[data-pm-redesign="premium-mobile-phase1"] .lb-panel{overflow:hidden;}
   body[data-pm-redesign="premium-mobile-phase1"] .game-card{flex:0 0 min(82vw, 310px);scroll-snap-align:start;}
   body[data-pm-redesign="premium-mobile-phase1"] .section-head{align-items:start;}
 }
+
+
+/* Phase 2 horizontal nav polish */
+body[data-pm-redesign="premium-mobile-phase2"] .pm-premium-category{min-width:max-content;white-space:nowrap;}
+body[data-pm-redesign="premium-mobile-phase2"] .pm-premium-category.is-active{background:linear-gradient(180deg,var(--pm-premium-yellow),var(--pm-premium-yellow-2));color:#141006;border-color:rgba(255,210,41,.42);}
+body[data-pm-redesign="premium-mobile-phase2"] .pm-premium-category:not(.is-active):hover{background:rgba(255,210,41,.10);border-color:rgba(255,210,41,.24);}

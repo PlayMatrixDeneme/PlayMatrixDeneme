@@ -77,49 +77,63 @@
 
   <link rel="stylesheet" href="public/css/phase4-inline.css" />
 </head>
-<body data-pm-page="home" data-pm-redesign="premium-mobile-phase1">
+<body data-pm-page="home" data-pm-redesign="premium-mobile-phase2">
   <div class="ambient-grid" aria-hidden="true"></div>
   <div class="mesh" id="mesh" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <div class="topbar-inner">
+  <header class="topbar pm-premium-topbar" data-phase="home-redesign-phase2">
+    <div class="topbar-inner pm-premium-topbar-inner">
+      <button class="pm-topbar-menu" id="drawerOpenBtn" type="button" aria-label="PlayMatrix menüsünü aç" aria-controls="pmDrawerShell" aria-expanded="false">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
       <button class="brand" id="brandHome" aria-label="Ana sayfaya dön">
         <div class="brand-mark" aria-hidden="true">
-  <img src="logo.png" alt="PlayMatrix" class="pm-csp-inline-31511c60d5">
-</div>
+          <img src="logo.png" alt="PlayMatrix" class="pm-csp-inline-31511c60d5">
+        </div>
         <div class="brand-copy">
           <h1 class="brand-title">PlayMatrix</h1>
-          <div class="brand-subtitle">Mobil oyun merkezi</div>
+          <div class="brand-subtitle">Premium mobil oyun merkezi</div>
         </div>
       </button>
 
-      <nav class="desktop-nav" aria-label="Bölüm gezinme">
-        <a class="nav-link is-active" href="#hero">Ana Sayfa</a>
+      <nav class="desktop-nav pm-premium-top-nav" aria-label="Ana bölümler">
+        <a class="nav-link is-active" href="#hero">AnaSayfa</a>
         <a class="nav-link" href="#games">Oyunlar</a>
+        <button class="nav-link nav-link-button" type="button" data-premium-action="market">Market</button>
         <a class="nav-link" href="#leaderboard">Liderlik</a>
-        <button class="nav-link nav-link-button" type="button" id="navWheelTopBtn" data-mobile-action="wheel">Çark</button>
-        <button class="nav-link nav-link-button" type="button" id="navPromoTopBtn" data-mobile-action="promo">Promo</button>
-        <button class="nav-link nav-link-button" type="button" id="navMarketTopBtn" data-mobile-action="market">Market</button>
+        <button class="nav-link nav-link-button" type="button" data-premium-action="social">Sosyal</button>
+        <button class="nav-link nav-link-button" type="button" data-premium-action="rewards">Ödüller</button>
       </nav>
 
-      <div class="topbar-actions">
+      <div class="topbar-actions pm-premium-actions">
         <button class="icon-btn desktop-only" id="soundToggle" aria-label="Arayüz seslerini aç veya kapat">
           <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+
+        <button class="pm-topbar-market" id="marketQuickBtn" type="button" data-premium-action="market" aria-label="Market vitrinini aç">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          <span>Market</span>
+        </button>
+
+        <button class="pm-notification-btn" id="notificationQuickBtn" type="button" data-premium-action="social" aria-label="Bildirimler ve sosyal merkezi aç">
+          <i class="fa-solid fa-bell" aria-hidden="true"></i>
+          <span class="pm-notification-badge" id="notificationBadge" aria-label="Bildirim sayısı">0</span>
         </button>
 
         <button class="btn" id="loginBtn">Giriş</button>
         <button class="btn btn-primary" id="registerBtn">Kayıt Ol</button>
 
         <div class="top-user" id="topUser">
-          <div class="chip-balance">
+          <div class="chip-balance pm-balance-chip">
             <div class="chip-balance-copy">
-              <span class="chip-balance-label">Bakiye</span>
+              <span class="chip-balance-label">MC Bakiye</span>
               <span class="chip-balance-value" id="headerBalance">0</span>
             </div>
             <div class="chip-mc">MC</div>
           </div>
 
-          <button class="user-trigger" id="profileTrigger" aria-label="Profil menüsü">
+          <button class="user-trigger" id="profileTrigger" aria-label="Hesabım menüsünü aç" aria-haspopup="menu" aria-expanded="false">
             <div class="user-meta">
               <strong id="headerUsername">Oyuncu</strong>
               <span id="headerRankText">Hesap Seviyesi 1</span>
@@ -127,9 +141,18 @@
             <div class="avatar pm-avatar-host" id="topbarAvatarShell"></div>
           </button>
 
-          <div class="dropdown" id="userDropdown" role="menu" aria-label="Kullanıcı seçenekleri">
-            <div class="dd-head">
-              <div class="dd-user" id="ddUsername">Kullanıcı</div>
+          <div class="dropdown pm-account-dropdown" id="userDropdown" role="menu" aria-label="Kullanıcı seçenekleri">
+            <div class="dd-head pm-account-dropdown-head">
+              <div class="pm-account-minirow">
+                <div>
+                  <div class="dd-user" id="ddUsername">Kullanıcı</div>
+                  <div class="pm-account-caption">Güvenli hesap paneli</div>
+                </div>
+                <div class="pm-account-wallet">
+                  <span>MC</span>
+                  <strong id="ddBalanceMirror">0</strong>
+                </div>
+              </div>
               <div class="dd-row">
                 <span class="dd-k">Hesap Seviyesi:</span>
                 <span class="dd-v" id="ddLevel">—</span>
@@ -139,12 +162,19 @@
                 <span class="dd-v" id="ddNext">—</span>
               </div>
               <div class="dd-row pm-csp-inline-d2c171b18b">
-                <span class="dd-k">Seviye İlerlemen</span>
+                <span class="dd-k">XP İlerlemen</span>
                 <span class="dd-v" id="ddPct">0.0%</span>
               </div>
               <div class="dd-bar" aria-hidden="true">
                 <div class="dd-bar-fill" id="ddBar"></div>
               </div>
+            </div>
+
+            <div class="pm-account-quickgrid" aria-label="Hızlı hesap işlemleri">
+              <button type="button" class="pm-account-quick" id="ddMarketQuick" data-premium-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
+              <button type="button" class="pm-account-quick" id="ddWheelQuick" data-premium-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Çark</span></button>
+              <button type="button" class="pm-account-quick" id="ddPromoQuick" data-premium-action="promo"><i class="fa-solid fa-gift"></i><span>Promo</span></button>
+              <button type="button" class="pm-account-quick" id="ddHistoryQuick" data-premium-action="profile"><i class="fa-solid fa-clock-rotate-left"></i><span>Geçmiş</span></button>
             </div>
 
             <div class="dd-items">
@@ -162,15 +192,67 @@
     </div>
   </header>
 
+  <div class="pm-drawer-shell" id="pmDrawerShell" aria-hidden="true">
+    <div class="pm-drawer-backdrop" id="pmDrawerBackdrop" data-drawer-close="1"></div>
+    <aside class="pm-drawer" id="pmDrawerPanel" role="dialog" aria-modal="true" aria-labelledby="pmDrawerTitle">
+      <div class="pm-drawer-head">
+        <div class="pm-drawer-brand">
+          <span class="pm-drawer-logo"><img src="logo.png" alt="" aria-hidden="true"></span>
+          <div>
+            <h2 id="pmDrawerTitle">PlayMatrix</h2>
+            <p>Mobil premium oyun merkezi</p>
+          </div>
+        </div>
+        <button class="pm-drawer-close" id="drawerCloseBtn" type="button" aria-label="Menüyü kapat"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="pm-drawer-cta-row">
+        <button class="pm-drawer-cta is-yellow" type="button" data-drawer-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
+        <button class="pm-drawer-cta is-green" type="button" data-drawer-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Günlük Çark</span></button>
+      </div>
+
+      <nav class="pm-drawer-nav" aria-label="PlayMatrix menüsü">
+        <a class="pm-drawer-link" href="#games" data-drawer-close="1"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></a>
+        <button class="pm-drawer-link" type="button" data-drawer-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
+        <button class="pm-drawer-link" type="button" data-drawer-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Günlük Çark</span></button>
+        <button class="pm-drawer-link" type="button" data-drawer-action="promo"><i class="fa-solid fa-gift"></i><span>Promo</span></button>
+        <button class="pm-drawer-link" type="button" data-drawer-action="social"><i class="fa-solid fa-people-group"></i><span>Sosyal Merkez</span></button>
+        <button class="pm-drawer-link" type="button" data-drawer-action="support"><i class="fa-solid fa-headset"></i><span>Canlı Destek</span></button>
+        <button class="pm-drawer-link" type="button" data-drawer-action="invite"><i class="fa-solid fa-user-group"></i><span>Davet Et</span></button>
+        <a class="pm-drawer-link" href="#leaderboard" data-drawer-close="1"><i class="fa-solid fa-ranking-star"></i><span>Liderlik</span></a>
+        <button class="pm-drawer-link" type="button" data-drawer-action="profile"><i class="fa-solid fa-user-astronaut"></i><span>Hesabım</span></button>
+      </nav>
+
+      <div class="pm-drawer-accordion">
+        <details>
+          <summary><span>Ödül Merkezi</span><i class="fa-solid fa-chevron-down"></i></summary>
+          <button type="button" data-drawer-action="wheel">Günlük Çark</button>
+          <button type="button" data-drawer-action="promo">Promosyon Kodu</button>
+          <button type="button" data-drawer-action="invite">Davet Et ve Kazan</button>
+        </details>
+        <details>
+          <summary><span>Topluluk</span><i class="fa-solid fa-chevron-down"></i></summary>
+          <button type="button" data-drawer-action="social">Sosyal Merkez</button>
+          <button type="button" data-drawer-action="support">Canlı Destek</button>
+        </details>
+      </div>
+
+      <div class="pm-drawer-foot">
+        <span>TR</span>
+        <span>Güvenli oturum</span>
+        <button type="button" class="pm-drawer-logout" data-drawer-action="logout"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+      </div>
+    </aside>
+  </div>
+
   <main class="container pm-premium-shell">
     <nav class="pm-premium-category-strip" aria-label="PlayMatrix hızlı bölümler">
       <a class="pm-premium-category is-active" href="#hero"><i class="fa-solid fa-house"></i><span>AnaSayfa</span></a>
       <a class="pm-premium-category" href="#games"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></a>
       <button class="pm-premium-category" type="button" data-mobile-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
       <a class="pm-premium-category" href="#leaderboard"><i class="fa-solid fa-ranking-star"></i><span>Liderlik</span></a>
-      <button class="pm-premium-category" type="button" data-mobile-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Çark</span></button>
-      <button class="pm-premium-category" type="button" data-mobile-action="promo"><i class="fa-solid fa-gift"></i><span>Promo</span></button>
       <button class="pm-premium-category" type="button" data-mobile-action="social"><i class="fa-solid fa-users"></i><span>Sosyal</span></button>
+      <button class="pm-premium-category" type="button" data-mobile-action="rewards"><i class="fa-solid fa-gift"></i><span>Ödüller</span></button>
     </nav>
 
     <section class="hero pm-premium-hero" id="hero">
@@ -436,13 +518,12 @@
     </div>
   </footer>
 
-  <nav class="mobile-nav" aria-label="Mobil alt gezinme">
-    <button class="mobile-tab is-active" data-mobile-link="#hero"><i class="fa-solid fa-house"></i><span>Ana Sayfa</span></button>
+  <nav class="mobile-nav pm-premium-bottom-nav" aria-label="Mobil alt gezinme">
+    <button class="mobile-tab is-active" data-mobile-link="#hero"><i class="fa-solid fa-house"></i><span>AnaSayfa</span></button>
     <button class="mobile-tab" data-mobile-link="#games"><i class="fa-solid fa-gamepad"></i><span>Oyunlar</span></button>
     <button class="mobile-tab" data-mobile-action="market"><i class="fa-solid fa-store"></i><span>Market</span></button>
-    <button class="mobile-tab" data-mobile-action="wheel"><i class="fa-solid fa-dharmachakra"></i><span>Çark</span></button>
-    <button class="mobile-tab" data-mobile-link="#leaderboard"><i class="fa-solid fa-ranking-star"></i><span>Liderlik</span></button>
-    <button class="mobile-tab" data-mobile-action="profile"><i class="fa-solid fa-user"></i><span>Profil</span></button>
+    <button class="mobile-tab" data-mobile-action="social"><i class="fa-solid fa-users"></i><span>Sosyal</span></button>
+    <button class="mobile-tab" data-mobile-action="profile"><i class="fa-solid fa-user"></i><span>Hesabım</span></button>
   </nav>
 
   <div class="sheet-shell" id="sheetShell" aria-hidden="true">

@@ -956,7 +956,7 @@ function renderMessageStack(stream, messages, emptyTitle, emptyMessage, getIsSel
     }     function updateUserShell(){       const user = auth.currentUser;       const data = state.userData = normalizeApiUser(state.userData || {});       const progression = getProgressionData(data);
       const accountLevel = getUserLevel(data);       const accountProgressPct = clamp(Number(progression.accountLevelProgressPct ?? 0), 0, 100);       const monthlyActivity = Number(data.monthlyActiveScore ?? progression.monthlyActivity ?? 0);       const avatar = safeUrl(data.avatar || state.selectedAvatar || AVATARS[0]);       const username = data.username || user?.email || "Oyuncu";
       const displayFrame = getDisplayFrameLevel();        $("loginBtn").style.display = user ? "none" : "inline-flex";       $("registerBtn").style.display = user ? "none" : "inline-flex";       $("topUser").classList.toggle("is-visible", !!user);
-       if (user) {         $("headerBalance").textContent = formatNumber(data.balance || 0);         mountTopbarAvatar(avatar, displayFrame);         $("headerUsername").textContent = username;
+       if (user) {         $("headerBalance").textContent = formatNumber(data.balance || 0); if ($("ddBalanceMirror")) $("ddBalanceMirror").textContent = formatNumber(data.balance || 0);         mountTopbarAvatar(avatar, displayFrame);         $("headerUsername").textContent = username;
         $("headerRankText").textContent = `Hesap Seviyesi ${accountLevel}`;         $("ddUsername").textContent = username;         $("ddLevel").textContent = `Seviye ${accountLevel}`;         $("ddNext").textContent = accountLevel < 100 ? `Seviye ${accountLevel + 1}` : 'MAX';         $("ddPct").textContent = `%${accountProgressPct.toFixed(1)}`;
         $("ddBar").style.width = `${accountProgressPct}%`;       }        const heroMeta = user         ? `Bakiye: ${formatNumber(data.balance || 0)} MC · ${user.emailVerified ? "E-posta doğrulandı" : "E-posta doğrulanmadı"} · Aylık Aktiflik: ${formatNumber(monthlyActivity)} · Hesap Seviyesi: ${accountLevel}`
         : "Kayıt ol, bakiyeni ve hesap seviyeni canlı takip et.";        mountAvatarShell("heroProfileAvatarShell", avatar, displayFrame, 56, "pm-avatar--profile");       $("heroProfileName").textContent = user ? username : "Misafir Modu";       $("heroProfileMeta").textContent = heroMeta;
@@ -1214,7 +1214,7 @@ function renderMessageStack(stream, messages, emptyTitle, emptyMessage, getIsSel
       window.addEventListener("pageshow", () => queueRefresh(0), { passive:true });       window.addEventListener("resize", () => queueRefresh(0), { passive:true });       window.addEventListener("orientationchange", () => queueRefresh(60), { passive:true });       document.addEventListener("visibilitychange", () => {         if (document.visibilityState === "visible") queueRefresh(0);
       }, { passive:true });       document.addEventListener("touchstart", () => queueRefresh(0), { passive:true, once:true });        if (window.visualViewport) {         window.visualViewport.addEventListener("resize", () => queueRefresh(0), { passive:true });
         window.visualViewport.addEventListener("scroll", () => queueRefresh(0), { passive:true });       }     }      function installHomepageCoreDelegation(){
-      document.addEventListener('click', (event) => {         const trigger = event.target.closest('#brandHome, #loginBtn, #registerBtn, #heroStartBtn, #refreshLeaderboardBtn, .mobile-tab, .nav-link[href^="#"]');         if (!trigger) return;          if (trigger.matches('#brandHome')) {
+      document.addEventListener('click', (event) => {         const trigger = event.target.closest('#brandHome, #loginBtn, #registerBtn, #heroStartBtn, #refreshLeaderboardBtn, #drawerOpenBtn, #drawerCloseBtn, #pmDrawerBackdrop, [data-mobile-action], [data-premium-action], [data-drawer-action], [data-drawer-close], .mobile-tab, .nav-link[href^="#"], .pm-premium-category[href^="#"]');         if (!trigger) return;          if (trigger.matches('#brandHome')) {
           event.preventDefault();           window.scrollTo({ top:0, behavior:'smooth' });           return;         } 
         if (trigger.matches('#loginBtn')) {           event.preventDefault();           setAuthMode('login');           openSheet('auth', 'Hesabına giriş yap', 'Oyunlara, çarka ve profil araçlarına anında eriş.');           return;
         }          if (trigger.matches('#registerBtn')) {           event.preventDefault();           setAuthMode('register');
@@ -1223,15 +1223,89 @@ function renderMessageStack(stream, messages, emptyTitle, emptyMessage, getIsSel
           }           return;         }          if (trigger.matches('#refreshLeaderboardBtn')) {
           event.preventDefault();           loadLeaderboard().catch((error) => console.error('[PlayMatrix] leaderboard refresh', error));           return;         } 
         if (trigger.matches('.mobile-tab')) {           const link = trigger.dataset.mobileLink;           const action = trigger.dataset.mobileAction;           if (link) {             event.preventDefault();
-            document.querySelector(link)?.scrollIntoView({ behavior:'smooth', block:'start' });             updateMobileTabs();             return;           }           if (action === 'wheel') { event.preventDefault(); openWheelSheet(); return; }
-          if (action === 'promo') { event.preventDefault(); openPromoSheet(); return; }           if (action === 'profile') { event.preventDefault(); openProfileSheet(); return; }           return;         } 
+            document.querySelector(link)?.scrollIntoView({ behavior:'smooth', block:'start' });             updateMobileTabs();             return;           }           if (action && handlePremiumNavigationAction(action)) { event.preventDefault(); return; }           return;         }
+
+        const premiumAction = trigger.dataset.mobileAction || trigger.dataset.premiumAction || trigger.dataset.drawerAction;
+        if (premiumAction && handlePremiumNavigationAction(premiumAction)) { event.preventDefault(); return; }
+
+        if (trigger.matches('#drawerOpenBtn')) { event.preventDefault(); openDrawer(); return; }
+        if (trigger.matches('#drawerCloseBtn, #pmDrawerBackdrop')) { event.preventDefault(); closeDrawer(); return; }
+        if (trigger.hasAttribute('data-drawer-close')) { closeDrawer(); } 
         if (trigger.matches('.nav-link[href^="#"]')) {           const target = trigger.getAttribute('href');           if (!target) return;           const section = document.querySelector(target);           if (!section) return;
           event.preventDefault();           section.scrollIntoView({ behavior:'smooth', block:'start' });         }       }, { passive:false });     }
      function hydrateHomepageCore(){       if (!document.body.dataset.leaderboardStatsDelegationBound) {         document.body.dataset.leaderboardStatsDelegationBound = '1';         document.addEventListener('click', (event) => {           const item = event.target?.closest?.('#leaderboardListArea .lb-item');           if (!item || item.classList.contains('skeleton')) return;           const targetUid = String(item.dataset.uid || '').trim() || String(auth.currentUser?.uid || '').trim();           if (targetUid && typeof showPlayerStats === 'function') showPlayerStats(targetUid);         });       }       safeExecute('games skeleton', () => safeRenderGameShowcaseSkeleton(3));       safeExecute('leaderboard skeleton', leaderboardSkeleton);       requestAnimationFrame(() => {
         safeExecute('render games', renderGames);         safeExecute('update overview', updateSystemOverview);         Promise.resolve(loadLeaderboard()).catch((error) => console.error('[PlayMatrix] leaderboard boot', error));         safeExecute('update user shell', updateUserShell);         safeExecute('verify button', syncVerifyButtonState);
         safeExecute('mobile tabs', updateMobileTabs);         safeExecute('fade up reveal', revealFadeUps);       });     } 
-    function bindEvents(){       bindIfPresent("profileTrigger", "click", (e) => {         e.stopPropagation();         playSound("tap");         $("userDropdown").classList.toggle("active");
-      });        document.addEventListener("click", (e) => {         if ($("userDropdown") && !e.target.closest("#topUser")) $("userDropdown").classList.remove("active");       });
+    function closeUserDropdown(){
+      const dropdown = $("userDropdown");
+      const trigger = $("profileTrigger");
+      if (dropdown) dropdown.classList.remove("active");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    }
+
+    function openDrawer(){
+      const shell = $("pmDrawerShell");
+      const trigger = $("drawerOpenBtn");
+      if (!shell) return;
+      shell.classList.add("is-open");
+      shell.setAttribute("aria-hidden", "false");
+      document.body.classList.add("drawer-open");
+      if (trigger) trigger.setAttribute("aria-expanded", "true");
+      const first = shell.querySelector("button, a, summary");
+      window.setTimeout(() => first?.focus?.({ preventScroll:true }), 60);
+      playSound("pop");
+    }
+
+    function closeDrawer(){
+      const shell = $("pmDrawerShell");
+      const trigger = $("drawerOpenBtn");
+      if (!shell) return;
+      shell.classList.remove("is-open");
+      shell.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("drawer-open");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+    }
+
+    function openMarketPanel(){
+      closeDrawer();
+      closeUserDropdown();
+      const launcher = document.getElementById("pm-market-launcher");
+      if (launcher) { launcher.click(); return; }
+      window.dispatchEvent(new CustomEvent("pm:open-market"));
+      showToast("Market", "Market vitrin sistemi yükleniyor.", "info");
+    }
+
+    function handlePremiumNavigationAction(action){
+      const normalized = String(action || "").trim().toLowerCase();
+      if (!normalized) return false;
+      if (normalized === "drawer") { openDrawer(); return true; }
+      if (normalized === "market") { openMarketPanel(); return true; }
+      if (normalized === "wheel" || normalized === "rewards") { closeDrawer(); closeUserDropdown(); openWheelSheet(); return true; }
+      if (normalized === "promo") { closeDrawer(); closeUserDropdown(); openPromoSheet(); return true; }
+      if (normalized === "social") { closeDrawer(); closeUserDropdown(); primeRealtimeUX().catch(() => null); openSocialSheet(); return true; }
+      if (normalized === "support") { closeDrawer(); closeUserDropdown(); openSupportSheet(); return true; }
+      if (normalized === "invite") { closeDrawer(); closeUserDropdown(); openInviteSheet(); return true; }
+      if (normalized === "profile") { closeDrawer(); closeUserDropdown(); openProfileSheet(); return true; }
+      if (normalized === "logout") { closeDrawer(); closeUserDropdown(); endServerSession().finally(() => signOut(auth).finally(() => { closeSheet(); showToast("Çıkış yapıldı", "Oturum güvenli şekilde kapatıldı.", "info"); })); return true; }
+      return false;
+    }
+
+    function bindEvents(){       bindIfPresent("profileTrigger", "click", (e) => {         e.stopPropagation();         playSound("tap");         const dropdown = $("userDropdown");         const trigger = $("profileTrigger");         const nextState = !dropdown.classList.contains("active");         dropdown.classList.toggle("active", nextState);         trigger?.setAttribute("aria-expanded", nextState ? "true" : "false");
+      });
+      bindIfPresent("drawerOpenBtn", "click", (e) => { e.preventDefault(); openDrawer(); });
+      bindIfPresent("drawerCloseBtn", "click", (e) => { e.preventDefault(); closeDrawer(); });
+      bindIfPresent("pmDrawerBackdrop", "click", (e) => { e.preventDefault(); closeDrawer(); });
+      document.addEventListener("click", (e) => {
+        if (e.defaultPrevented) return;
+        const actionTarget = e.target.closest("[data-premium-action], [data-drawer-action]");
+        if (actionTarget && handlePremiumNavigationAction(actionTarget.dataset.premiumAction || actionTarget.dataset.drawerAction)) { e.preventDefault(); return; }
+        if ($("userDropdown") && !e.target.closest("#topUser")) closeUserDropdown();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        closeDrawer();
+        closeUserDropdown();
+      });
        bindIfPresent("navProfileItem", "click", () => { $("userDropdown").classList.remove("active"); openProfileSheet(); });       bindIfPresent("navWheelItem", "click", () => { $("userDropdown").classList.remove("active"); openWheelSheet(); });       bindIfPresent("navBonusItem", "click", () => { $("userDropdown").classList.remove("active"); openPromoSheet(); });       bindIfPresent("navSupportItem", "click", () => { $("userDropdown").classList.remove("active"); openSupportSheet(); });
       bindIfPresent("navInviteItem", "click", async () => { $("userDropdown").classList.remove("active"); await openInviteSheet(); });       bindIfPresent("navSocialItem", "click", async () => { $("userDropdown").classList.remove("active"); await primeRealtimeUX().catch(() => null); await openSocialSheet(); });       bindIfPresent("logoutDropdownBtn", "click", async () => { $("userDropdown").classList.remove("active"); await endServerSession(); await signOut(auth); closeSheet(); showToast("Çıkış yapıldı", "Oturum güvenli şekilde kapatıldı.", "info"); });        document.querySelectorAll("#leaderboardTabs .lb-tab-btn").forEach((button) => {
         button.addEventListener("click", () => renderLeaderboardTab(button.dataset.lbTab || "level"));       });       const openAvatarSelectionBtn = $("openAvatarSelectionBtn");       if (openAvatarSelectionBtn) openAvatarSelectionBtn.addEventListener("click", openAvatarSelectionModal);       const openFrameSelectionBtn = $("openFrameSelectionBtn");

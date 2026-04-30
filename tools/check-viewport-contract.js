@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const root = path.join(__dirname, '..');
+const required = '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />';
+const targets = [
+  'index.html',
+  'online-games/crash.html',
+  'online-games/pisti.html',
+  'online-games/satranc.html',
+  'classic-games/snake-pro.html',
+  'classic-games/pattern-master.html',
+  'classic-games/space-pro.html',
+  'public/admin/index.html',
+  'public/admin/admin.html',
+  'public/admin/health.html',
+  'maintenance/index.html'
+];
+
+const legacyTargets = [
+  'online-games/Crash.html',
+  'online-games/Pisti.html',
+  'online-games/Satranc.html',
+  'classic-games/SnakePro.html',
+  'classic-games/PatternMaster.html',
+  'classic-games/SpacePro.html'
+];
+
+const failures = [];
+for (const rel of targets) {
+  const file = path.join(root, rel);
+  if (!fs.existsSync(file)) { failures.push(`${rel}: dosya yok`); continue; }
+  const html = fs.readFileSync(file, 'utf8');
+  const match = html.match(/<meta\s+name=["']viewport["'][^>]*>/i);
+  if (!match) failures.push(`${rel}: viewport meta yok`);
+  else if (match[0] !== required) failures.push(`${rel}: viewport standard dışı => ${match[0]}`);
+}
+
+for (const rel of legacyTargets) {
+  if (fs.existsSync(path.join(root, rel))) failures.push(`${rel}: legacy uppercase route dosyası geri gelmemeli.`);
+}
+
+if (failures.length) {
+  console.error('Viewport kontratı başarısız:');
+  failures.forEach((item) => console.error(`- ${item}`));
+  process.exit(1);
+}
+console.log(`Viewport kontratı başarılı. Dosya: ${targets.length}`);
+process.exit(0);

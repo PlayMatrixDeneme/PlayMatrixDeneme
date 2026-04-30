@@ -4,9 +4,11 @@ const GAME_ROUTE_MAP = Object.freeze([
   {
     id: 'crash',
     title: 'Crash',
-    file: 'online-games/Crash.html',
+    file: 'online-games/crash.html',
     canonical: '/online-games/crash',
+    requiresAuth: true,
     aliases: [
+      '/online-games/crash.html',
       '/Online Oyunlar/Crash',
       '/Online Oyunlar/Crash.html',
       '/Online%20Oyunlar/Crash',
@@ -18,26 +20,30 @@ const GAME_ROUTE_MAP = Object.freeze([
   {
     id: 'pisti',
     title: 'Pişti',
-    file: 'online-games/Pisti.html',
+    file: 'online-games/pisti.html',
     canonical: '/online-games/pisti',
+    requiresAuth: true,
     aliases: [
+      '/online-games/pisti.html',
       '/Online Oyunlar/Pisti',
       '/Online Oyunlar/Pisti.html',
       '/Online%20Oyunlar/Pisti',
       '/Online%20Oyunlar/Pisti.html',
       '/OnlinePisti.html',
       '/Pisti.html',
-      '/pisti',
-      '/online-games/pisti.html'
+      '/pisti'
     ]
   },
   {
     id: 'chess',
     title: 'Satranç',
-    file: 'online-games/Satranc.html',
+    file: 'online-games/satranc.html',
     canonical: '/online-games/chess',
+    requiresAuth: true,
     aliases: [
+      '/online-games/chess.html',
       '/online-games/satranc',
+      '/online-games/satranc.html',
       '/Online Oyunlar/Satranc',
       '/Online Oyunlar/Satranc.html',
       '/Online%20Oyunlar/Satranc',
@@ -49,47 +55,50 @@ const GAME_ROUTE_MAP = Object.freeze([
   {
     id: 'snake-pro',
     title: 'Snake Pro',
-    file: 'classic-games/SnakePro.html',
+    file: 'classic-games/snake-pro.html',
     canonical: '/classic-games/snake-pro',
+    requiresAuth: true,
     aliases: [
+      '/classic-games/snake-pro.html',
+      '/classic-games/SnakePro',
+      '/classic-games/SnakePro.html',
       '/Klasik Oyunlar/SnakePro',
       '/Klasik Oyunlar/SnakePro.html',
       '/Klasik%20Oyunlar/SnakePro',
-      '/Klasik%20Oyunlar/SnakePro.html',
-      '/classic-games/SnakePro',
-      '/classic-games/SnakePro.html'
-    ],
-    requiresAuth: true
+      '/Klasik%20Oyunlar/SnakePro.html'
+    ]
   },
   {
     id: 'pattern-master',
     title: 'Pattern Master',
-    file: 'classic-games/PatternMaster.html',
+    file: 'classic-games/pattern-master.html',
     canonical: '/classic-games/pattern-master',
+    requiresAuth: true,
     aliases: [
+      '/classic-games/pattern-master.html',
+      '/classic-games/PatternMaster',
+      '/classic-games/PatternMaster.html',
       '/Klasik Oyunlar/PatternMaster',
       '/Klasik Oyunlar/PatternMaster.html',
       '/Klasik%20Oyunlar/PatternMaster',
-      '/Klasik%20Oyunlar/PatternMaster.html',
-      '/classic-games/PatternMaster',
-      '/classic-games/PatternMaster.html'
-    ],
-    requiresAuth: true
+      '/Klasik%20Oyunlar/PatternMaster.html'
+    ]
   },
   {
     id: 'space-pro',
     title: 'Space Pro',
-    file: 'classic-games/SpacePro.html',
+    file: 'classic-games/space-pro.html',
     canonical: '/classic-games/space-pro',
+    requiresAuth: true,
     aliases: [
+      '/classic-games/space-pro.html',
+      '/classic-games/SpacePro',
+      '/classic-games/SpacePro.html',
       '/Klasik Oyunlar/SpacePro',
       '/Klasik Oyunlar/SpacePro.html',
       '/Klasik%20Oyunlar/SpacePro',
-      '/Klasik%20Oyunlar/SpacePro.html',
-      '/classic-games/SpacePro',
-      '/classic-games/SpacePro.html'
-    ],
-    requiresAuth: true
+      '/Klasik%20Oyunlar/SpacePro.html'
+    ]
   }
 ]);
 

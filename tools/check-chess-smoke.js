@@ -23,7 +23,7 @@ const checkCjsSyntax = (file) => {
 
 [
   'online-games/chess.js',
-  'online-games/Satranc.html',
+  'online-games/satranc.html',
   'routes/chess.routes.js',
   'public/js/games/shared/room-state.js',
   'public/js/games/shared/topbar.js',
@@ -40,8 +40,8 @@ mustContain('online-games/chess.js', 'notifyGameAccountMutation(res)', 'ortak re
 mustContain('online-games/chess.js', "setActiveGameRoom('chess'", 'ortak active room persistence');
 mustContain('online-games/chess.js', "window.createRoom = async", 'oda kur istemci akışı');
 mustContain('online-games/chess.js', "window.joinRoom = async", 'hızlı katıl/katıl istemci akışı');
-mustContain('online-games/Satranc.html', 'ODA KUR', 'oda kur butonu');
-mustContain('online-games/Satranc.html', 'HIZLI KATIL', 'hızlı katıl butonu');
+mustContain('online-games/satranc.html', 'ODA KUR', 'oda kur butonu');
+mustContain('online-games/satranc.html', 'HIZLI KATIL', 'hızlı katıl butonu');
 mustContain('routes/chess.routes.js', 'isChessLobbyVisible', 'stale Satranç oda filtresi');
 mustContain('routes/chess.routes.js', 'tx.delete(doc.ref)', 'stale bekleyen Satranç oda temizliği');
 mustContain('routes/chess.routes.js', "await assertNoOtherActiveGame(uid);", 'oda açarken başka aktif oyun kilidi');

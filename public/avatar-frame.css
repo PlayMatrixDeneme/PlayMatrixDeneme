@@ -1,34 +1,4 @@
-html,
-body {
-  overscroll-behavior-x: none !important;
-  overscroll-behavior-y: contain;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
-body {
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-a,
-button,
-input,
-textarea,
-select,
-label,
-[role="button"],
-.btn,
-.ghost-btn,
-.pill-btn,
-.mobile-tab,
-.drop-item,
-.pm-avatar,
-.pm-game-avatar-shell,
-.t-avatar-wrap {
-  touch-action: manipulation;
-}
-
+/* PlayMatrix avatar and frame visual contract. */
 img,
 .pm-avatar-img,
 .pm-avatar-shell__img,
@@ -54,12 +24,12 @@ img,
   --pm-frame-scale: 1.28;
   --pm-frame-shift-x: 0px;
   --pm-frame-shift-y: 0px;
-  position: relative !important;
-  display: inline-grid !important;
-  place-items: center !important;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
   inline-size: 100%;
   block-size: 100%;
-  overflow: visible !important;
+  overflow: visible;
   isolation: isolate;
   contain: layout paint style;
   flex-shrink: 0;
@@ -76,8 +46,8 @@ img,
 .t-avatar-wrap > .pm-avatar,
 .pm-game-avatar-shell > [data-pm-avatar="true"],
 .pm-game-avatar-shell > .pm-avatar {
-  inline-size: 100% !important;
-  block-size: 100% !important;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 [data-pm-avatar="true"].has-frame,
@@ -112,18 +82,18 @@ img,
 .t-avatar,
 .gts-opp-avatar,
 [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame):not(.pm-game-frame):not(.t-frame) {
-  position: absolute !important;
-  inset: 0 !important;
-  inline-size: 100% !important;
-  block-size: 100% !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-  border-radius: 50% !important;
-  z-index: 2 !important;
-  display: block !important;
-  transform: translateZ(0) scale(var(--pm-avatar-scale)) !important;
-  transform-origin: center center !important;
-  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), rgba(10,14,20,.96) 72%) !important;
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 50%;
+  z-index: 2;
+  display: block;
+  transform: translateZ(0) scale(var(--pm-avatar-scale));
+  transform-origin: center center;
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), rgba(10,14,20,.96) 72%);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
   backface-visibility: hidden;
 }
@@ -134,19 +104,19 @@ img,
 .t-frame,
 .avatar-frame .pm-frame-image,
 .avatar-frame img[class*="frame-"] {
-  position: absolute !important;
-  left: 50% !important;
-  top: 50% !important;
-  width: calc(100% * var(--pm-frame-scale)) !important;
-  height: calc(100% * var(--pm-frame-scale)) !important;
-  max-width: none !important;
-  max-height: none !important;
-  object-fit: contain !important;
-  object-position: center center !important;
-  z-index: 4 !important;
-  pointer-events: none !important;
-  transform: translate3d(calc(-50% + var(--pm-frame-shift-x)), calc(-50% + var(--pm-frame-shift-y)), 0) !important;
-  transform-origin: center center !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(100% * var(--pm-frame-scale));
+  height: calc(100% * var(--pm-frame-scale));
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
+  z-index: 4;
+  pointer-events: none;
+  transform: translate3d(calc(-50% + var(--pm-frame-shift-x)), calc(-50% + var(--pm-frame-shift-y)), 0);
+  transform-origin: center center;
   filter: drop-shadow(0 8px 16px rgba(0,0,0,.24));
   backface-visibility: hidden;
 }
@@ -162,7 +132,7 @@ img,
 
 [data-pm-avatar="true"][data-frame-index="0"] .pm-frame-image,
 [data-pm-avatar="true"][data-frame-index="0"] .pm-avatar-shell__frame {
-  display: none !important;
+  display: none;
 }
 .pm-avatar-host,
 .hero-profile-avatar,
@@ -173,14 +143,14 @@ img,
 .podium-avatar,
 .avatar-pick-preview,
 .frame-pick-preview {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: visible !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 #appearancePreviewShell { inline-size: 76px; block-size: 76px; }
@@ -198,25 +168,25 @@ img,
 
 .frame-pick-card,
 .avatar-pick-card {
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .frame-pick-card .pm-avatar,
 .avatar-pick-card .pm-avatar {
-  inline-size: 64px !important;
-  block-size: 64px !important;
-  margin-inline: auto !important;
+  inline-size: 64px;
+  block-size: 64px;
+  margin-inline: auto;
 }
 
 .ps-list-avatar > [data-pm-avatar="true"],
 .friend-avatar > [data-pm-avatar="true"],
 .ps-chat-avatar-shell > [data-pm-avatar="true"],
 .pm-avatar-host > [data-pm-avatar="true"] {
-  inline-size: 100% !important;
-  block-size: 100% !important;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
-/* Faz 4: Avatar seçiminden ayrılmış seviye kilitli çerçeve seçimi */
+/* Avatar seçiminden ayrılmış seviye kilitli çerçeve seçimi */
 .frame-picker-modal {
   align-items: center;
   justify-content: center;
@@ -414,8 +384,8 @@ img,
 .frame-picker-card .pm-avatar,
 .frame-picker-card [data-pm-avatar="true"],
 .frame-picker-card img:not(.pm-frame-image):not(.pm-avatar-shell__frame) {
-  opacity: 1 !important;
-  filter: none !important;
+  opacity: 1;
+  filter: none;
 }
 
 .frame-picker-meta {
@@ -501,7 +471,7 @@ img,
 }
 
 .frame-picker-card:disabled {
-  opacity: 1 !important;
+  opacity: 1;
   -webkit-text-fill-color: currentColor;
 }
 
@@ -509,21 +479,21 @@ img,
 .frame-picker-card:disabled .pm-avatar,
 .frame-picker-card:disabled [data-pm-avatar="true"],
 .frame-picker-card:disabled img:not(.pm-frame-image):not(.pm-avatar-shell__frame) {
-  opacity: 1 !important;
-  filter: none !important;
+  opacity: 1;
+  filter: none;
 }
 
 
-/* FAZ 5 — Kilitli çerçeve önizleme yalnız seçim kartında soluk görünür; gerçek avatarlar etkilenmez. */
+/* Kilitli çerçeve önizleme yalnız seçim kartında soluk görünür; gerçek avatarlar etkilenmez. */
 .frame-picker-card.is-locked .frame-picker-preview > [data-pm-avatar="true"],
 .frame-picker-card:disabled .frame-picker-preview > [data-pm-avatar="true"] {
-  opacity: .58 !important;
-  filter: grayscale(.82) saturate(.7) brightness(.92) !important;
+  opacity: .58;
+  filter: grayscale(.82) saturate(.7) brightness(.92);
 }
 
 .frame-picker-card.is-locked .frame-picker-preview .pm-frame-image,
 .frame-picker-card:disabled .frame-picker-preview .pm-frame-image {
-  opacity: .54 !important;
+  opacity: .54;
 }
 
 
@@ -538,8 +508,8 @@ img,
 .player-stats-avatar-shell [data-pm-avatar="true"],
 .pm-game-avatar-shell [data-pm-avatar="true"],
 .t-avatar-wrap [data-pm-avatar="true"] {
-  opacity: 1 !important;
-  filter: none !important;
+  opacity: 1;
+  filter: none;
 }
 
 .pm-avatar-host [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame),
@@ -549,8 +519,8 @@ img,
 .lb-item [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame),
 .player-stats-avatar-shell [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame),
 .pm-game-avatar-shell [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame) {
-  opacity: 1 !important;
-  filter: none !important;
+  opacity: 1;
+  filter: none;
 }
 
 .frame-picker-card[data-frame-locked="true"] {
@@ -564,12 +534,12 @@ img,
 
 /* PHASE8_AVATAR_FRAME_UNIFIED_FIT */
 [data-pm-avatar="true"] {
-  aspect-ratio: 1 / 1 !important;
-  border-radius: 50% !important;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
 }
 
 [data-pm-avatar="true"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame) {
-  clip-path: circle(calc(50% * var(--pm-avatar-fit, .84)) at 50% 50%) !important;
+  clip-path: circle(calc(50% * var(--pm-avatar-fit, .84)) at 50% 50%);
 }
 
 [data-pm-avatar="true"][data-avatar-registered="false"] > img:not(.pm-frame-image):not(.pm-avatar-shell__frame) {
@@ -578,7 +548,7 @@ img,
 
 [data-pm-avatar="true"][data-frame-registered="false"] .pm-avatar-shell__frame,
 [data-pm-avatar="true"][data-frame-registered="false"] .pm-frame-image {
-  display: none !important;
+  display: none;
 }
 
 .ps-modal,
@@ -624,8 +594,8 @@ img,
   .frame-picker-modal,
   .ps-modal > *,
   .frame-picker-sheet {
-    transition: none !important;
-    transform: none !important;
+    transition: none;
+    transform: none;
   }
 }
 

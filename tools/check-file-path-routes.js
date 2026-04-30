@@ -13,7 +13,10 @@ const requiredRoutes = [
   '/classic-games/pattern-master',
   '/classic-games/space-pro'
 ];
-const homeFiles = ['index.html', 'public/js/home/fast-home-paint.js', 'public/js/home/legacy-home.runtime.js'];
+const canonicalSources = [
+  'config/asciiRoutes.js',
+  'public/js/home/home-games.data.js'
+];
 const server = fs.readFileSync(path.join(root, 'server.js'), 'utf8');
 const failures = [];
 
@@ -27,15 +30,21 @@ const forbiddenHomePatterns = [
   'online-games/Crash.html', 'online-games/Pisti.html', 'online-games/Satranc.html',
   'classic-games/SnakePro.html', 'classic-games/PatternMaster.html', 'classic-games/SpacePro.html'
 ];
-for (const rel of homeFiles) {
+for (const rel of canonicalSources) {
   const source = fs.readFileSync(path.join(root, rel), 'utf8');
-  for (const forbidden of forbiddenHomePatterns) {
-    if (source.includes(forbidden)) failures.push(`${rel}: eski .html oyun yolu kaldı: ${forbidden}`);
+  if (rel.startsWith('public/js/home/')) {
+    for (const forbidden of forbiddenHomePatterns) {
+      if (source.includes(forbidden)) failures.push(rel + '\: eski .html oyun yolu kaldı\: ' + forbidden);
+    }
   }
   for (const route of requiredRoutes) {
-    if (!source.includes(route)) failures.push(`${rel}: canonical oyun yolu eksik: ${route}`);
+    if (!source.includes(route)) failures.push(rel + '\: canonical oyun yolu eksik\: ' + route);
   }
 }
+
+const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+if (home.includes('static-game-card')) failures.push('index.html: statik oyun kartı kalıntısı var');
+if (!home.includes('data-home-games-grid="1"')) failures.push('index.html: data-driven oyun grid kontratı yok');
 
 function walk(dir, out = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

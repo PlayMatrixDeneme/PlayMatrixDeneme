@@ -41,17 +41,23 @@ mustContain('sockets/index.js', 'startPistiMatchmakingRoom', 'Pişti quick match
 mustContain('sockets/index.js', 'pisti_matchmaking_stake', 'Pişti matchmaking ledger stake');
 mustContain('sockets/index.js', "gamePath: '/online-games/pisti'", 'Pişti matchmaking route');
 
-mustContain('public/js/home/fast-home-paint.js', 'game-quick-match-btn', 'Fast paint quick match button');
-mustContain('public/js/home/fast-home-paint.js', "quickBtn.dataset.quickMatchGame = game.name === 'Pişti' ? 'pisti' : 'chess'", 'Pişti quick match dataset');
-mustContain('public/js/home/legacy-home.runtime.js', 'startMatchmaking(game.name === "Satranç" ? "chess" : "pisti"', 'Legacy Pişti/Satranç quick match action');
+mustContain('public/js/home/home-games.data.js', "quickMatch: Object.freeze({ gameType: 'pisti'", 'Pişti quick-match katalog kontratı');
+mustContain('public/js/home/home-games.data.js', "quickMatch: Object.freeze({ gameType: 'chess'", 'Satranç quick-match katalog kontratı');
+mustContain('public/js/home/home-game-card.js', 'game-quick-match-btn', 'Game card quick-match button');
+mustContain('public/js/home/home-game-card.js', 'quickButton.dataset.quickMatchGame = game.quickMatch.gameType', 'Quick-match dataset');
+mustContain('public/js/home/home-route-resolver.js', 'isProtectedHomeGameRoute', 'Merkezi game auth guard');
+mustContain('public/js/home/home-games.data.js', '/classic-games/pattern-master', 'Pattern Master canonical route');
+mustContain('public/js/home/home-games.data.js', '/classic-games/space-pro', 'Space Pro canonical route');
+mustContain('public/js/home/home-games.data.js', '/classic-games/snake-pro', 'Snake Pro canonical route');
 
-['public/js/home/fast-home-paint.js', 'public/js/home/game-catalog.js', 'public/js/home/legacy-home.runtime.js', 'public/js/home/stability-guard.js'].forEach((rel) => {
+['public/js/home/fast-home-paint.js', 'public/js/home/game-catalog.js', 'public/js/home/stability-guard.js', 'public/js/home/home-games.data.js'].forEach((rel) => {
   mustNotMatch(rel, /category:\s*['"]classic['"],\s*access:\s*['"]free['"]/, 'Klasik oyunlar free access');
 });
-mustContain('public/js/home/game-catalog.js', 'PatternMaster|SpacePro|SnakePro', 'Klasik oyun auth wall regex');
-mustContain('server.js', 'requiresAuth: true', 'Klasik oyun server auth guard');
+
+mustContain('config/asciiRoutes.js', 'requiresAuth: true', 'Oyun route auth guard');
 mustContain('server.js', 'sendGuardedGamePage', 'Server game auth guard helper');
 mustContain('server.js', 'buildLoginRedirect', 'Server login redirect helper');
+mustContain('server.js', 'requiresAuth: route.requiresAuth === true', 'Server auth flag config binding');
 
 mustContain('public/css/social.css', 'Release recheck: mobile social center full-height fix', 'Sosyal merkez full-height CSS');
 mustContain('public/css/social.css', 'height: 100dvh', 'Sosyal merkez dvh yüksekliği');
@@ -59,9 +65,12 @@ mustContain('public/css/social.css', 'display: none !important', 'Sosyal merkez 
 mustContain('public/css/static-inline.css', 'Release recheck: stable quick-match button group', 'Quick-match button CSS');
 mustContain('public/css/static-inline.css', '.game-quick-match-btn', 'Quick-match button class CSS');
 
+mustNotContain('index.html', 'static-game-card', 'Statik oyun kartları');
+mustContain('index.html', 'data-home-games-grid="1"', 'Data-driven oyun grid');
+
 if (failures.length) {
-  console.error('Faz 5 recheck hotfix kontrolü başarısız:');
+  console.error('AnaSayfa recheck kontrolü başarısız:');
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
-console.log('check:phase5-recheck-hotfix OK. Satranç/Pişti quick-match, klasik auth wall ve sosyal mobil layout doğrulandı.');
+console.log('check:home-recheck OK. Data-driven oyun vitrini, merkezi route resolver ve auth guard doğrulandı.');

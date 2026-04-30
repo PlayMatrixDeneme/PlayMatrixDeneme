@@ -5,13 +5,14 @@ import { installHomeConfigBridge } from './home-config.js';
 import { installHomeRouteResolver } from './home-router.js';
 import { installHomeStateBridge, homeState } from './state.js';
 import { installHomeApiBridge } from './api.js';
-import { installSafeRenderGuards } from './renderers.js';
+import { installSafeRenderGuards, installHomeShellInteractions } from './renderers.js';
 import { installHomeModalManager } from './modals.js';
 import { installMobileGesturePolicy } from './mobile-scroll.js';
 import { installAccountStateModule } from './account.js';
 import { installMatchmakingStateModule } from './matchmaking.js';
 import { installMarketStateModule } from './market.js';
-import { installGameRouteNormalizer } from './game-catalog.js';
+import { installGameRouteNormalizer } from './home-route-resolver.js';
+import { installHomeGameShowcase } from './home-game-card.js';
 import { installAuthModalGuards } from './auth-modal.js';
 import { installProfilePanelGuards } from './profile-panel.js';
 import { installLeaderboardGuards } from './leaderboard.js';
@@ -30,12 +31,14 @@ const MODULES = Object.freeze([
   ['api', installHomeApiBridge],
   ['routes', installHomeRouteResolver],
   ['renderers', installSafeRenderGuards],
+  ['home-shell', installHomeShellInteractions],
   ['mobile-scroll', installMobileGesturePolicy],
   ['modal-manager', installHomeModalManager],
   ['account-state', installAccountStateModule],
   ['matchmaking', installMatchmakingStateModule],
   ['market', installMarketStateModule],
   ['game-routes', installGameRouteNormalizer],
+  ['game-showcase', installHomeGameShowcase],
   ['auth', installAuthModalGuards],
   ['profile', installProfilePanelGuards],
   ['leaderboard', installLeaderboardGuards],
@@ -89,7 +92,7 @@ export async function bootHomeApplication() {
 }
 
 export const homeModuleInfo = Object.freeze({
-  phase: 1,
+  phase: 4,
   compatibilityPhase: 6,
   strategy: 'single-entry-script-home-bootstrap',
   legacyRuntimeActive: false,

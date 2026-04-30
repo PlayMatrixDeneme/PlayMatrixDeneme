@@ -46,9 +46,9 @@ function walk(dir, out = []) {
   mustContain(rel, '/api/classic/submit', 'Server-side skor gönderimi');
 });
 
-mustContain('classic-games/PatternMaster.html', '../public/js/games/classic/pattern-master/index.js', 'PatternMaster kalıcı modül yolu');
-mustContain('classic-games/SnakePro.html', '../public/js/games/classic/snake-pro/index.js', 'SnakePro kalıcı modül yolu');
-mustContain('classic-games/SpacePro.html', '../public/js/games/classic/space-pro/index.js', 'SpacePro kalıcı modül yolu');
+mustContain('classic-games/pattern-master.html', '../public/js/games/classic/pattern-master/index.js', 'PatternMaster kalıcı modül yolu');
+mustContain('classic-games/snake-pro.html', '../public/js/games/classic/snake-pro/index.js', 'SnakePro kalıcı modül yolu');
+mustContain('classic-games/space-pro.html', '../public/js/games/classic/space-pro/index.js', 'SpacePro kalıcı modül yolu');
 
 walk('classic-games').forEach((rel) => {
   if (/\.html$/i.test(rel) || /\.js$/i.test(rel)) mustNotContain(rel, 'phase4-module', 'phase4-module referansı');

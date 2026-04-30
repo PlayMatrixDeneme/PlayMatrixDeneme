@@ -69,6 +69,7 @@
   }
 
   const apiBase = normalizeBase(PUBLIC_API_BASE);
+  const basePath = detectBasePath();
   const runtime = Object.freeze({
     version: 5,
     environment: 'production',

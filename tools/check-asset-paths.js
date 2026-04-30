@@ -6,12 +6,12 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const htmlFiles = [
-  'online-games/Crash.html',
-  'online-games/Pisti.html',
-  'online-games/Satranc.html',
-  'classic-games/SnakePro.html',
-  'classic-games/PatternMaster.html',
-  'classic-games/SpacePro.html',
+  'online-games/crash.html',
+  'online-games/pisti.html',
+  'online-games/satranc.html',
+  'classic-games/snake-pro.html',
+  'classic-games/pattern-master.html',
+  'classic-games/space-pro.html',
   'public/admin/index.html',
   'public/admin/admin.html',
   'public/admin/health.html',

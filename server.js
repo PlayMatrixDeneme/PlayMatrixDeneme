@@ -479,8 +479,7 @@ app.get(['/classic-games/pattern-master', '/classic-games/pattern-master.html', 
 mountGameHtmlAliases(
   'Satranc.html',
   firstExistingPath([
-    path.join(__dirname, 'Satranc.html'),
-    path.join(__dirname, 'online-games', 'Satranc.html')
+    path.join(__dirname, 'online-games', 'satranc.html')
   ]),
   ['/online-games/chess', '/online-games/chess.html', '/Satranc.html', '/online-games/chess', '/satranc']
 );
@@ -490,10 +489,7 @@ mountGameHtmlAliases(
 mountGameHtmlAliases(
   'Pisti.html',
   firstExistingPath([
-    path.join(__dirname, 'OnlinePisti.html'),
-    path.join(__dirname, 'Pisti.html'),
-    path.join(__dirname, 'online-games', 'OnlinePisti.html'),
-    path.join(__dirname, 'online-games', 'Pisti.html')
+    path.join(__dirname, 'online-games', 'pisti.html')
   ]),
   ['/online-games/pisti', '/online-games/pisti.html', '/Pisti.html', '/OnlinePisti.html', '/online-games/pisti', '/pisti']
 );
@@ -501,8 +497,7 @@ mountGameHtmlAliases(
 mountGameHtmlAliases(
   'Crash.html',
   firstExistingPath([
-    path.join(__dirname, 'Crash.html'),
-    path.join(__dirname, 'online-games', 'Crash.html')
+    path.join(__dirname, 'online-games', 'crash.html')
   ]),
   ['/online-games/crash', '/online-games/crash.html', '/Crash.html', '/crash', '/online-games/crash']
 );

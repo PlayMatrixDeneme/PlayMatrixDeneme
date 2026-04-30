@@ -9,12 +9,12 @@ const must = (cond, msg) => { if (!cond) throw new Error(msg); };
 const contains = (file, needle) => read(file).includes(needle);
 
 const gamePages = [
-  'online-games/Crash.html',
-  'online-games/Pisti.html',
-  'online-games/Satranc.html',
-  'classic-games/PatternMaster.html',
-  'classic-games/SnakePro.html',
-  'classic-games/SpacePro.html'
+  'online-games/crash.html',
+  'online-games/pisti.html',
+  'online-games/satranc.html',
+  'classic-games/pattern-master.html',
+  'classic-games/snake-pro.html',
+  'classic-games/space-pro.html'
 ];
 
 gamePages.forEach((file) => {

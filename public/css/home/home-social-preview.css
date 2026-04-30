@@ -1,0 +1,46 @@
+/* PlayMatrix home social panel bridge. */
+.sheet-shell.is-social .sheet-panel{width:min(1120px,100vw)}
+.sheet-shell.is-social .sheet-content{padding:0;overflow:hidden}
+.pm-social-layout{height:100%;min-height:0;display:grid;grid-template-columns:190px minmax(240px,320px) minmax(0,1fr)}
+.ps-sidebar{min-height:0;overflow:auto;padding:14px;border-right:1px solid var(--line-soft);background:rgba(255,255,255,.025)}
+.ps-back-button,.ps-tab{min-height:44px;display:flex;align-items:center;gap:10px;width:100%;padding:0 12px;border-radius:16px;color:var(--muted);font-weight:800;text-align:left}
+.ps-back-button,.ps-tab.is-active,.ps-tab:hover{color:var(--text);background:rgba(255,255,255,.07)}
+.ps-mid-panel,.ps-main-panel{min-width:0;min-height:0;display:flex;flex-direction:column}
+.ps-mid-panel{border-right:1px solid var(--line-soft)}
+.ps-mid-header,.ps-chat-header{flex:0 0 auto;min-height:64px;display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line-soft)}
+.ps-list-container,.ps-chat-stream{flex:1 1 auto;min-height:0;overflow:auto;padding:12px;display:grid;align-content:start;gap:10px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.ps-chat-input-area{flex:0 0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line-soft);background:rgba(255,255,255,.025)}
+.ps-list-item,.ps-request-card,.ps-panel-card,.ps-search-result{border:1px solid var(--line-soft);border-radius:18px;background:rgba(255,255,255,.04)}
+.ps-list-item{min-height:62px;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;text-align:left}
+.ps-list-item.is-active{border-color:rgba(69,162,255,.34);background:rgba(69,162,255,.1)}
+.ps-list-avatar,.friend-avatar{width:44px;height:44px;border-radius:50%}
+.ps-list-copy,.ps-profile-meta,.ps-chat-title-wrap{min-width:0;display:grid;gap:3px}
+.ps-list-title,#psChatTitle{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-list-sub,#psChatSubtitle,.ps-chat-help{color:var(--muted-2);font-size:.82rem}
+.ps-chat-actions,.pubg-icons,.ps-inline-actions,.ps-request-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pubg-icons button,.ps-send-btn,.ps-chat-mini-btn{min-width:38px;height:38px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.055);color:var(--muted)}
+.ps-send-btn{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#07101f}
+#psChatInput{width:100%;min-height:42px;border:1px solid var(--line-soft);border-radius:16px;background:rgba(255,255,255,.05);color:var(--text);padding:0 14px;outline:0}
+    .sheet-shell.is-social .pm-social-layout { display: flex !important; flex-direction: row !important; height: 100% !important; width: 100% !important; }
+    .pubg-theme .ps-sidebar { width: 110px !important; flex-shrink: 0 !important; }
+    .pubg-theme .ps-tab { font-size: 0.75rem !important; text-align: center !important; padding: 5px !important; white-space: normal !important; line-height: 1.2 !important; }
+    .pubg-theme .ps-sidebar span { display: block !important; } 
+    .pubg-theme .ps-mid-panel { display: flex !important; flex-direction: column !important; flex-grow: 1 !important; width: calc(100% - 110px) !important; }
+    .pubg-theme .ps-main-panel { display: none !important; width: 100% !important; }
+    .sheet-shell.is-social .pm-social-layout.is-chat-active .ps-sidebar { display: none !important; }
+    .sheet-shell.is-social .pm-social-layout.is-chat-active .ps-mid-panel { display: none !important; }
+    .sheet-shell.is-social .pm-social-layout.is-chat-active .ps-main-panel { display: flex !important; }
+    .pubg-theme #psMobileBackBtn { display: flex !important; align-items: center !important; justify-content: center !important; }
+    .pubg-icons { gap: 8px !important; }
+    .pubg-icons button { font-size: 1.1rem !important; }
+    .pubg-icons button:nth-child(1), .pubg-icons button:nth-child(4) { display: none !important; }
+  .ps-chat-actions .icon-btn,
+  .pubg-theme .ps-chat-actions .icon-btn {
+  .ps-chat-bubble,
+  .pubg-theme .ps-chat-bubble {
+  .ps-chat-header,
+  .pubg-theme .ps-chat-header {
+  .pubg-theme #psChatTitle {
+  .ps-chat-actions .icon-btn:nth-child(n+4) {
+  .sheet-shell.is-social .pm-social-layout{height:100%!important;min-height:0!important;max-height:100%!important}
+.pm-mobile-scroll-policy .ps-chat-stream,

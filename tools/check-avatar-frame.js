@@ -79,7 +79,7 @@ for (let index = 1; index <= 18; index += 1) {
 const firstForbiddenFrame = `frames/frame-${18 + 1}.png`;
 if (exists(firstForbiddenFrame)) fail(`frame-${18 + 1} geri gelmiş; Faz 3 kararına aykırı.`);
 
-['index.html', 'online-games/Crash.html', 'online-games/Pisti.html', 'online-games/Satranc.html'].forEach((rel) => {
+['index.html', 'online-games/crash.html', 'online-games/pisti.html', 'online-games/satranc.html'].forEach((rel) => {
   const html = read(rel);
   if (!html.includes('avatar-registry.js') || !html.includes('avatar-frame.js')) fail(`${rel} avatar registry/runtime sırası eksik.`);
   if (html.indexOf('avatar-registry.js') > html.indexOf('avatar-frame.js')) fail(`${rel} avatar-registry.js avatar-frame.js öncesinde yüklenmeli.`);

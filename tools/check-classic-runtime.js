@@ -14,9 +14,9 @@ function mustContain(rel, needle, label) { must(read(rel).includes(needle), `${l
 function mustNotContain(rel, needle, label) { must(!read(rel).includes(needle), `${label} kaldırılmalı: ${rel}`); }
 
 const htmlFiles = [
-  'classic-games/PatternMaster.html',
-  'classic-games/SnakePro.html',
-  'classic-games/SpacePro.html'
+  'classic-games/pattern-master.html',
+  'classic-games/snake-pro.html',
+  'classic-games/space-pro.html'
 ];
 const cssFiles = [
   'classic-games/pattern-master.css',

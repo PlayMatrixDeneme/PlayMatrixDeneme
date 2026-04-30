@@ -5,23 +5,25 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
-const required = '<meta name="viewport" content="width=device-width, initial-scale=0.90, maximum-scale=0.90, minimum-scale=0.90, user-scalable=no, viewport-fit=cover" />';
+const homeViewport = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />';
+const legacyViewport = '<meta name="viewport" content="width=device-width, initial-scale=0.90, maximum-scale=0.90, minimum-scale=0.90, user-scalable=no, viewport-fit=cover" />';
+const classicViewport = '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />';
 const targets = [
-  'index.html',
-  'online-games/Crash.html',
-  'online-games/Pisti.html',
-  'online-games/Satranc.html',
-  'classic-games/SnakePro.html',
-  'classic-games/PatternMaster.html',
-  'classic-games/SpacePro.html',
-  'public/admin/index.html',
-  'public/admin/admin.html',
-  'public/admin/health.html',
-  'maintenance/index.html'
+  ['index.html', homeViewport],
+  ['online-games/crash.html', legacyViewport],
+  ['online-games/pisti.html', legacyViewport],
+  ['online-games/satranc.html', legacyViewport],
+  ['classic-games/snake-pro.html', classicViewport],
+  ['classic-games/pattern-master.html', classicViewport],
+  ['classic-games/space-pro.html', classicViewport],
+  ['public/admin/index.html', legacyViewport],
+  ['public/admin/admin.html', legacyViewport],
+  ['public/admin/health.html', legacyViewport],
+  ['maintenance/index.html', legacyViewport]
 ];
 
 const failures = [];
-for (const rel of targets) {
+for (const [rel, required] of targets) {
   const file = path.join(root, rel);
   if (!fs.existsSync(file)) { failures.push(`${rel}: dosya yok`); continue; }
   const html = fs.readFileSync(file, 'utf8');
@@ -36,5 +38,4 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(`Viewport kontratı başarılı. Dosya: ${targets.length}`);
-
 process.exit(0);

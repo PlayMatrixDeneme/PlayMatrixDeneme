@@ -9,20 +9,20 @@ const required = [
   'config/asciiRoutes.js',
   'index.html',
   'index-boot.js',
-  'online-games/Crash.html',
-  'online-games/Pisti.html',
+  'online-games/crash.html',
+  'online-games/pisti.html',
   'online-games/pisti.css',
   'online-games/pisti.js',
-  'online-games/Satranc.html',
+  'online-games/satranc.html',
   'online-games/chess.css',
   'online-games/chess.js',
-  'classic-games/PatternMaster.html',
+  'classic-games/pattern-master.html',
   'classic-games/pattern-master.css',
   'classic-games/pattern-master.js',
-  'classic-games/SnakePro.html',
+  'classic-games/snake-pro.html',
   'classic-games/snake-pro.css',
   'classic-games/snake-pro.js',
-  'classic-games/SpacePro.html',
+  'classic-games/space-pro.html',
   'classic-games/space-pro.css',
   'classic-games/space-pro.js',
   'maintenance/index.html',
@@ -34,8 +34,8 @@ const required = [
 ];
 
 const failures = required.filter((rel) => !fs.existsSync(path.join(root, rel))).map((rel) => `${rel} yok.`);
-if (!fs.readFileSync(path.join(root, 'index.html'), 'utf8').includes('/online-games/crash')) {
-  failures.push('index.html ASCII oyun rotalarını kullanmıyor.');
+if (!fs.readFileSync(path.join(root, 'public/js/home/home-games.data.js'), 'utf8').includes("route: '/online-games/crash'")) {
+  failures.push('AnaSayfa oyun katalog kaynağı ASCII oyun rotalarını kullanmıyor.');
 }
 if (!fs.readFileSync(path.join(root, 'server.js'), 'utf8').includes('/public/admin/admin.html')) {
   failures.push('admin public dashboard rotası korunmuyor.');

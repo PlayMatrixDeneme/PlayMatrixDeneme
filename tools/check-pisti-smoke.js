@@ -29,7 +29,7 @@ const checkCjsSyntax = (file) => {
   'public/js/games/shared/navigation.js',
   'public/js/games/shared/socket-events.js',
   'online-games/pisti.js',
-  'online-games/Pisti.html',
+  'online-games/pisti.html',
   'online-games/pisti.css',
   'routes/pisti.routes.js'
 ].forEach(mustExist);
@@ -46,8 +46,8 @@ mustContain('online-games/pisti.js', 'createOnly: true', 'yeni masa kur force-cr
 mustContain('online-games/pisti.js', "setActiveGameRoom('pisti'", 'ortak active room persistence');
 mustContain('online-games/pisti.js', "emitSocketIfConnected(socket, 'pisti:join'", 'güvenli socket join emit');
 mustContain('online-games/pisti.js', 'notifyGameAccountMutation(res)', 'ortak reward/account mutation bridge');
-mustContain('online-games/Pisti.html', 'YENİ MASA KUR', 'buton metni güncellendi');
-mustContain('online-games/Pisti.html', 'HIZLI MASA BUL', 'hızlı masa butonu eklendi');
+mustContain('online-games/pisti.html', 'YENİ MASA KUR', 'buton metni güncellendi');
+mustContain('online-games/pisti.html', 'HIZLI MASA BUL', 'hızlı masa butonu eklendi');
 mustContain('online-games/pisti.css', 'btn-lux-secondary', 'hızlı masa butonu stili');
 mustContain('routes/pisti.routes.js', 'const createOnly =', 'backend createOnly kontratı');
 mustContain('routes/pisti.routes.js', 'isOnlinePistiLobbyVisible', 'stale Pişti oda filtresi');

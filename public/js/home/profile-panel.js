@@ -90,6 +90,6 @@ function installProfileModalFallbackDelegation() {
 }
 
 export function installProfilePanelGuards() {
-  ["profileProgressFill", "topProgressFill", "userProgressFill"].forEach((id) => setProgressBar(id, byId(id)?.dataset.progress || 0));
+  ["profileProgressFill", "topProgressFill", "userProgressFill", "heroProgressFill"].forEach((id) => setProgressBar(id, byId(id)?.dataset.progress || 0));
   installProfileModalFallbackDelegation();
 }

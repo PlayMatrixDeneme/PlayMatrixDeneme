@@ -15,9 +15,9 @@ for (const token of ["const elBtnRetryBoot = document.getElementById('btnRetryBo
 }
 
 const modalHtmlTargets = {
-  'online-games/Crash.html': ['rulesModal'],
-  'online-games/Pisti.html': ['matrixModal', 'rulesModal', 'exitConfirmModal', 'createModal', 'joinPrivateModal'],
-  'online-games/Satranc.html': ['matrixModal', 'confirmModal']
+  'online-games/crash.html': ['rulesModal'],
+  'online-games/pisti.html': ['matrixModal', 'rulesModal', 'exitConfirmModal', 'createModal', 'joinPrivateModal'],
+  'online-games/satranc.html': ['matrixModal', 'confirmModal']
 };
 for (const [rel, ids] of Object.entries(modalHtmlTargets)) {
   const html = read(rel);

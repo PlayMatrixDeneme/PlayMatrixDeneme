@@ -11,6 +11,7 @@ function cloneValue(value) {
 export function createHomeStore(name, initialState = {}) {
   const key = String(name || 'home').trim() || 'home';
   if (stores.has(key)) return stores.get(key);
+
   let state = cloneValue(initialState) || {};
   const listeners = new Set();
 
@@ -22,7 +23,7 @@ export function createHomeStore(name, initialState = {}) {
     setState(patch = {}) {
       const nextPatch = typeof patch === 'function' ? patch(cloneValue(state)) : patch;
       if (!nextPatch || typeof nextPatch !== 'object') return cloneValue(state);
-      state = { ...state, ...cloneValue(nextPatch) };
+      state = { ...state, ...cloneValue(nextPatch), updatedAt: Date.now() };
       listeners.forEach((listener) => {
         try { listener(cloneValue(state)); } catch (_) {}
       });
@@ -40,7 +41,11 @@ export function createHomeStore(name, initialState = {}) {
 }
 
 export const homeState = createHomeStore('home', {
+  boot: { phase: 'initial', ready: false },
+  apiReady: false,
+  apiBase: '',
   account: null,
+  accountProgress: 0,
   leaderboard: { tab: 'level', items: [] },
   stats: {},
   matchmaking: { active: false, game: '' },
@@ -50,5 +55,6 @@ export const homeState = createHomeStore('home', {
 
 export function installHomeStateBridge() {
   window.__PM_HOME_STATE__ = homeState;
+  homeState.setState({ boot: { phase: 'state-ready', ready: false } });
   return true;
 }

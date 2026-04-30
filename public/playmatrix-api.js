@@ -31,7 +31,7 @@
   }
 
   function getBasePath() {
-    const runtimeBasePath = normalizeBasePath(window.__PM_RUNTIME?.basePath || window.__PM_STATIC_RUNTIME_CONFIG__?.basePath || window.__PM_BASE_PATH__ || '');
+    const runtimeBasePath = normalizeBasePath(window.__PM_HOME_CONFIG__?.basePath || window.__PM_RUNTIME?.basePath || window.__PM_STATIC_RUNTIME_CONFIG__?.basePath || window.__PM_BASE_PATH__ || '');
     if (runtimeBasePath) return runtimeBasePath;
     const pathname = String(window.location.pathname || '');
     if (/^\/PlayMatrixDeneme(?:\/|$)/i.test(pathname)) return '/PlayMatrixDeneme';

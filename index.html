@@ -23,8 +23,11 @@
   <link rel="manifest" href="./site.webmanifest" />
   <link rel="preload" href="./logo.png" as="image" fetchpriority="high" />
   <link rel="modulepreload" href="./script.js" />
+  <link rel="modulepreload" href="./public/js/home/home-bootstrap.js?v=release-20260430" />
+  <link rel="modulepreload" href="./public/js/home/home-runtime.js" />
+  <link rel="modulepreload" href="./public/js/home/home-config.js" />
+  <link rel="modulepreload" href="./public/js/home/home-router.js" />
   <link rel="modulepreload" href="./public/js/home/app.js?v=release-20260430" />
-  <link rel="modulepreload" href="./public/js/home/legacy-home.runtime.js?v=release-20260430" />
   <link rel="modulepreload" href="./public/firebase-runtime.js" />
   <link rel="modulepreload" href="./public/js/profile/avatar-picker.js" />
   <link rel="modulepreload" href="./public/js/profile/frame-picker.js" />
@@ -67,13 +70,7 @@
   <link rel="stylesheet" href="./public/css/components/avatar-picker.css" />
   <link rel="stylesheet" href="./public/shell-enhancements.css" />
 
-  <script src="./public/playmatrix-static-runtime.js"></script>
-  <script src="./public/playmatrix-api.js"></script>
-  <script src="./public/avatar-registry.js" defer></script>
-  <script src="./public/avatar-frame.js" defer></script>
-  <script src="./public/shell-enhancements.js" defer></script>
-  <script src="index-boot.js"></script>
-  <script src="./public/js/home/fast-home-paint.js" defer></script>
+  <!-- Home boot is intentionally centralized in script.js for Phase 1. -->
 
   <link rel="stylesheet" href="public/css/static-inline.css" />
 </head>
@@ -783,12 +780,10 @@
   </div>
 
   <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <div id="homeBootStatus" class="sr-only" hidden aria-live="assertive"></div>
 
   
-  <script src="./public/js/home/stability-guard.js?v=release-20260430" defer></script>
   <script type="module" src="./script.js?v=release-20260430"></script>
 
-  <script src="./public/playmatrix-runtime.js" defer></script>
-  <script src="public/js/static-actions.js" defer></script>
 </body>
 </html>

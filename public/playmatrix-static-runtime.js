@@ -70,7 +70,7 @@
 
   const apiBase = normalizeBase(PUBLIC_API_BASE);
   const runtime = Object.freeze({
-    version: 4,
+    version: 5,
     environment: 'production',
     publicBaseUrl: normalizeBase(PUBLIC_BASE_URL),
     basePath,

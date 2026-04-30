@@ -1,0 +1,10 @@
+{
+  "items": [
+    "ASCII fiziksel rota standardı uygulandı.",
+    "Legacy route ve asset alias listesi backward-compatible tutuldu.",
+    "Ana statik runtime dosyaları cache/no-store standardıyla korunuyor.",
+    "Compression middleware final gate kapsamına alındı.",
+    "Phase ibareli fiziksel dosya isimleri kaldırıldı.",
+    "Docs ve MD teslim kalıntıları release dışına çıkarıldı."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "PLAYMATRIX_FAZ10_FINAL_RELEASE",
+  "phase": 10,
+  "status": "clean",
+  "generatedAt": "2026-04-30T00:00:00Z",
+  "renderEnvRequired": [],
+  "canonicalRoutes": [
+    "/online-games/crash",
+    "/online-games/pisti",
+    "/online-games/chess",
+    "/classic-games/pattern-master",
+    "/classic-games/snake-pro",
+    "/classic-games/space-pro"
+  ],
+  "qualityGate": [
+    "npm run check:routes",
+    "npm run check:html",
+    "npm run check:avatars",
+    "npm run check:frames",
+    "npm run check:progression",
+    "npm run check:security-phase0",
+    "npm run check:render-runtime",
+    "npm run check:chat-phase11",
+    "npm run check:economy-phase1",
+    "npm run check:phase10-games",
+    "npm run check:phase11-classic-games",
+    "npm run check:ascii-routes",
+    "npm run check:final-smoke",
+    "npm run check:final-security",
+    "npm run check:final-performance",
+    "npm run check:release-manifest",
+    "npm run audit:repo"
+  ]
+}
